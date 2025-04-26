@@ -61,6 +61,7 @@ import { useRouter } from "next/navigation";
 import { SARSymbol } from "@/components/sar-symbol";
 import Image from "next/image";
 import { DialogOverlay } from "@radix-ui/react-dialog";
+import { projectApi } from "@/lib/api";
 
 // Mock project data
 const initialProjects = [
@@ -149,6 +150,8 @@ export default function AdminProjects() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [currentProject, setCurrentProject] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [newProject, setNewProject] = useState({
     title: "",
     status: "available-properties",
@@ -167,87 +170,36 @@ export default function AdminProjects() {
   });
   const [tempImages, setTempImages] = useState([]);
 
-  // Load projects from localStorage or use initial data
+  // Load projects from API
   useEffect(() => {
-    try {
-      const storedProjects = localStorage.getItem("projects");
-      if (storedProjects) {
-        setProjects(JSON.parse(storedProjects));
-      } else {
-        setProjects(initialProjects);
-        localStorage.setItem("projects", JSON.stringify(initialProjects));
+    const fetchProjects = async () => {
+      try {
+        setIsLoading(true);
+        const data = await projectApi.getAllProjects();
+        setProjects(data);
+      } catch (err) {
+        setError(err.message);
+        console.error("Error loading projects:", err);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error("Error loading projects:", error);
-      setProjects(initialProjects);
-    }
+    };
+
+    fetchProjects();
   }, []);
 
-  // Update localStorage whenever projects change
-  useEffect(() => {
-    if (projects.length > 0) {
-      try {
-        localStorage.setItem("projects", JSON.stringify(projects));
-      } catch (error) {
-        console.error("Error saving projects:", error);
-      }
-    }
-  }, [projects]);
-
-  // Filter projects based on search term and filters
-  const filteredProjects = projects.filter((project) => {
-    const matchesSearch = project.title
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    const matchesStatus =
-      statusFilter === "all" || project.status === statusFilter;
-    const matchesLocation =
-      locationFilter === "all" || project.location === locationFilter;
-    return matchesSearch && matchesStatus && matchesLocation;
-  });
-
-  const handleAddProject = () => {
+  // Handle project operations
+  const handleAddProject = async () => {
     try {
-      const newId =
-        projects.length > 0 ? Math.max(...projects.map((p) => p.id)) + 1 : 1;
-      const today = new Date().toISOString().split("T")[0];
-
-      const updatedProjects = [
-        ...projects,
-        {
-          id: newId,
-          title: newProject.title,
-          status: newProject.status,
-          location: newProject.location,
-          price: newProject.price,
-          date: today,
-          description: newProject.description,
-          area: newProject.area,
-          bedrooms: newProject.bedrooms,
-          bathrooms: newProject.bathrooms,
-          floors: newProject.floors,
-          images:
-            tempImages.length > 0
-              ? [...tempImages]
-              : ["/placeholder.svg?height=600&width=800"],
-          features: newProject.features.filter(
-            (f) => f.en.trim() !== "" || f.ar.trim() !== ""
-          ),
-        },
-      ];
-
-      setProjects(updatedProjects);
-
-      // Reset form state
+      const addedProject = await projectApi.createProject(newProject);
+      setProjects([...projects, addedProject]);
+      setIsAddDialogOpen(false);
       setNewProject({
         title: "",
         status: "available-properties",
         location: "Riyadh",
         price: "",
-        description: {
-          en: "",
-          ar: "",
-        },
+        description: { en: "", ar: "" },
         area: "",
         bedrooms: "",
         bathrooms: "",
@@ -255,58 +207,35 @@ export default function AdminProjects() {
         images: [],
         features: [{ en: "", ar: "" }],
       });
-      setTempImages([]);
-      setIsAddDialogOpen(false);
-    } catch (error) {
-      console.error("Error adding project:", error);
-      alert("There was an error adding the project. Please try again.");
+    } catch (err) {
+      console.error("Error adding project:", err);
+      // Show error to user
+      alert(err.message || "Failed to create project. Please try again.");
     }
   };
 
-  const handleEditProject = () => {
+  const handleEditProject = async () => {
     try {
-      if (currentProject) {
-        const updatedProjects = projects.map((p) =>
-          p.id === currentProject.id
-            ? {
-                ...currentProject,
-                images:
-                  tempImages.length > 0
-                    ? [...tempImages]
-                    : currentProject.images,
-              }
-            : p
-        );
-
-        setProjects(updatedProjects);
-
-        // Reset form state
-        setCurrentProject(null);
-        setTempImages([]);
-        setIsEditDialogOpen(false);
-      }
-    } catch (error) {
-      console.error("Error editing project:", error);
-      alert("There was an error editing the project. Please try again.");
+      const updatedProject = await projectApi.updateProject(
+        currentProject.id,
+        currentProject
+      );
+      setProjects(
+        projects.map((p) => (p.id === currentProject.id ? updatedProject : p))
+      );
+      setIsEditDialogOpen(false);
+    } catch (err) {
+      console.error("Error updating project:", err);
     }
   };
 
-  const handleDeleteProject = () => {
+  const handleDeleteProject = async () => {
     try {
-      if (currentProject) {
-        // Create a new array without the project to delete
-        const updatedProjects = projects.filter(
-          (p) => p.id !== currentProject.id
-        );
-
-        // Update state and close dialog
-        setProjects(updatedProjects);
-        setIsDeleteDialogOpen(false);
-        setCurrentProject(null);
-      }
-    } catch (error) {
-      console.error("Error deleting project:", error);
-      alert("There was an error deleting the project. Please try again.");
+      await projectApi.deleteProject(currentProject._id);
+      setProjects(projects.filter((p) => p._id !== currentProject._id));
+      setIsDeleteDialogOpen(false);
+    } catch (err) {
+      console.error("Error deleting project:", err);
     }
   };
 
@@ -496,8 +425,8 @@ export default function AdminProjects() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredProjects.length > 0 ? (
-              filteredProjects.map((project) => (
+            {projects.length > 0 ? (
+              projects.map((project) => (
                 <TableRow key={project.id}>
                   <TableCell className="font-medium">{project.id}</TableCell>
                   <TableCell>{project.title}</TableCell>
@@ -529,7 +458,7 @@ export default function AdminProjects() {
                         <DropdownMenuItem
                           className="text-red-600"
                           onClick={() => {
-                            setCurrentProject({ ...project });
+                            setCurrentProject(project);
                             setIsDeleteDialogOpen(true);
                           }}>
                           <Trash2 className="mr-2 h-4 w-4" />

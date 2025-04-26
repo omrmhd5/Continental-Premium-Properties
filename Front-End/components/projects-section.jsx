@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/context/language-context";
 import { ArrowRight } from "lucide-react";
-import { initializeProjects } from "@/lib/init-projects";
+import { projectApi } from "@/lib/api";
 
 // Memoized Project Card Component for better performance
 const ProjectCard = memo(function ProjectCard({ project, isArabic, index }) {
@@ -56,7 +56,7 @@ const ProjectCard = memo(function ProjectCard({ project, isArabic, index }) {
         className={`flex ${
           isArabic ? "justify-start font-arabic" : "justify-end"
         }`}>
-        <Link href={`/projects/${project.id}`}>
+        <Link href={`/projects/${project._id}`}>
           <Button
             variant="outline"
             className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
@@ -95,11 +95,25 @@ function ProjectsSection() {
   const isArabic = language === "ar";
   const [activeFilter, setActiveFilter] = useState("all");
   const [projects, setProjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Load projects from localStorage
+  // Load projects from API
   useEffect(() => {
-    const loadedProjects = initializeProjects();
-    setProjects(loadedProjects);
+    const fetchProjects = async () => {
+      try {
+        setIsLoading(true);
+        const data = await projectApi.getAllProjects();
+        setProjects(data);
+      } catch (err) {
+        setError(err.message);
+        console.error("Error fetching projects:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProjects();
   }, []);
 
   // Filter definitions

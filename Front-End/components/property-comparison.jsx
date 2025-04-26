@@ -1,102 +1,126 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useCallback, memo } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useLanguage } from "@/context/language-context"
-import { X, Check, ArrowRight } from "lucide-react"
-import Image from "next/image"
+import { useState, useEffect, useCallback, memo } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useLanguage } from "@/context/language-context";
+import { X, Check, ArrowRight } from "lucide-react";
+import Image from "next/image";
 // Make sure the import is correct
-import { SARSymbol } from "@/components/sar-symbol"
-import Link from "next/link"
-
-// Cache for projects data
-let projectsCache = null
+import { SARSymbol } from "@/components/sar-symbol";
+import Link from "next/link";
+import { projectApi } from "@/lib/api";
 
 // Memoized comparison row component
-const ComparisonRow = memo(function ComparisonRow({ label, value1, value2, comparison, isArabic }) {
+const ComparisonRow = memo(function ComparisonRow({
+  label,
+  value1,
+  value2,
+  comparison,
+  isArabic,
+}) {
   return (
     <div className="grid grid-cols-3 gap-4 items-center py-3 border-b border-border">
-      <div className={`font-medium ${isArabic ? "font-arabic" : ""}`}>{label}</div>
-      <div className={`text-center ${comparison === "greater" ? "text-green-500 font-bold" : ""}`}>
+      <div className={`font-medium ${isArabic ? "font-arabic" : ""}`}>
+        {label}
+      </div>
+      <div
+        className={`text-center ${
+          comparison === "greater" ? "text-green-500 font-bold" : ""
+        }`}>
         {value1}
         {comparison === "greater" && <Check className="inline ml-1 h-4 w-4" />}
       </div>
-      <div className={`text-center ${comparison === "less" ? "text-green-500 font-bold" : ""}`}>
+      <div
+        className={`text-center ${
+          comparison === "less" ? "text-green-500 font-bold" : ""
+        }`}>
         {value2}
         {comparison === "less" && <Check className="inline ml-1 h-4 w-4" />}
       </div>
     </div>
-  )
-})
+  );
+});
 
 function PropertyComparison({ onClose }) {
-  const { language } = useLanguage()
-  const isArabic = language === "ar"
-  const [projects, setProjects] = useState([])
-  const [selectedProject1, setSelectedProject1] = useState(null)
-  const [selectedProject2, setSelectedProject2] = useState(null)
-  const [project1, setProject1] = useState(null)
-  const [project2, setProject2] = useState(null)
+  const { language } = useLanguage();
+  const isArabic = language === "ar";
+  const [projects, setProjects] = useState([]);
+  const [selectedProject1, setSelectedProject1] = useState(null);
+  const [selectedProject2, setSelectedProject2] = useState(null);
+  const [project1, setProject1] = useState(null);
+  const [project2, setProject2] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Load projects from localStorage with caching
+  // Load projects from API
   useEffect(() => {
-    if (projectsCache) {
-      setProjects(projectsCache)
-      return
-    }
-
-    const storedProjects = localStorage.getItem("projects")
-    if (storedProjects) {
+    const fetchProjects = async () => {
       try {
-        const parsedProjects = JSON.parse(storedProjects)
-        projectsCache = parsedProjects
-        setProjects(parsedProjects)
-      } catch (error) {
-        console.error("Error parsing projects:", error)
+        setIsLoading(true);
+        const data = await projectApi.getAllProjects();
+        setProjects(data);
+      } catch (err) {
+        setError(err.message);
+        console.error("Error fetching projects:", err);
+      } finally {
+        setIsLoading(false);
       }
-    }
-  }, [])
+    };
+
+    fetchProjects();
+  }, []);
 
   // Set project1 when selectedProject1 changes
   useEffect(() => {
     if (selectedProject1) {
-      const found = projects.find((p) => p.id === Number.parseInt(selectedProject1))
-      setProject1(found || null)
+      const found = projects.find(
+        (p) => p.id === Number.parseInt(selectedProject1)
+      );
+      setProject1(found || null);
     } else {
-      setProject1(null)
+      setProject1(null);
     }
-  }, [selectedProject1, projects])
+  }, [selectedProject1, projects]);
 
   // Set project2 when selectedProject2 changes
   useEffect(() => {
     if (selectedProject2) {
-      const found = projects.find((p) => p.id === Number.parseInt(selectedProject2))
-      setProject2(found || null)
+      const found = projects.find(
+        (p) => p.id === Number.parseInt(selectedProject2)
+      );
+      setProject2(found || null);
     } else {
-      setProject2(null)
+      setProject2(null);
     }
-  }, [selectedProject2, projects])
+  }, [selectedProject2, projects]);
 
   // Helper function to compare values
   const compareValues = useCallback((value1, value2) => {
-    if (value1 === value2) return "equal"
-    if (value1 > value2) return "greater"
-    return "less"
-  }, [])
+    if (value1 === value2) return "equal";
+    if (value1 > value2) return "greater";
+    return "less";
+  }, []);
 
   // Handle view details click - close the modal
   const handleViewDetails = useCallback(() => {
-    onClose()
-  }, [onClose])
+    onClose();
+  }, [onClose]);
 
   return (
     <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-5xl max-h-[90vh] overflow-auto elegant-card border-brand-gold/20">
         {/* Comparison Modal Header */}
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className={`text-2xl font-bold ${isArabic ? "font-arabic" : ""}`}>
+          <CardTitle
+            className={`text-2xl font-bold ${isArabic ? "font-arabic" : ""}`}>
             {isArabic ? "مقارنة العقارات" : "Property Comparison"}
           </CardTitle>
           <Button variant="ghost" size="icon" onClick={onClose}>
@@ -110,13 +134,19 @@ function PropertyComparison({ onClose }) {
               <label className={`block mb-2 ${isArabic ? "font-arabic" : ""}`}>
                 {isArabic ? "العقار الأول" : "First Property"}
               </label>
-              <Select value={selectedProject1} onValueChange={setSelectedProject1}>
+              <Select
+                value={selectedProject1}
+                onValueChange={setSelectedProject1}>
                 <SelectTrigger>
-                  <SelectValue placeholder={isArabic ? "اختر عقار" : "Select a property"} />
+                  <SelectValue
+                    placeholder={isArabic ? "اختر عقار" : "Select a property"}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   {projects.map((project) => (
-                    <SelectItem key={`p1-${project.id}`} value={project.id.toString()}>
+                    <SelectItem
+                      key={`p1-${project.id}`}
+                      value={project.id.toString()}>
                       {project.title}
                     </SelectItem>
                   ))}
@@ -127,13 +157,19 @@ function PropertyComparison({ onClose }) {
               <label className={`block mb-2 ${isArabic ? "font-arabic" : ""}`}>
                 {isArabic ? "العقار الثاني" : "Second Property"}
               </label>
-              <Select value={selectedProject2} onValueChange={setSelectedProject2}>
+              <Select
+                value={selectedProject2}
+                onValueChange={setSelectedProject2}>
                 <SelectTrigger>
-                  <SelectValue placeholder={isArabic ? "اختر عقار" : "Select a property"} />
+                  <SelectValue
+                    placeholder={isArabic ? "اختر عقار" : "Select a property"}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   {projects.map((project) => (
-                    <SelectItem key={`p2-${project.id}`} value={project.id.toString()}>
+                    <SelectItem
+                      key={`p2-${project.id}`}
+                      value={project.id.toString()}>
                       {project.title}
                     </SelectItem>
                   ))}
@@ -148,7 +184,10 @@ function PropertyComparison({ onClose }) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div className="relative h-48 rounded-lg overflow-hidden">
                   <Image
-                    src={project1.images?.[0] || "/placeholder.svg?height=400&width=600"}
+                    src={
+                      project1.images?.[0] ||
+                      "/placeholder.svg?height=400&width=600"
+                    }
                     alt={project1.title}
                     fill
                     className="object-cover"
@@ -156,12 +195,17 @@ function PropertyComparison({ onClose }) {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   <div className="absolute bottom-4 left-4">
-                    <h3 className="text-white text-xl font-bold">{project1.title}</h3>
+                    <h3 className="text-white text-xl font-bold">
+                      {project1.title}
+                    </h3>
                   </div>
                 </div>
                 <div className="relative h-48 rounded-lg overflow-hidden">
                   <Image
-                    src={project2.images?.[0] || "/placeholder.svg?height=400&width=600"}
+                    src={
+                      project2.images?.[0] ||
+                      "/placeholder.svg?height=400&width=600"
+                    }
                     alt={project2.title}
                     fill
                     className="object-cover"
@@ -169,7 +213,9 @@ function PropertyComparison({ onClose }) {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   <div className="absolute bottom-4 left-4">
-                    <h3 className="text-white text-xl font-bold">{project2.title}</h3>
+                    <h3 className="text-white text-xl font-bold">
+                      {project2.title}
+                    </h3>
                   </div>
                 </div>
               </div>
@@ -192,7 +238,7 @@ function PropertyComparison({ onClose }) {
                   }
                   comparison={compareValues(
                     Number.parseInt(project1.price?.replace(/,/g, "")) || 0,
-                    Number.parseInt(project2.price?.replace(/,/g, "")) || 0,
+                    Number.parseInt(project2.price?.replace(/,/g, "")) || 0
                   )}
                   isArabic={isArabic}
                 />
@@ -201,7 +247,10 @@ function PropertyComparison({ onClose }) {
                   label={isArabic ? "المساحة" : "Area"}
                   value1={`${project1.area || 0} m²`}
                   value2={`${project2.area || 0} m²`}
-                  comparison={compareValues(Number.parseInt(project1.area) || 0, Number.parseInt(project2.area) || 0)}
+                  comparison={compareValues(
+                    Number.parseInt(project1.area) || 0,
+                    Number.parseInt(project2.area) || 0
+                  )}
                   isArabic={isArabic}
                 />
 
@@ -211,7 +260,7 @@ function PropertyComparison({ onClose }) {
                   value2={project2.bedrooms || 0}
                   comparison={compareValues(
                     Number.parseInt(project1.bedrooms) || 0,
-                    Number.parseInt(project2.bedrooms) || 0,
+                    Number.parseInt(project2.bedrooms) || 0
                   )}
                   isArabic={isArabic}
                 />
@@ -222,7 +271,7 @@ function PropertyComparison({ onClose }) {
                   value2={project2.bathrooms || 0}
                   comparison={compareValues(
                     Number.parseInt(project1.bathrooms) || 0,
-                    Number.parseInt(project2.bathrooms) || 0,
+                    Number.parseInt(project2.bathrooms) || 0
                   )}
                   isArabic={isArabic}
                 />
@@ -233,7 +282,7 @@ function PropertyComparison({ onClose }) {
                   value2={project2.floors || 0}
                   comparison={compareValues(
                     Number.parseInt(project1.floors) || 0,
-                    Number.parseInt(project2.floors) || 0,
+                    Number.parseInt(project2.floors) || 0
                   )}
                   isArabic={isArabic}
                 />
@@ -261,8 +310,7 @@ function PropertyComparison({ onClose }) {
                   variant="outline"
                   className="w-full border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold"
                   onClick={handleViewDetails}
-                  asChild
-                >
+                  asChild>
                   <Link href={`/projects/${project1.id}`}>
                     {isArabic ? "عرض التفاصيل" : "View Details"}
                     {isArabic ? (
@@ -276,8 +324,7 @@ function PropertyComparison({ onClose }) {
                   variant="outline"
                   className="w-full border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold"
                   onClick={handleViewDetails}
-                  asChild
-                >
+                  asChild>
                   <Link href={`/projects/${project2.id}`}>
                     {isArabic ? "عرض التفاصيل" : "View Details"}
                     {isArabic ? (
@@ -290,32 +337,35 @@ function PropertyComparison({ onClose }) {
               </div>
             </>
           ) : (
-            <div className={`text-center py-12 ${isArabic ? "font-arabic" : ""}`}>
+            <div
+              className={`text-center py-12 ${isArabic ? "font-arabic" : ""}`}>
               <p className="text-muted-foreground">
-                {isArabic ? "يرجى اختيار عقارين للمقارنة" : "Please select two properties to compare"}
+                {isArabic
+                  ? "يرجى اختيار عقارين للمقارنة"
+                  : "Please select two properties to compare"}
               </p>
             </div>
           )}
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
 
 // Helper function to get status label based on status code
 function getStatusLabel(status, isArabic) {
   switch (status) {
     case "available-properties":
-      return isArabic ? "عقارات متاحة" : "Available Properties"
+      return isArabic ? "عقارات متاحة" : "Available Properties";
     case "available-lands":
-      return isArabic ? "أراضي متاحة" : "Available Lands"
+      return isArabic ? "أراضي متاحة" : "Available Lands";
     case "coming":
-      return isArabic ? "قريباً" : "Coming Soon"
+      return isArabic ? "قريباً" : "Coming Soon";
     case "selling":
-      return isArabic ? "للبيع" : "For Sale"
+      return isArabic ? "للبيع" : "For Sale";
     default:
-      return status
+      return status;
   }
 }
 
-export default memo(PropertyComparison)
+export default memo(PropertyComparison);

@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { useParams } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { useLanguage } from "@/context/language-context"
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { useLanguage } from "@/context/language-context";
 import {
   ArrowLeft,
   ChevronLeft,
@@ -18,80 +18,57 @@ import {
   Ruler,
   Building,
   SplitSquareVertical,
-} from "lucide-react"
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
-import { SARSymbol } from "@/components/sar-symbol"
-import PropertyComparison from "@/components/property-comparison"
+} from "lucide-react";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+import { SARSymbol } from "@/components/sar-symbol";
+import PropertyComparison from "@/components/property-comparison";
+import { projectApi } from "@/lib/api";
 
 export default function ProjectDetailPage() {
-  const { id } = useParams()
-  const { language } = useLanguage()
-  const isArabic = language === "ar"
-  const [project, setProject] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const [isComparisonOpen, setIsComparisonOpen] = useState(false)
+  const { id } = useParams();
+  const { language } = useLanguage();
+  const isArabic = language === "ar";
+  const [project, setProject] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isComparisonOpen, setIsComparisonOpen] = useState(false);
 
-  // Fetch project data from localStorage
+  // Fetch project data from API
   useEffect(() => {
-    const fetchProject = () => {
-      setLoading(true)
+    const fetchProject = async () => {
+      setLoading(true);
       try {
-        const storedProjects = localStorage.getItem("projects")
-        if (storedProjects) {
-          const projects = JSON.parse(storedProjects)
-          const foundProject = projects.find((p) => p.id === Number.parseInt(id))
-
-          if (foundProject) {
-            // Add default values for missing fields
-            const enhancedProject = {
-              ...foundProject,
-              description: foundProject.description || {
-                en: "Luxury property with modern design and premium finishes.",
-                ar: "عقار فاخر بتصميم عصري وتشطيبات فاخرة.",
-              },
-              area: foundProject.area || "250",
-              bedrooms: foundProject.bedrooms || "4",
-              bathrooms: foundProject.bathrooms || "3",
-              floors: foundProject.floors || "2",
-              images: foundProject.images || [
-                "/placeholder.svg?height=600&width=800",
-                "/placeholder.svg?height=600&width=800",
-                "/placeholder.svg?height=600&width=800",
-              ],
-              features: foundProject.features || [
-                { en: "Swimming Pool", ar: "حمام سباحة" },
-                { en: "Garden", ar: "حديقة" },
-                { en: "Smart Home System", ar: "نظام منزل ذكي" },
-                { en: "Security System", ar: "نظام أمني" },
-              ],
-            }
-            setProject(enhancedProject)
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching project:", error)
+        const data = await projectApi.getProjectById(id);
+        setProject(data);
+      } catch (err) {
+        setError(err.message);
+        console.error("Error fetching project:", err);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchProject()
-  }, [id])
+    fetchProject();
+  }, [id]);
 
   // Image slideshow navigation
   const nextSlide = () => {
     if (project?.images) {
-      setCurrentSlide((prev) => (prev === project.images.length - 1 ? 0 : prev + 1))
+      setCurrentSlide((prev) =>
+        prev === project.images.length - 1 ? 0 : prev + 1
+      );
     }
-  }
+  };
 
   const prevSlide = () => {
     if (project?.images) {
-      setCurrentSlide((prev) => (prev === 0 ? project.images.length - 1 : prev - 1))
+      setCurrentSlide((prev) =>
+        prev === 0 ? project.images.length - 1 : prev - 1
+      );
     }
-  }
+  };
 
   // Share project functionality
   const handleShare = () => {
@@ -100,13 +77,13 @@ export default function ProjectDetailPage() {
         title: project.title,
         text: `Check out this property: ${project.title}`,
         url: window.location.href,
-      })
+      });
     } else {
       // Fallback for browsers that don't support the Web Share API
-      navigator.clipboard.writeText(window.location.href)
-      alert("Link copied to clipboard!")
+      navigator.clipboard.writeText(window.location.href);
+      alert("Link copied to clipboard!");
     }
-  }
+  };
 
   // Loading state
   if (loading) {
@@ -114,7 +91,7 @@ export default function ProjectDetailPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
-    )
+    );
   }
 
   // Project not found state
@@ -129,7 +106,7 @@ export default function ProjectDetailPage() {
           </Button>
         </Link>
       </div>
-    )
+    );
   }
 
   return (
@@ -139,7 +116,9 @@ export default function ProjectDetailPage() {
         <section className="py-12">
           {/* Project Header */}
           <div className="mb-8">
-            <Link href="/projects" className="inline-flex items-center text-primary mb-4">
+            <Link
+              href="/projects"
+              className="inline-flex items-center text-primary mb-4">
               {isArabic ? (
                 <>
                   {isArabic ? "العودة إلى المشاريع" : "Back to Projects"}
@@ -152,19 +131,32 @@ export default function ProjectDetailPage() {
                 </>
               )}
             </Link>
-            <h1 className={`text-3xl md:text-4xl font-serif font-bold ${isArabic ? "font-arabic" : ""}`}>
+            <h1
+              className={`text-3xl md:text-4xl font-serif font-bold ${
+                isArabic ? "font-arabic" : ""
+              }`}>
               {project.title}
             </h1>
-            <div className={`flex items-center mt-2 ${isArabic ? "flex-row-reverse" : ""}`}>
+            <div
+              className={`flex items-center mt-2 ${
+                isArabic ? "flex-row-reverse" : ""
+              }`}>
               <div className="text-muted-foreground">
                 <span className="inline-flex items-center">
-                  <Building className={`h-4 w-4 ${isArabic ? "ml-1" : "mr-1"}`} />
+                  <Building
+                    className={`h-4 w-4 ${isArabic ? "ml-1" : "mr-1"}`}
+                  />
                   {project.location}
                 </span>
               </div>
               <div className={`${isArabic ? "mr-auto" : "ml-auto"} flex gap-2`}>
-                <Button variant="outline" size="sm" onClick={() => setIsComparisonOpen(true)}>
-                  <SplitSquareVertical className={`h-4 w-4 ${isArabic ? "ml-2" : "mr-2"}`} />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setIsComparisonOpen(true)}>
+                  <SplitSquareVertical
+                    className={`h-4 w-4 ${isArabic ? "ml-2" : "mr-2"}`}
+                  />
                   {isArabic ? "مقارنة" : "Compare"}
                 </Button>
                 <Button variant="outline" size="sm" onClick={handleShare}>
@@ -180,8 +172,7 @@ export default function ProjectDetailPage() {
             <div className="relative aspect-[16/9]">
               <div
                 className="flex transition-transform duration-500 ease-in-out h-full"
-                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-              >
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
                 {project.images.map((image, index) => (
                   <div key={index} className="w-full flex-shrink-0 relative">
                     <Image
@@ -200,18 +191,18 @@ export default function ProjectDetailPage() {
               variant="outline"
               size="icon"
               className="absolute top-1/2 left-4 -translate-y-1/2 bg-black/30 hover:bg-black/50 border-primary/30 text-primary rounded-full"
-              onClick={prevSlide}
-            >
+              onClick={prevSlide}>
               <ChevronLeft className="h-6 w-6" />
-              <span className="sr-only">{isArabic ? "السابق" : "Previous"}</span>
+              <span className="sr-only">
+                {isArabic ? "السابق" : "Previous"}
+              </span>
             </Button>
 
             <Button
               variant="outline"
               size="icon"
               className="absolute top-1/2 right-4 -translate-y-1/2 bg-black/30 hover:bg-black/50 border-primary/30 text-primary rounded-full"
-              onClick={nextSlide}
-            >
+              onClick={nextSlide}>
               <ChevronRight className="h-6 w-6" />
               <span className="sr-only">{isArabic ? "التالي" : "Next"}</span>
             </Button>
@@ -221,9 +212,10 @@ export default function ProjectDetailPage() {
               {project.images.map((_, index) => (
                 <button
                   key={index}
-                  className={`w-3 h-3 rounded-full ${currentSlide === index ? "bg-primary" : "bg-white/50"}`}
-                  onClick={() => setCurrentSlide(index)}
-                >
+                  className={`w-3 h-3 rounded-full ${
+                    currentSlide === index ? "bg-primary" : "bg-white/50"
+                  }`}
+                  onClick={() => setCurrentSlide(index)}>
                   <span className="sr-only">{`Slide ${index + 1}`}</span>
                 </button>
               ))}
@@ -237,10 +229,16 @@ export default function ProjectDetailPage() {
               {/* Project Description */}
               <Card className="elegant-card mb-8">
                 <CardContent className="p-6">
-                  <h2 className={`text-2xl font-serif font-bold mb-4 ${isArabic ? "font-arabic" : ""}`}>
+                  <h2
+                    className={`text-2xl font-serif font-bold mb-4 ${
+                      isArabic ? "font-arabic" : ""
+                    }`}>
                     {isArabic ? "وصف المشروع" : "Project Description"}
                   </h2>
-                  <p className={`text-muted-foreground ${isArabic ? "font-arabic" : ""}`}>
+                  <p
+                    className={`text-muted-foreground ${
+                      isArabic ? "font-arabic" : ""
+                    }`}>
                     {isArabic ? project.description.ar : project.description.en}
                   </p>
                 </CardContent>
@@ -249,13 +247,22 @@ export default function ProjectDetailPage() {
               {/* Project Features */}
               <Card className="elegant-card">
                 <CardContent className="p-6">
-                  <h2 className={`text-2xl font-serif font-bold mb-4 ${isArabic ? "font-arabic" : ""}`}>
+                  <h2
+                    className={`text-2xl font-serif font-bold mb-4 ${
+                      isArabic ? "font-arabic" : ""
+                    }`}>
                     {isArabic ? "المميزات" : "Features"}
                   </h2>
-                  <ul className={`grid grid-cols-2 gap-4 ${isArabic ? "font-arabic" : ""}`}>
+                  <ul
+                    className={`grid grid-cols-2 gap-4 ${
+                      isArabic ? "font-arabic" : ""
+                    }`}>
                     {project.features.map((feature, index) => (
                       <li key={index} className="flex items-center">
-                        <div className={`h-2 w-2 rounded-full bg-primary ${isArabic ? "ml-2" : "mr-2"}`}></div>
+                        <div
+                          className={`h-2 w-2 rounded-full bg-primary ${
+                            isArabic ? "ml-2" : "mr-2"
+                          }`}></div>
                         <span>{isArabic ? feature.ar : feature.en}</span>
                       </li>
                     ))}
@@ -269,15 +276,24 @@ export default function ProjectDetailPage() {
               {/* Property Specifications */}
               <Card className="elegant-card mb-8">
                 <CardContent className="p-6">
-                  <h2 className={`text-2xl font-serif font-bold mb-4 ${isArabic ? "font-arabic" : ""}`}>
+                  <h2
+                    className={`text-2xl font-serif font-bold mb-4 ${
+                      isArabic ? "font-arabic" : ""
+                    }`}>
                     {isArabic ? "التفاصيل" : "Details"}
                   </h2>
                   <div className="space-y-4">
                     {/* Area */}
                     <div className="flex justify-between items-center pb-2 border-b border-border">
                       <div className="flex items-center">
-                        <Ruler className={`h-5 w-5 text-primary ${isArabic ? "ml-2" : "mr-2"}`} />
-                        <span className={isArabic ? "font-arabic" : ""}>{isArabic ? "المساحة" : "Area"}</span>
+                        <Ruler
+                          className={`h-5 w-5 text-primary ${
+                            isArabic ? "ml-2" : "mr-2"
+                          }`}
+                        />
+                        <span className={isArabic ? "font-arabic" : ""}>
+                          {isArabic ? "المساحة" : "Area"}
+                        </span>
                       </div>
                       <span className="font-medium">{project.area} m²</span>
                     </div>
@@ -285,8 +301,14 @@ export default function ProjectDetailPage() {
                     {/* Bedrooms */}
                     <div className="flex justify-between items-center pb-2 border-b border-border">
                       <div className="flex items-center">
-                        <Bed className={`h-5 w-5 text-primary ${isArabic ? "ml-2" : "mr-2"}`} />
-                        <span className={isArabic ? "font-arabic" : ""}>{isArabic ? "غرف النوم" : "Bedrooms"}</span>
+                        <Bed
+                          className={`h-5 w-5 text-primary ${
+                            isArabic ? "ml-2" : "mr-2"
+                          }`}
+                        />
+                        <span className={isArabic ? "font-arabic" : ""}>
+                          {isArabic ? "غرف النوم" : "Bedrooms"}
+                        </span>
                       </div>
                       <span className="font-medium">{project.bedrooms}</span>
                     </div>
@@ -294,8 +316,14 @@ export default function ProjectDetailPage() {
                     {/* Bathrooms */}
                     <div className="flex justify-between items-center pb-2 border-b border-border">
                       <div className="flex items-center">
-                        <Bath className={`h-5 w-5 text-primary ${isArabic ? "ml-2" : "mr-2"}`} />
-                        <span className={isArabic ? "font-arabic" : ""}>{isArabic ? "الحمامات" : "Bathrooms"}</span>
+                        <Bath
+                          className={`h-5 w-5 text-primary ${
+                            isArabic ? "ml-2" : "mr-2"
+                          }`}
+                        />
+                        <span className={isArabic ? "font-arabic" : ""}>
+                          {isArabic ? "الحمامات" : "Bathrooms"}
+                        </span>
                       </div>
                       <span className="font-medium">{project.bathrooms}</span>
                     </div>
@@ -303,8 +331,14 @@ export default function ProjectDetailPage() {
                     {/* Floors */}
                     <div className="flex justify-between items-center pb-2 border-b border-border">
                       <div className="flex items-center">
-                        <Home className={`h-5 w-5 text-primary ${isArabic ? "ml-2" : "mr-2"}`} />
-                        <span className={isArabic ? "font-arabic" : ""}>{isArabic ? "الطوابق" : "Floors"}</span>
+                        <Home
+                          className={`h-5 w-5 text-primary ${
+                            isArabic ? "ml-2" : "mr-2"
+                          }`}
+                        />
+                        <span className={isArabic ? "font-arabic" : ""}>
+                          {isArabic ? "الطوابق" : "Floors"}
+                        </span>
                       </div>
                       <span className="font-medium">{project.floors}</span>
                     </div>
@@ -315,15 +349,22 @@ export default function ProjectDetailPage() {
               {/* Price and Contact */}
               <Card className="elegant-card">
                 <CardContent className="p-6">
-                  <h2 className={`text-2xl font-serif font-bold mb-4 ${isArabic ? "font-arabic" : ""}`}>
+                  <h2
+                    className={`text-2xl font-serif font-bold mb-4 ${
+                      isArabic ? "font-arabic" : ""
+                    }`}>
                     {isArabic ? "السعر" : "Price"}
                   </h2>
                   <div className="flex items-center justify-center text-3xl font-bold text-primary">
-                    <SARSymbol className={`h-6 w-6 ${isArabic ? "ml-2" : "mr-2"}`} />
+                    <SARSymbol
+                      className={`h-6 w-6 ${isArabic ? "ml-2" : "mr-2"}`}
+                    />
                     {project.price}
                   </div>
                   <div className="mt-6">
-                    <Button className="w-full">{isArabic ? "تواصل معنا" : "Contact Us"}</Button>
+                    <Button className="w-full">
+                      {isArabic ? "تواصل معنا" : "Contact Us"}
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -335,7 +376,9 @@ export default function ProjectDetailPage() {
       </div>
 
       {/* Property Comparison Modal */}
-      {isComparisonOpen && <PropertyComparison onClose={() => setIsComparisonOpen(false)} />}
+      {isComparisonOpen && (
+        <PropertyComparison onClose={() => setIsComparisonOpen(false)} />
+      )}
     </div>
-  )
+  );
 }

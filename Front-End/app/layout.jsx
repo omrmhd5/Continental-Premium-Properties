@@ -1,7 +1,6 @@
 import "./globals.css";
 import { LanguageProvider } from "@/context/language-context";
 import { ThemeProvider } from "@/components/theme-provider";
-import { initializeProjects } from "@/lib/init-projects";
 
 export const metadata = {
   title: "Development Solutions Real Estate - الحلول التطويرية العقارية",
@@ -9,9 +8,6 @@ export const metadata = {
     "Discover our premium residential projects with world-class specifications and modern designs",
   generator: "v0.dev",
 };
-
-// Initialize projects on the server
-initializeProjects();
 
 export default function RootLayout({ children }) {
   return (

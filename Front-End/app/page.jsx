@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import Navbar from "@/components/navbar";
 import HeroSection from "@/components/hero-section";
 import ProjectsSection from "@/components/projects-section";
@@ -9,7 +9,6 @@ import AchievementsSection from "@/components/achievements-section";
 import MediaCenter from "@/components/media-center";
 import Footer from "@/components/footer";
 import { useAnimation } from "@/hooks/use-animation";
-import { initializeProjects } from "@/lib/init-projects";
 
 // Loading fallback component
 const SectionLoading = () => (
@@ -27,11 +26,6 @@ const SectionLoading = () => (
 export default function Home() {
   // Initialize animations
   useAnimation();
-
-  // Initialize projects on client side
-  useEffect(() => {
-    initializeProjects();
-  }, []);
 
   return (
     <div className="min-h-screen">

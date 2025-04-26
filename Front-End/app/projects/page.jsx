@@ -20,7 +20,7 @@ import Footer from "@/components/footer";
 import { SARSymbol } from "@/components/sar-symbol";
 import PropertyComparison from "@/components/property-comparison";
 import { useAnimation } from "@/hooks/use-animation";
-import { initializeProjects } from "@/lib/init-projects";
+import { projectApi } from "@/lib/api";
 
 export default function ProjectsPage() {
   const { language } = useLanguage();
@@ -30,14 +30,28 @@ export default function ProjectsPage() {
   const [locationFilter, setLocationFilter] = useState("all");
   const [projects, setProjects] = useState([]);
   const [isComparisonOpen, setIsComparisonOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Initialize animations
   useAnimation();
 
-  // Load projects from localStorage
+  // Load projects from API
   useEffect(() => {
-    const loadedProjects = initializeProjects();
-    setProjects(loadedProjects);
+    const fetchProjects = async () => {
+      try {
+        setIsLoading(true);
+        const data = await projectApi.getAllProjects();
+        setProjects(data);
+      } catch (err) {
+        setError(err.message);
+        console.error("Failed to fetch projects:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProjects();
   }, []);
 
   // Filter projects based on search and filters
@@ -291,7 +305,7 @@ function ProjectCard({ project, isArabic, index }) {
         className={`flex ${
           isArabic ? "justify-start font-arabic" : "justify-end"
         }`}>
-        <Link href={`/projects/${project.id}`}>
+        <Link href={`/projects/${project._id}`}>
           <Button
             variant="outline"
             className="border-primary/30 hover:bg-primary/10 hover:text-primary">
