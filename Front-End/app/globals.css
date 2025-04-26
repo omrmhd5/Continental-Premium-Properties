@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "GE SS Two";
+  src: url("/fonts/GESSTwoMedium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GE SS Two";
+  src: url("/fonts/GESSTwoBold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Dubai";
+  src: url("/fonts/DubaiRegular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Dubai";
+  src: url("/fonts/DubaiBold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 17% 26%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 17% 26%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 17% 26%;
+    --primary: 40 43% 49%;
+    --primary-foreground: 222 17% 26%;
+    --secondary: 222 17% 26%;
+    --secondary-foreground: 40 43% 49%;
+    --muted: 38 30% 90%;
+    --muted-foreground: 222 17% 40%;
+    --accent: 40 43% 49%;
+    --accent-foreground: 222 17% 26%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 40 30% 80%;
+    --input: 40 30% 80%;
+    --ring: 40 43% 49%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222 17% 26%;
+    --foreground: 40 30% 90%;
+    --card: 222 17% 20%;
+    --card-foreground: 40 30% 90%;
+    --popover: 222 17% 26%;
+    --popover-foreground: 40 30% 90%;
+    --primary: 40 43% 49%;
+    --primary-foreground: 222 17% 26%;
+    --secondary: 222 17% 15%;
+    --secondary-foreground: 40 30% 90%;
+    --muted: 222 17% 15%;
+    --muted-foreground: 40 30% 70%;
+    --accent: 40 43% 49%;
+    --accent-foreground: 222 17% 26%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 40 30% 90%;
+    --border: 222 17% 20%;
+    --input: 222 17% 20%;
+    --ring: 40 43% 49%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground font-dubai;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-dubai font-bold;
+  }
+  p,
+  span,
+  div,
+  a,
+  button {
+    @apply font-dubai;
+  }
+}
+
+/* Arabic font */
+.font-arabic {
+  font-family: "GE SS Two", sans-serif;
+}
+
+/* Elegant styling */
+.elegant-border {
+  @apply border border-primary/30;
+}
+
+.elegant-card {
+  @apply bg-card border border-primary/20 shadow-md hover:shadow-lg transition-shadow duration-300;
+}
+
+.elegant-gradient {
+  background: linear-gradient(to right, hsl(var(--primary) / 0.1), transparent);
+}
+
+.elegant-divider {
+  position: relative;
+  height: 1px;
+  background-color: hsl(var(--border));
+}
+
+.elegant-divider::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 3px;
+  background-color: hsl(var(--primary));
+}
+
+/* Animation classes */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.6s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+}
+
+.stagger-delay-1 {
+  transition-delay: 0.1s;
+}
+
+.stagger-delay-2 {
+  transition-delay: 0.2s;
+}
+
+.stagger-delay-3 {
+  transition-delay: 0.3s;
+}
+
+.stagger-delay-4 {
+  transition-delay: 0.4s;
+}
+
+.stagger-delay-5 {
+  transition-delay: 0.5s;
+}
