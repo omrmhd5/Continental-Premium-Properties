@@ -167,19 +167,72 @@ export default function AdminProjects() {
     router.push("/admin/login");
   };
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const files = Array.from(e.target.files);
+    console.log("Files selected for upload:", files);
 
-    // In a real app, you would upload these files to a server
-    // For this demo, we'll use the placeholder images
-    const newImages = files.map(
-      (_, index) =>
-        `/placeholder.svg?height=600&width=800&text=Image ${
-          tempImages.length + index + 1
-        }`
-    );
+    const uploadedImageUrls = [];
 
-    setTempImages([...tempImages, ...newImages]);
+    for (const file of files) {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      // ⚠️ Check and fix this typo
+      const uploadPreset = "unsigned_upload"; // FIXED: previously "unsinged_upload"
+      formData.append("upload_preset", uploadPreset);
+
+      console.log("Uploading to Cloudinary with preset:", uploadPreset);
+
+      try {
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/dllmcgx5k/image/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        const rawText = await res.text();
+        console.log("Raw Cloudinary response text:", rawText);
+
+        let data;
+        try {
+          data = JSON.parse(rawText);
+        } catch (jsonErr) {
+          console.error(
+            "Failed to parse Cloudinary response as JSON:",
+            rawText
+          );
+          alert("Invalid response from Cloudinary.");
+          continue;
+        }
+
+        if (res.ok && data.secure_url) {
+          console.log("Image uploaded successfully:", data.secure_url);
+          uploadedImageUrls.push(data.secure_url);
+        } else {
+          console.error("Cloudinary error data:", data);
+          alert(`Upload failed: ${data.error?.message || "Unknown error"}`);
+        }
+      } catch (err) {
+        console.error("Network or fetch error:", err);
+        alert("Error uploading image. Check console for details.");
+      }
+    }
+
+    if (uploadedImageUrls.length === 0) {
+      console.warn("No images were uploaded successfully.");
+      return;
+    }
+
+    const updatedImages = [...tempImages, ...uploadedImageUrls];
+    setTempImages(updatedImages);
+    setNewProject((prev) => ({
+      ...prev,
+      images: updatedImages,
+    }));
+
+    console.log("Updated image list:", updatedImages);
   };
 
   const removeImage = (index) => {
@@ -694,7 +747,17 @@ export default function AdminProjects() {
             </Button>
             <Button
               onClick={handleAddProject}
-              disabled={!newProject.title || !newProject.price}>
+              disabled={
+                !newProject.title ||
+                !newProject.price ||
+                !newProject.description.en ||
+                !newProject.description.ar ||
+                !newProject.area ||
+                // !newProject.images ||
+                !newProject.bedrooms ||
+                !newProject.bathrooms ||
+                !newProject.floors
+              }>
               Add Project
             </Button>
           </DialogFooter>

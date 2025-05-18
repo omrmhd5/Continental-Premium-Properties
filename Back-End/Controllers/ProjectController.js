@@ -1,3 +1,5 @@
+const fs = require("fs");
+const cloudinary = require("../utils/cloudinary");
 const Project = require("../Models/ProjectModel");
 
 const getAllProjects = async (req, res) => {
@@ -35,9 +37,18 @@ const createProject = async (req, res) => {
       bedrooms,
       bathrooms,
       floors,
-      images,
       features,
     } = req.body;
+
+    let imageUrls = [];
+
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const result = await cloudinary.uploader.upload(file.path);
+        imageUrls.push(result.secure_url);
+        fs.unlinkSync(file.path);
+      }
+    }
 
     const newProject = new Project({
       title,
@@ -50,13 +61,14 @@ const createProject = async (req, res) => {
       bedrooms,
       bathrooms,
       floors,
-      images,
+      images: imageUrls,
       features,
     });
 
     const savedProject = await newProject.save();
     res.status(201).json(savedProject);
   } catch (error) {
+    console.error(error);
     res.status(400).json({ message: error.message });
   }
 };
