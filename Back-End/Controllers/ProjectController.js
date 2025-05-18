@@ -2,8 +2,8 @@ const Project = require("../Models/ProjectModel");
 
 const getAllProjects = async (req, res) => {
   try {
-    const Projects = await Project.find();
-    res.json(Projects);
+    const projects = await Project.find();
+    res.status(200).json(projects);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -13,6 +13,9 @@ const getProjectById = async (req, res) => {
   try {
     const id = req.params.id;
     const project = await Project.findById(id);
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
     res.status(200).json(project);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -88,7 +91,7 @@ const deleteProject = async (req, res) => {
     }
     res.status(200).json(deletedProject);
   } catch (error) {
-    return res.status(500).json({ message: error });
+    return res.status(500).json({ message: error.message });
   }
 };
 

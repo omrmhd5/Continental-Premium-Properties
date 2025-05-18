@@ -145,7 +145,7 @@ function PropertyComparison({ onClose }) {
                 <SelectContent>
                   {projects.map((project) => (
                     <SelectItem
-                      key={`p1-${project.id}`}
+                      key={`p1-${project._id}`}
                       value={project.id.toString()}>
                       {project.title}
                     </SelectItem>
@@ -168,7 +168,7 @@ function PropertyComparison({ onClose }) {
                 <SelectContent>
                   {projects.map((project) => (
                     <SelectItem
-                      key={`p2-${project.id}`}
+                      key={`p2-${project._id}`}
                       value={project.id.toString()}>
                       {project.title}
                     </SelectItem>

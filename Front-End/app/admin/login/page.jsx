@@ -1,40 +1,58 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Lock, Home } from "lucide-react"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Lock, Home } from "lucide-react";
 
 export default function AdminLogin() {
-  const router = useRouter()
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (e) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setError("")
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
 
-    // In a real app, you would validate credentials against a backend
-    // This is a simple mock authentication
-    setTimeout(() => {
-      if (username === "admin" && password === "password") {
-        // Set a mock token in localStorage
-        localStorage.setItem("adminToken", "mock-jwt-token")
-        router.push("/admin/dashboard")
-      } else {
-        setError("Invalid username or password")
+    try {
+      const response = await fetch("http://localhost:5000/api/admin/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Login failed");
       }
-      setIsLoading(false)
-    }, 1000)
-  }
+
+      // Store the token in localStorage
+      localStorage.setItem("adminToken", data.token);
+      router.push("/admin/dashboard");
+    } catch (error) {
+      setError(error.message || "Invalid username or password");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
@@ -47,7 +65,9 @@ export default function AdminLogin() {
               </div>
             </div>
             <CardTitle className="text-2xl font-serif">Admin Login</CardTitle>
-            <CardDescription>Enter your credentials to access the admin dashboard</CardDescription>
+            <CardDescription>
+              Enter your credentials to access the admin dashboard
+            </CardDescription>
           </CardHeader>
           <CardContent>
             {error && (
@@ -82,7 +102,10 @@ export default function AdminLogin() {
             </form>
           </CardContent>
           <CardFooter className="flex flex-col gap-2">
-            <Button className="w-full" onClick={handleLogin} disabled={isLoading}>
+            <Button
+              className="w-full"
+              onClick={handleLogin}
+              disabled={isLoading}>
               {isLoading ? "Logging in..." : "Login"}
             </Button>
             <Link href="/" className="w-full">
@@ -98,5 +121,5 @@ export default function AdminLogin() {
         </div>
       </div>
     </div>
-  )
+  );
 }

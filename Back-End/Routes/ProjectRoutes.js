@@ -7,11 +7,12 @@ const {
   editProject,
   deleteProject,
 } = require("../Controllers/ProjectController");
+const { authenticateUser } = require("../Middlewares/authUserMiddleware");
 
 router.get("/", getAllProjects);
 router.get("/:id", getProjectById);
-router.post("/", createProject);
-router.post("/:id", editProject);
-router.delete("/:id", deleteProject);
+router.post("/", authenticateUser, createProject);
+router.post("/:id", authenticateUser, editProject);
+router.delete("/:id", authenticateUser, deleteProject);
 
 module.exports = router;

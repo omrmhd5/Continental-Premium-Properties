@@ -17,16 +17,6 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [projectCount, setProjectCount] = useState(0);
 
-  useEffect(() => {
-    // Get project count from localStorage or use default
-    const storedProjects = localStorage.getItem("projects");
-    if (storedProjects) {
-      setProjectCount(JSON.parse(storedProjects).length);
-    } else {
-      setProjectCount(12); // Default count if no projects in localStorage
-    }
-  }, []);
-
   const handleLogout = () => {
     localStorage.removeItem("adminToken");
     router.push("/admin/login");

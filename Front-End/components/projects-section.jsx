@@ -187,7 +187,7 @@ function ProjectsSection() {
         {filteredProjects.length > 0 ? (
           filteredProjects.map((project, index) => (
             <ProjectCard
-              key={project.id}
+              key={project._id}
               project={project}
               isArabic={isArabic}
               index={index}

@@ -63,83 +63,6 @@ import Image from "next/image";
 import { DialogOverlay } from "@radix-ui/react-dialog";
 import { projectApi } from "@/lib/api";
 
-// Mock project data
-const initialProjects = [
-  {
-    id: 1,
-    title: "Luxury Villas",
-    status: "available-properties",
-    location: "Riyadh",
-    price: "1,200,000",
-    date: "2023-05-15",
-    description: {
-      en: "Exclusive villas with private pools and gardens",
-      ar: "فلل حصرية مع مسابح وحدائق خاصة",
-    },
-    area: "350",
-    bedrooms: "5",
-    bathrooms: "4",
-    floors: "2",
-    images: [
-      "/placeholder.svg?height=600&width=800",
-      "/placeholder.svg?height=600&width=800",
-    ],
-    features: [
-      { en: "Swimming Pool", ar: "حمام سباحة" },
-      { en: "Garden", ar: "حديقة" },
-      { en: "Smart Home System", ar: "نظام منزل ذكي" },
-    ],
-  },
-  {
-    id: 2,
-    title: "Modern Apartments",
-    status: "coming",
-    location: "Jeddah",
-    price: "450,000",
-    date: "2023-06-22",
-    description: {
-      en: "Contemporary apartments in the heart of the city",
-      ar: "شقق معاصرة في قلب المدينة",
-    },
-    area: "120",
-    bedrooms: "2",
-    bathrooms: "2",
-    floors: "1",
-    images: [
-      "/placeholder.svg?height=600&width=800",
-      "/placeholder.svg?height=600&width=800",
-    ],
-    features: [
-      { en: "Gym", ar: "صالة رياضية" },
-      { en: "Parking", ar: "موقف سيارات" },
-    ],
-  },
-  {
-    id: 3,
-    title: "Beachfront Residences",
-    status: "available-properties",
-    location: "Dammam",
-    price: "3,500,000",
-    date: "2023-04-10",
-    description: {
-      en: "Luxury homes with stunning ocean views",
-      ar: "منازل فاخرة مع إطلالات خلابة على المحيط",
-    },
-    area: "400",
-    bedrooms: "6",
-    bathrooms: "5",
-    floors: "3",
-    images: [
-      "/placeholder.svg?height=600&width=800",
-      "/placeholder.svg?height=600&width=800",
-    ],
-    features: [
-      { en: "Private Beach", ar: "شاطئ خاص" },
-      { en: "Infinity Pool", ar: "مسبح لا نهائي" },
-    ],
-  },
-];
-
 export default function AdminProjects() {
   const router = useRouter();
   const [projects, setProjects] = useState([]);
@@ -427,8 +350,8 @@ export default function AdminProjects() {
           <TableBody>
             {projects.length > 0 ? (
               projects.map((project) => (
-                <TableRow key={project.id}>
-                  <TableCell className="font-medium">{project.id}</TableCell>
+                <TableRow key={project._id}>
+                  <TableCell className="font-medium">{project._id}</TableCell>
                   <TableCell>{project.title}</TableCell>
                   <TableCell>{getStatusBadge(project.status)}</TableCell>
                   <TableCell>{project.location}</TableCell>
@@ -465,7 +388,7 @@ export default function AdminProjects() {
                           <span>Delete</span>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                          <Link href={`/projects/${project.id}`}>
+                          <Link href={`/projects/${project._id}`}>
                             <Home className="mr-2 h-4 w-4" />
                             <span>View</span>
                           </Link>
