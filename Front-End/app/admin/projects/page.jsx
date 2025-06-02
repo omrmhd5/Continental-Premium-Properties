@@ -61,9 +61,17 @@ import { SARSymbol } from "@/components/sar-symbol";
 import Image from "next/image";
 import { DialogOverlay } from "@radix-ui/react-dialog";
 import { projectApi } from "@/lib/api";
+import { useLanguage } from "@/context/language-context";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import { SuccessPopup } from "@/components/success-popup";
+import { ErrorPopup } from "@/components/error-popup";
 
 export default function AdminProjects() {
   const router = useRouter();
+  const { language, setLanguage } = useLanguage();
+  const isArabic = language === "ar";
+  const { toast } = useToast();
   const [projects, setProjects] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -91,6 +99,19 @@ export default function AdminProjects() {
     features: [{ en: "", ar: "" }],
   });
   const [tempImages, setTempImages] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [successMessage, setSuccessMessage] = useState({
+    title: "",
+    description: "",
+    action: null,
+  });
+  const [showErrorPopup, setShowErrorPopup] = useState(false);
+  const [errorMessage, setErrorMessage] = useState({
+    title: "",
+    description: "",
+  });
 
   // Load projects from API
   useEffect(() => {
@@ -100,7 +121,19 @@ export default function AdminProjects() {
         const data = await projectApi.getAllProjects();
         setProjects(data);
       } catch (err) {
-        setError(err.message);
+        if (err.message === "TOKEN_EXPIRED") {
+          setErrorMessage({
+            title: "Session Expired",
+            description: "Your session has expired. Please log in again.",
+          });
+          setShowErrorPopup(true);
+        } else {
+          setErrorMessage({
+            title: "Error",
+            description: err.message || "Failed to fetch projects",
+          });
+          setShowErrorPopup(true);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -121,6 +154,25 @@ export default function AdminProjects() {
       setProjects([...projects, addedProject]);
       setIsAddDialogOpen(false);
 
+      // Show success popup
+      setSuccessMessage({
+        title: isArabic ? "تمت الإضافة بنجاح" : "Success",
+        description: isArabic
+          ? "تم إضافة المشروع بنجاح إلى محفظتك"
+          : "Project has been successfully added to your portfolio",
+        action: (
+          <Button
+            onClick={() => {
+              setShowSuccessPopup(false);
+              router.push(`/projects/${addedProject._id}`);
+            }}
+            className="bg-green-600 hover:bg-green-700">
+            {isArabic ? "عرض المشروع" : "View Project"}
+          </Button>
+        ),
+      });
+      setShowSuccessPopup(true);
+
       setNewProject({
         title: "",
         status: "available-properties",
@@ -136,7 +188,21 @@ export default function AdminProjects() {
       });
       setTempImages([]);
     } catch (err) {
-      alert(err.message || "Failed to create project. Please try again.");
+      if (err.message === "TOKEN_EXPIRED") {
+        setErrorMessage({
+          title: "Session Expired",
+          description: "Your session has expired. Please log in again.",
+        });
+        setShowErrorPopup(true);
+      } else {
+        setErrorMessage({
+          title: isArabic ? "خطأ" : "Error",
+          description: isArabic
+            ? "حدث خطأ أثناء إضافة المشروع. يرجى المحاولة مرة أخرى."
+            : "Failed to create project. Please try again.",
+        });
+        setShowErrorPopup(true);
+      }
     }
   };
 
@@ -156,8 +222,41 @@ export default function AdminProjects() {
         projects.map((p) => (p._id === currentProject._id ? updatedProject : p))
       );
       setIsEditDialogOpen(false);
+
+      // Show success popup
+      setSuccessMessage({
+        title: isArabic ? "تم التحديث بنجاح" : "Success",
+        description: isArabic
+          ? "تم تحديث المشروع بنجاح"
+          : "Project has been successfully updated",
+        action: (
+          <Button
+            onClick={() => {
+              setShowSuccessPopup(false);
+              router.push(`/projects/${updatedProject._id}`);
+            }}
+            className="bg-green-600 hover:bg-green-700">
+            {isArabic ? "عرض المشروع" : "View Project"}
+          </Button>
+        ),
+      });
+      setShowSuccessPopup(true);
     } catch (err) {
-      console.error("Error updating project:", err);
+      if (err.message === "TOKEN_EXPIRED") {
+        setErrorMessage({
+          title: "Session Expired",
+          description: "Your session has expired. Please log in again.",
+        });
+        setShowErrorPopup(true);
+      } else {
+        setErrorMessage({
+          title: isArabic ? "خطأ" : "Error",
+          description: isArabic
+            ? "حدث خطأ أثناء تحديث المشروع. يرجى المحاولة مرة أخرى."
+            : "Failed to update project. Please try again.",
+        });
+        setShowErrorPopup(true);
+      }
     }
   };
 
@@ -166,8 +265,31 @@ export default function AdminProjects() {
       await projectApi.deleteProject(currentProject._id);
       setProjects(projects.filter((p) => p._id !== currentProject._id));
       setIsDeleteDialogOpen(false);
+
+      // Show success popup
+      setSuccessMessage({
+        title: isArabic ? "تم الحذف بنجاح" : "Success",
+        description: isArabic
+          ? "تم حذف المشروع بنجاح"
+          : "Project has been successfully deleted",
+      });
+      setShowSuccessPopup(true);
     } catch (err) {
-      console.error("Error deleting project:", err);
+      if (err.message === "TOKEN_EXPIRED") {
+        setErrorMessage({
+          title: "Session Expired",
+          description: "Your session has expired. Please log in again.",
+        });
+        setShowErrorPopup(true);
+      } else {
+        setErrorMessage({
+          title: isArabic ? "خطأ" : "Error",
+          description: isArabic
+            ? "حدث خطأ أثناء حذف المشروع. يرجى المحاولة مرة أخرى."
+            : "Failed to delete project. Please try again.",
+        });
+        setShowErrorPopup(true);
+      }
     }
   };
 
@@ -178,17 +300,17 @@ export default function AdminProjects() {
 
   const handleImageUpload = async (e) => {
     const files = Array.from(e.target.files);
+    if (files.length === 0) return;
 
+    setIsUploading(true);
+    setUploadProgress(0);
     const uploadedImageUrls = [];
 
-    for (const file of files) {
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
       const formData = new FormData();
       formData.append("file", file);
-
-      const uploadPreset = "unsigned_upload";
-      formData.append("upload_preset", uploadPreset);
-
-      console.log("Uploading to Cloudinary with preset:", uploadPreset);
+      formData.append("upload_preset", "unsigned_upload");
 
       try {
         const res = await fetch(
@@ -200,7 +322,6 @@ export default function AdminProjects() {
         );
 
         const rawText = await res.text();
-
         let data;
         try {
           data = JSON.parse(rawText);
@@ -215,20 +336,31 @@ export default function AdminProjects() {
           alert(`Upload failed: ${data.error?.message || "Unknown error"}`);
         }
       } catch (err) {
-        alert("Error uploading image. Check console for details.");
+        alert("Error uploading image. Please try again.");
+      }
+
+      // Update progress
+      setUploadProgress(((i + 1) / files.length) * 100);
+    }
+
+    if (uploadedImageUrls.length > 0) {
+      const updatedImages = [...tempImages, ...uploadedImageUrls];
+      setTempImages(updatedImages);
+      if (isAddDialogOpen) {
+        setNewProject((prev) => ({
+          ...prev,
+          images: updatedImages,
+        }));
+      } else if (isEditDialogOpen && currentProject) {
+        setCurrentProject((prev) => ({
+          ...prev,
+          images: updatedImages,
+        }));
       }
     }
 
-    if (uploadedImageUrls.length === 0) {
-      return;
-    }
-
-    const updatedImages = [...tempImages, ...uploadedImageUrls];
-    setTempImages(updatedImages);
-    setNewProject((prev) => ({
-      ...prev,
-      images: updatedImages,
-    }));
+    setIsUploading(false);
+    setUploadProgress(0);
   };
 
   const removeImage = (index) => {
@@ -298,39 +430,80 @@ export default function AdminProjects() {
           <Badge
             className="bg-green-500 
           inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-            Available Properties
+            {isArabic ? "عقارات متاحة" : "Available Properties"}
           </Badge>
         );
       case "available-lands":
-        return <Badge className="bg-blue-500">Available Lands</Badge>;
+        return (
+          <Badge className="bg-blue-500">
+            {isArabic ? "أراضي متاحة" : "Available Lands"}
+          </Badge>
+        );
       case "coming":
-        return <Badge className="bg-yellow-500">Coming Soon</Badge>;
+        return (
+          <Badge className="bg-yellow-500">
+            {isArabic ? "قريباً" : "Coming Soon"}
+          </Badge>
+        );
       case "selling":
-        return <Badge className="bg-red-500">For Sale</Badge>;
+        return (
+          <Badge className="bg-red-500">
+            {isArabic ? "للبيع" : "For Sale"}
+          </Badge>
+        );
       default:
         return <Badge>{status}</Badge>;
     }
+  };
+
+  // Add price formatting function
+  const formatPrice = (value) => {
+    // Convert to string and remove any non-digit characters
+    const number = String(value || "").replace(/\D/g, "");
+    // Add commas for thousands
+    return number.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  // Add price parsing function
+  const parsePrice = (value) => {
+    // Convert to string, remove non-digits, and parse to integer
+    return parseInt(String(value || "").replace(/\D/g, "")) || 0;
   };
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-serif font-bold tracking-tight">
-            Projects
+          <h1
+            className={`text-3xl font-serif font-bold tracking-tight ${
+              isArabic ? "font-arabic" : ""
+            }`}>
+            {isArabic ? "المشاريع" : "Projects"}
           </h1>
-          <p className="text-muted-foreground">
-            Manage your real estate projects.
+          <p
+            className={`text-muted-foreground ${
+              isArabic ? "font-arabic" : ""
+            }`}>
+            {isArabic
+              ? "إدارة مشاريعك العقارية"
+              : "Manage your real estate projects."}
           </p>
         </div>
         <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
+            className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
+            {isArabic ? "English" : "العربية"}
+          </Button>
           <Link href="/">
             <Button
               variant="outline"
               size="sm"
               className="mr-2 border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
               <Home className="h-4 w-4 mr-2" />
-              Homepage
+              {isArabic ? "الصفحة الرئيسية" : "Homepage"}
             </Button>
           </Link>
           <Button
@@ -339,47 +512,73 @@ export default function AdminProjects() {
             onClick={handleLogout}
             className="mr-2 border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
             <LogOut className="h-4 w-4 mr-2" />
-            Logout
+            {isArabic ? "تسجيل الخروج" : "Logout"}
           </Button>
           <Button onClick={() => setIsAddDialogOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
-            Add Project
+            {isArabic ? "إضافة مشروع" : "Add Project"}
           </Button>
         </div>
       </div>
       <div className="flex flex-col md:flex-row gap-4">
         <div className="relative flex-1">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Search
+            className={`absolute ${
+              isArabic ? "right-2.5" : "left-2.5"
+            } top-2.5 h-4 w-4 text-muted-foreground`}
+          />
           <Input
-            placeholder="Search projects..."
-            className="pl-8"
+            placeholder={
+              isArabic ? "البحث عن المشاريع..." : "Search projects..."
+            }
+            className={isArabic ? "pr-8" : "pl-8"}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-full md:w-[180px]">
-            <SelectValue placeholder="Filter by status" />
+            <SelectValue
+              placeholder={isArabic ? "تصفية حسب الحالة" : "Filter by status"}
+            />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Statuses</SelectItem>
-            <SelectItem value="available-properties">
-              Available Properties
+            <SelectItem value="all">
+              {isArabic ? "جميع الحالات" : "All Statuses"}
             </SelectItem>
-            <SelectItem value="available-lands">Available Lands</SelectItem>
-            <SelectItem value="coming">Coming Soon</SelectItem>
-            <SelectItem value="selling">For Sale</SelectItem>
+            <SelectItem value="available-properties">
+              {isArabic ? "عقارات متاحة" : "Available Properties"}
+            </SelectItem>
+            <SelectItem value="available-lands">
+              {isArabic ? "أراضي متاحة" : "Available Lands"}
+            </SelectItem>
+            <SelectItem value="coming">
+              {isArabic ? "قريباً" : "Coming Soon"}
+            </SelectItem>
+            <SelectItem value="selling">
+              {isArabic ? "للبيع" : "For Sale"}
+            </SelectItem>
           </SelectContent>
         </Select>
         <Select value={locationFilter} onValueChange={setLocationFilter}>
           <SelectTrigger className="w-full md:w-[180px]">
-            <SelectValue placeholder="Filter by location" />
+            <SelectValue
+              placeholder={isArabic ? "تصفية حسب الموقع" : "Filter by location"}
+            />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Locations</SelectItem>
-            <SelectItem value="Riyadh">Riyadh</SelectItem>
-            <SelectItem value="Jeddah">Jeddah</SelectItem>
-            <SelectItem value="Dammam">Dammam</SelectItem>
+            <SelectItem value="all">
+              {isArabic ? "جميع المواقع" : "All Locations"}
+            </SelectItem>
+            <SelectItem value="Riyadh">
+              {isArabic ? "الرياض" : "Riyadh"}
+            </SelectItem>
+            <SelectItem value="Jeddah">
+              {isArabic ? "جدة" : "Jeddah"}
+            </SelectItem>
+            <SelectItem value="Dammam">
+              {isArabic ? "الدمام" : "Dammam"}
+            </SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -387,13 +586,15 @@ export default function AdminProjects() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead>Title</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Location</TableHead>
-              <TableHead>Price (SAR)</TableHead>
-              <TableHead>Date Added</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead>{isArabic ? "المعرف" : "ID"}</TableHead>
+              <TableHead>{isArabic ? "العنوان" : "Title"}</TableHead>
+              <TableHead>{isArabic ? "الحالة" : "Status"}</TableHead>
+              <TableHead>{isArabic ? "الموقع" : "Location"}</TableHead>
+              <TableHead>{isArabic ? "السعر (ريال)" : "Price (SAR)"}</TableHead>
+              <TableHead>{isArabic ? "تاريخ الإضافة" : "Date Added"}</TableHead>
+              <TableHead className="text-right">
+                {isArabic ? "الإجراءات" : "Actions"}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -413,7 +614,9 @@ export default function AdminProjects() {
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">
-                          <span className="sr-only">Open menu</span>
+                          <span className="sr-only">
+                            {isArabic ? "فتح القائمة" : "Open menu"}
+                          </span>
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
@@ -425,7 +628,7 @@ export default function AdminProjects() {
                             setIsEditDialogOpen(true);
                           }}>
                           <Edit className="mr-2 h-4 w-4" />
-                          <span>Edit</span>
+                          <span>{isArabic ? "تعديل" : "Edit"}</span>
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           className="text-red-600"
@@ -434,12 +637,12 @@ export default function AdminProjects() {
                             setIsDeleteDialogOpen(true);
                           }}>
                           <Trash2 className="mr-2 h-4 w-4" />
-                          <span>Delete</span>
+                          <span>{isArabic ? "حذف" : "Delete"}</span>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
                           <Link href={`/projects/${project._id}`}>
                             <Home className="mr-2 h-4 w-4" />
-                            <span>View</span>
+                            <span>{isArabic ? "عرض" : "View"}</span>
                           </Link>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
@@ -450,7 +653,7 @@ export default function AdminProjects() {
             ) : (
               <TableRow>
                 <TableCell colSpan={7} className="h-24 text-center">
-                  No projects found.
+                  {isArabic ? "لم يتم العثور على مشاريع" : "No projects found."}
                 </TableCell>
               </TableRow>
             )}
@@ -463,15 +666,21 @@ export default function AdminProjects() {
 
         <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto fixed top-[50%] left-[50%] z-[50] translate-x-[-50%] translate-y-[-50%] bg-background p-6 shadow-lg border rounded-lg">
           <DialogHeader>
-            <DialogTitle>Add New Project</DialogTitle>
-            <DialogDescription>
-              Fill in the details to add a new project to your portfolio.
+            <DialogTitle className={isArabic ? "font-arabic" : ""}>
+              {isArabic ? "إضافة مشروع جديد" : "Add New Project"}
+            </DialogTitle>
+            <DialogDescription className={isArabic ? "font-arabic" : ""}>
+              {isArabic
+                ? "املأ التفاصيل لإضافة مشروع جديد إلى محفظتك"
+                : "Fill in the details to add a new project to your portfolio."}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="project-title" className="text-right">
-                Title
+              <Label
+                htmlFor="project-title"
+                className={`text-right ${isArabic ? "font-arabic" : ""}`}>
+                {isArabic ? "العنوان" : "Title"}
               </Label>
               <Input
                 id="project-title"
@@ -479,12 +688,14 @@ export default function AdminProjects() {
                 onChange={(e) =>
                   setNewProject({ ...newProject, title: e.target.value })
                 }
-                className="col-span-3"
+                className={`col-span-3 ${isArabic ? "text-right" : ""}`}
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="project-status" className="text-right">
-                Status
+              <Label
+                htmlFor="project-status"
+                className={`text-right ${isArabic ? "font-arabic" : ""}`}>
+                {isArabic ? "الحالة" : "Status"}
               </Label>
               <Select
                 value={newProject.status}
@@ -492,23 +703,31 @@ export default function AdminProjects() {
                   setNewProject({ ...newProject, status: value })
                 }>
                 <SelectTrigger id="project-status" className="col-span-3">
-                  <SelectValue placeholder="Select status" />
+                  <SelectValue
+                    placeholder={isArabic ? "اختر الحالة" : "Select status"}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="available-properties">
-                    Available Properties
+                    {isArabic ? "عقارات متاحة" : "Available Properties"}
                   </SelectItem>
                   <SelectItem value="available-lands">
-                    Available Lands
+                    {isArabic ? "أراضي متاحة" : "Available Lands"}
                   </SelectItem>
-                  <SelectItem value="coming">Coming Soon</SelectItem>
-                  <SelectItem value="selling">For Sale</SelectItem>
+                  <SelectItem value="coming">
+                    {isArabic ? "قريباً" : "Coming Soon"}
+                  </SelectItem>
+                  <SelectItem value="selling">
+                    {isArabic ? "للبيع" : "For Sale"}
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="project-location" className="text-right">
-                Location
+              <Label
+                htmlFor="project-location"
+                className={`text-right ${isArabic ? "font-arabic" : ""}`}>
+                {isArabic ? "الموقع" : "Location"}
               </Label>
               <Select
                 value={newProject.location}
@@ -516,18 +735,28 @@ export default function AdminProjects() {
                   setNewProject({ ...newProject, location: value })
                 }>
                 <SelectTrigger id="project-location" className="col-span-3">
-                  <SelectValue placeholder="Select location" />
+                  <SelectValue
+                    placeholder={isArabic ? "اختر الموقع" : "Select location"}
+                  />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Riyadh">Riyadh</SelectItem>
-                  <SelectItem value="Jeddah">Jeddah</SelectItem>
-                  <SelectItem value="Dammam">Dammam</SelectItem>
+                  <SelectItem value="Riyadh">
+                    {isArabic ? "الرياض" : "Riyadh"}
+                  </SelectItem>
+                  <SelectItem value="Jeddah">
+                    {isArabic ? "جدة" : "Jeddah"}
+                  </SelectItem>
+                  <SelectItem value="Dammam">
+                    {isArabic ? "الدمام" : "Dammam"}
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="project-price" className="text-right">
-                Price (SAR)
+              <Label
+                htmlFor="project-price"
+                className={`text-right ${isArabic ? "font-arabic" : ""}`}>
+                {isArabic ? "السعر (ريال)" : "Price (SAR)"}
               </Label>
               <div className="col-span-3 relative">
                 <div className="absolute left-2.5 top-2.5">
@@ -535,20 +764,22 @@ export default function AdminProjects() {
                 </div>
                 <Input
                   id="project-price"
-                  value={newProject.price}
+                  value={formatPrice(newProject.price)}
                   onChange={(e) =>
-                    setNewProject({ ...newProject, price: e.target.value })
+                    setNewProject({
+                      ...newProject,
+                      price: parsePrice(e.target.value),
+                    })
                   }
-                  className="pl-8"
-                  placeholder="1,000,000"
+                  className={`pl-8 ${isArabic ? "text-right" : ""}`}
                 />
               </div>
             </div>
             <div className="grid grid-cols-4 items-start gap-4">
               <Label
                 htmlFor="project-description-en"
-                className="text-right mt-2">
-                Description (EN)
+                className={`text-right mt-2 ${isArabic ? "font-arabic" : ""}`}>
+                {isArabic ? "الوصف (إنجليزي)" : "Description (EN)"}
               </Label>
               <Textarea
                 id="project-description-en"
@@ -569,8 +800,8 @@ export default function AdminProjects() {
             <div className="grid grid-cols-4 items-start gap-4">
               <Label
                 htmlFor="project-description-ar"
-                className="text-right mt-2">
-                Description (AR)
+                className={`text-right mt-2 ${isArabic ? "font-arabic" : ""}`}>
+                {isArabic ? "الوصف (عربي)" : "Description (AR)"}
               </Label>
               <Textarea
                 id="project-description-ar"
@@ -590,64 +821,90 @@ export default function AdminProjects() {
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="project-area" className="text-right">
-                Area (m²)
+              <Label
+                htmlFor="project-area"
+                className={`text-right ${isArabic ? "font-arabic" : ""}`}>
+                {isArabic ? "المساحة (م²)" : "Area (m²)"}
               </Label>
               <Input
                 id="project-area"
                 value={newProject.area}
                 onChange={(e) =>
-                  setNewProject({ ...newProject, area: e.target.value })
+                  setNewProject({
+                    ...newProject,
+                    area: Math.max(0, parseInt(e.target.value) || 0),
+                  })
                 }
-                className="col-span-3"
+                className={`col-span-3 ${isArabic ? "text-right" : ""}`}
                 type="number"
+                min="0"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="project-bedrooms" className="text-right">
-                Bedrooms
+              <Label
+                htmlFor="project-bedrooms"
+                className={`text-right ${isArabic ? "font-arabic" : ""}`}>
+                {isArabic ? "غرف النوم" : "Bedrooms"}
               </Label>
               <Input
                 id="project-bedrooms"
                 value={newProject.bedrooms}
                 onChange={(e) =>
-                  setNewProject({ ...newProject, bedrooms: e.target.value })
+                  setNewProject({
+                    ...newProject,
+                    bedrooms: Math.max(0, parseInt(e.target.value) || 0),
+                  })
                 }
-                className="col-span-3"
+                className={`col-span-3 ${isArabic ? "text-right" : ""}`}
                 type="number"
+                min="0"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="project-bathrooms" className="text-right">
-                Bathrooms
+              <Label
+                htmlFor="project-bathrooms"
+                className={`text-right ${isArabic ? "font-arabic" : ""}`}>
+                {isArabic ? "الحمامات" : "Bathrooms"}
               </Label>
               <Input
                 id="project-bathrooms"
                 value={newProject.bathrooms}
                 onChange={(e) =>
-                  setNewProject({ ...newProject, bathrooms: e.target.value })
+                  setNewProject({
+                    ...newProject,
+                    bathrooms: Math.max(0, parseInt(e.target.value) || 0),
+                  })
                 }
-                className="col-span-3"
+                className={`col-span-3 ${isArabic ? "text-right" : ""}`}
                 type="number"
+                min="0"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="project-floors" className="text-right">
-                Floors
+              <Label
+                htmlFor="project-floors"
+                className={`text-right ${isArabic ? "font-arabic" : ""}`}>
+                {isArabic ? "الطوابق" : "Floors"}
               </Label>
               <Input
                 id="project-floors"
                 value={newProject.floors}
                 onChange={(e) =>
-                  setNewProject({ ...newProject, floors: e.target.value })
+                  setNewProject({
+                    ...newProject,
+                    floors: Math.max(0, parseInt(e.target.value) || 0),
+                  })
                 }
-                className="col-span-3"
+                className={`col-span-3 ${isArabic ? "text-right" : ""}`}
                 type="number"
+                min="0"
               />
             </div>
             <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="project-images" className="text-right mt-2">
-                Images
+              <Label
+                htmlFor="project-images"
+                className={`text-right mt-2 ${isArabic ? "font-arabic" : ""}`}>
+                {isArabic ? "الصور" : "Images"}
               </Label>
               <div className="col-span-3">
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -687,14 +944,16 @@ export default function AdminProjects() {
                     }
                     className="w-full">
                     <Upload className="mr-2 h-4 w-4" />
-                    Upload Images
+                    {isArabic ? "رفع الصور" : "Upload Images"}
                   </Button>
                 </div>
               </div>
             </div>
             <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="project-features" className="text-right mt-2">
-                Features
+              <Label
+                htmlFor="project-features"
+                className={`text-right mt-2 ${isArabic ? "font-arabic" : ""}`}>
+                {isArabic ? "المميزات" : "Features"}
               </Label>
               <div className="col-span-3 space-y-3" id="project-features">
                 {newProject.features.map((feature, index) => (
@@ -705,7 +964,9 @@ export default function AdminProjects() {
                       onChange={(e) =>
                         updateFeature(index, "en", e.target.value)
                       }
-                      placeholder="Feature (EN)"
+                      placeholder={
+                        isArabic ? "الميزة (إنجليزي)" : "Feature (EN)"
+                      }
                       className="flex-1"
                     />
                     <Input
@@ -714,7 +975,7 @@ export default function AdminProjects() {
                       onChange={(e) =>
                         updateFeature(index, "ar", e.target.value)
                       }
-                      placeholder="Feature (AR)"
+                      placeholder={isArabic ? "الميزة (عربي)" : "Feature (AR)"}
                       className="flex-1"
                       dir="rtl"
                     />
@@ -732,14 +993,14 @@ export default function AdminProjects() {
                   onClick={addFeatureField}
                   className="w-full">
                   <Plus className="mr-2 h-4 w-4" />
-                  Add Feature
+                  {isArabic ? "إضافة ميزة" : "Add Feature"}
                 </Button>
               </div>
             </div>
           </div>
           <DialogFooter className="flex items-baseline gap-5">
             <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
-              Cancel
+              {isArabic ? "إلغاء" : "Cancel"}
             </Button>
             <Button
               onClick={handleAddProject}
@@ -749,12 +1010,11 @@ export default function AdminProjects() {
                 !newProject.description.en ||
                 !newProject.description.ar ||
                 !newProject.area ||
-                // !newProject.images ||
                 !newProject.bedrooms ||
                 !newProject.bathrooms ||
                 !newProject.floors
               }>
-              Add Project
+              {isArabic ? "إضافة المشروع" : "Add Project"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -763,16 +1023,22 @@ export default function AdminProjects() {
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Edit Project</DialogTitle>
-            <DialogDescription>
-              Update the details of your project.
+            <DialogTitle className={isArabic ? "font-arabic" : ""}>
+              {isArabic ? "تعديل المشروع" : "Edit Project"}
+            </DialogTitle>
+            <DialogDescription className={isArabic ? "font-arabic" : ""}>
+              {isArabic
+                ? "تحديث تفاصيل مشروعك"
+                : "Update the details of your project."}
             </DialogDescription>
           </DialogHeader>
           {currentProject && (
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-title" className="text-right">
-                  Title
+                <Label
+                  htmlFor="edit-title"
+                  className={`text-right ${isArabic ? "font-arabic" : ""}`}>
+                  {isArabic ? "العنوان" : "Title"}
                 </Label>
                 <Input
                   id="edit-title"
@@ -783,12 +1049,17 @@ export default function AdminProjects() {
                       title: e.target.value,
                     })
                   }
-                  className="col-span-3"
+                  className={`col-span-3 ${isArabic ? "text-right" : ""}`}
+                  placeholder={
+                    isArabic ? "أدخل عنوان المشروع" : "Enter project title"
+                  }
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-status" className="text-right">
-                  Status
+                <Label
+                  htmlFor="edit-status"
+                  className={`text-right ${isArabic ? "font-arabic" : ""}`}>
+                  {isArabic ? "الحالة" : "Status"}
                 </Label>
                 <Select
                   value={currentProject.status}
@@ -811,8 +1082,10 @@ export default function AdminProjects() {
                 </Select>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-location" className="text-right">
-                  Location
+                <Label
+                  htmlFor="edit-location"
+                  className={`text-right ${isArabic ? "font-arabic" : ""}`}>
+                  {isArabic ? "الموقع" : "Location"}
                 </Label>
                 <Select
                   value={currentProject.location}
@@ -830,8 +1103,10 @@ export default function AdminProjects() {
                 </Select>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-price" className="text-right">
-                  Price (SAR)
+                <Label
+                  htmlFor="edit-price"
+                  className={`text-right ${isArabic ? "font-arabic" : ""}`}>
+                  {isArabic ? "السعر (ريال)" : "Price (SAR)"}
                 </Label>
                 <div className="col-span-3 relative">
                   <div className="absolute left-2.5 top-2.5">
@@ -839,11 +1114,11 @@ export default function AdminProjects() {
                   </div>
                   <Input
                     id="edit-price"
-                    value={currentProject.price}
+                    value={formatPrice(currentProject.price)}
                     onChange={(e) =>
                       setCurrentProject({
                         ...currentProject,
-                        price: e.target.value,
+                        price: parsePrice(e.target.value),
                       })
                     }
                     className="pl-8"
@@ -853,8 +1128,10 @@ export default function AdminProjects() {
               <div className="grid grid-cols-4 items-start gap-4">
                 <Label
                   htmlFor="edit-description-en"
-                  className="text-right mt-2">
-                  Description (EN)
+                  className={`text-right mt-2 ${
+                    isArabic ? "font-arabic" : ""
+                  }`}>
+                  {isArabic ? "الوصف (إنجليزي)" : "Description (EN)"}
                 </Label>
                 <Textarea
                   id="edit-description-en"
@@ -875,8 +1152,10 @@ export default function AdminProjects() {
               <div className="grid grid-cols-4 items-start gap-4">
                 <Label
                   htmlFor="edit-description-ar"
-                  className="text-right mt-2">
-                  Description (AR)
+                  className={`text-right mt-2 ${
+                    isArabic ? "font-arabic" : ""
+                  }`}>
+                  {isArabic ? "الوصف (عربي)" : "Description (AR)"}
                 </Label>
                 <Textarea
                   id="edit-description-ar"
@@ -896,8 +1175,10 @@ export default function AdminProjects() {
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-area" className="text-right">
-                  Area (m²)
+                <Label
+                  htmlFor="edit-area"
+                  className={`text-right ${isArabic ? "font-arabic" : ""}`}>
+                  {isArabic ? "المساحة (م²)" : "Area (m²)"}
                 </Label>
                 <Input
                   id="edit-area"
@@ -905,16 +1186,19 @@ export default function AdminProjects() {
                   onChange={(e) =>
                     setCurrentProject({
                       ...currentProject,
-                      area: e.target.value,
+                      area: Math.max(0, parseInt(e.target.value) || 0),
                     })
                   }
                   className="col-span-3"
                   type="number"
+                  min="0"
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-bedrooms" className="text-right">
-                  Bedrooms
+                <Label
+                  htmlFor="edit-bedrooms"
+                  className={`text-right ${isArabic ? "font-arabic" : ""}`}>
+                  {isArabic ? "غرف النوم" : "Bedrooms"}
                 </Label>
                 <Input
                   id="edit-bedrooms"
@@ -922,16 +1206,19 @@ export default function AdminProjects() {
                   onChange={(e) =>
                     setCurrentProject({
                       ...currentProject,
-                      bedrooms: e.target.value,
+                      bedrooms: Math.max(0, parseInt(e.target.value) || 0),
                     })
                   }
                   className="col-span-3"
                   type="number"
+                  min="0"
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-bathrooms" className="text-right">
-                  Bathrooms
+                <Label
+                  htmlFor="edit-bathrooms"
+                  className={`text-right ${isArabic ? "font-arabic" : ""}`}>
+                  {isArabic ? "الحمامات" : "Bathrooms"}
                 </Label>
                 <Input
                   id="edit-bathrooms"
@@ -939,16 +1226,19 @@ export default function AdminProjects() {
                   onChange={(e) =>
                     setCurrentProject({
                       ...currentProject,
-                      bathrooms: e.target.value,
+                      bathrooms: Math.max(0, parseInt(e.target.value) || 0),
                     })
                   }
                   className="col-span-3"
                   type="number"
+                  min="0"
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-floors" className="text-right">
-                  Floors
+                <Label
+                  htmlFor="edit-floors"
+                  className={`text-right ${isArabic ? "font-arabic" : ""}`}>
+                  {isArabic ? "الطوابق" : "Floors"}
                 </Label>
                 <Input
                   id="edit-floors"
@@ -956,16 +1246,21 @@ export default function AdminProjects() {
                   onChange={(e) =>
                     setCurrentProject({
                       ...currentProject,
-                      floors: e.target.value,
+                      floors: Math.max(0, parseInt(e.target.value) || 0),
                     })
                   }
                   className="col-span-3"
                   type="number"
+                  min="0"
                 />
               </div>
               <div className="grid grid-cols-4 items-start gap-4">
-                <Label htmlFor="edit-images" className="text-right mt-2">
-                  Images
+                <Label
+                  htmlFor="edit-images"
+                  className={`text-right mt-2 ${
+                    isArabic ? "font-arabic" : ""
+                  }`}>
+                  {isArabic ? "الصور" : "Images"}
                 </Label>
                 <div className="col-span-3">
                   <div className="flex flex-wrap gap-2 mb-4">
@@ -997,22 +1292,50 @@ export default function AdminProjects() {
                       multiple
                       onChange={handleImageUpload}
                       className="hidden"
+                      disabled={isUploading}
                     />
                     <Button
                       variant="outline"
                       onClick={() =>
                         document.getElementById("edit-images").click()
                       }
-                      className="w-full">
-                      <Upload className="mr-2 h-4 w-4" />
-                      Upload Images
+                      className="w-full relative"
+                      disabled={isUploading}>
+                      {isUploading ? (
+                        <>
+                          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center">
+                            <div className="w-full max-w-[200px]">
+                              <div className="h-2 bg-primary/20 rounded-full overflow-hidden">
+                                <div
+                                  className="h-full bg-primary transition-all duration-300"
+                                  style={{ width: `${uploadProgress}%` }}
+                                />
+                              </div>
+                              <p className="text-xs text-center mt-2">
+                                Uploading... {Math.round(uploadProgress)}%
+                              </p>
+                            </div>
+                          </div>
+                          <Upload className="mr-2 h-4 w-4 animate-pulse" />
+                          Uploading...
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="mr-2 h-4 w-4" />
+                          Upload Images
+                        </>
+                      )}
                     </Button>
                   </div>
                 </div>
               </div>
               <div className="grid grid-cols-4 items-start gap-4">
-                <Label htmlFor="edit-features" className="text-right mt-2">
-                  Features
+                <Label
+                  htmlFor="edit-features"
+                  className={`text-right mt-2 ${
+                    isArabic ? "font-arabic" : ""
+                  }`}>
+                  {isArabic ? "المميزات" : "Features"}
                 </Label>
                 <div className="col-span-3 space-y-3" id="edit-features">
                   {currentProject.features?.map((feature, index) => (
@@ -1023,7 +1346,9 @@ export default function AdminProjects() {
                         onChange={(e) =>
                           updateFeature(index, "en", e.target.value)
                         }
-                        placeholder="Feature (EN)"
+                        placeholder={
+                          isArabic ? "الميزة (إنجليزي)" : "Feature (EN)"
+                        }
                         className="flex-1"
                       />
                       <Input
@@ -1032,7 +1357,9 @@ export default function AdminProjects() {
                         onChange={(e) =>
                           updateFeature(index, "ar", e.target.value)
                         }
-                        placeholder="Feature (AR)"
+                        placeholder={
+                          isArabic ? "الميزة (عربي)" : "Feature (AR)"
+                        }
                         className="flex-1"
                         dir="rtl"
                       />
@@ -1050,7 +1377,7 @@ export default function AdminProjects() {
                     onClick={addFeatureField}
                     className="w-full">
                     <Plus className="mr-2 h-4 w-4" />
-                    Add Feature
+                    {isArabic ? "إضافة ميزة" : "Add Feature"}
                   </Button>
                 </div>
               </div>
@@ -1060,9 +1387,11 @@ export default function AdminProjects() {
             <Button
               variant="outline"
               onClick={() => setIsEditDialogOpen(false)}>
-              Cancel
+              {isArabic ? "إلغاء" : "Cancel"}
             </Button>
-            <Button onClick={handleEditProject}>Save Changes</Button>
+            <Button onClick={handleEditProject}>
+              {isArabic ? "حفظ التغييرات" : "Save Changes"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -1072,22 +1401,44 @@ export default function AdminProjects() {
         onOpenChange={setIsDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This will permanently delete the project "{currentProject?.title}
-              ". This action cannot be undone.
+            <AlertDialogTitle className={isArabic ? "font-arabic" : ""}>
+              {isArabic ? "هل أنت متأكد؟" : "Are you sure?"}
+            </AlertDialogTitle>
+            <AlertDialogDescription className={isArabic ? "font-arabic" : ""}>
+              {isArabic
+                ? `سيتم حذف المشروع "${currentProject?.title}" نهائياً. لا يمكن التراجع عن هذا الإجراء.`
+                : `This will permanently delete the project "${currentProject?.title}". This action cannot be undone.`}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="flex items-baseline gap-5">
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>
+              {isArabic ? "إلغاء" : "Cancel"}
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDeleteProject}
               className="bg-red-600 hover:bg-red-700">
-              Delete
+              {isArabic ? "حذف" : "Delete"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      {/* Add Success Popup */}
+      <SuccessPopup
+        isOpen={showSuccessPopup}
+        onClose={() => setShowSuccessPopup(false)}
+        title={successMessage.title}
+        description={successMessage.description}
+        action={successMessage.action}
+      />
+
+      {/* Add Error Popup */}
+      <ErrorPopup
+        isOpen={showErrorPopup}
+        onClose={() => setShowErrorPopup(false)}
+        title={errorMessage.title}
+        description={errorMessage.description}
+        isTokenError={errorMessage.title === "Session Expired"}
+      />
     </div>
   );
 }

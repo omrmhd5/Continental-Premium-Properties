@@ -16,9 +16,12 @@ import {
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Lock, Home } from "lucide-react";
+import { useLanguage } from "@/context/language-context";
 
 export default function AdminLogin() {
   const router = useRouter();
+  const { language, setLanguage } = useLanguage();
+  const isArabic = language === "ar";
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -48,7 +51,11 @@ export default function AdminLogin() {
       localStorage.setItem("adminToken", data.token);
       router.push("/admin/dashboard");
     } catch (error) {
-      setError(error.message || "Invalid username or password");
+      setError(
+        isArabic
+          ? "اسم المستخدم أو كلمة المرور غير صحيحة"
+          : "Invalid username or password"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -64,9 +71,13 @@ export default function AdminLogin() {
                 <Lock className="w-6 h-6 text-primary" />
               </div>
             </div>
-            <CardTitle className="text-2xl font-serif">Admin Login</CardTitle>
+            <CardTitle className="text-2xl font-serif">
+              {isArabic ? "تسجيل الدخول" : "Admin Login"}
+            </CardTitle>
             <CardDescription>
-              Enter your credentials to access the admin dashboard
+              {isArabic
+                ? "قم بتسجيل الدخول للوصول إلى لوحة التحكم"
+                : "Sign in to access the admin dashboard"}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -78,24 +89,34 @@ export default function AdminLogin() {
             <form onSubmit={handleLogin}>
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="username">Username</Label>
+                  <Label htmlFor="username">
+                    {isArabic ? "اسم المستخدم" : "Username"}
+                  </Label>
                   <Input
                     id="username"
-                    placeholder="admin"
+                    placeholder={isArabic ? "اسم المستخدم" : "Username"}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     required
+                    className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-brand-gold focus:border-brand-gold focus:z-10 sm:text-sm ${
+                      isArabic ? "text-right" : ""
+                    }`}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">
+                    {isArabic ? "كلمة المرور" : "Password"}
+                  </Label>
                   <Input
                     id="password"
                     type="password"
-                    placeholder="••••••••"
+                    placeholder={isArabic ? "كلمة المرور" : "Password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-brand-gold focus:border-brand-gold focus:z-10 sm:text-sm ${
+                      isArabic ? "text-right" : ""
+                    }`}
                   />
                 </div>
               </div>
@@ -116,8 +137,15 @@ export default function AdminLogin() {
             </Link>
           </CardFooter>
         </Card>
-        <div className="text-center mt-4 text-sm text-muted-foreground">
-          <p>Demo credentials: admin / password</p>
+
+        <div className="flex justify-center mt-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
+            className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
+            {isArabic ? "English" : "العربية"}
+          </Button>
         </div>
       </div>
     </div>

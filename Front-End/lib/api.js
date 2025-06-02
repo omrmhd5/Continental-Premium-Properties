@@ -61,8 +61,10 @@ export const projectApi = {
         headers: getHeaders(),
       });
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to fetch projects");
+        if (response.status === 401) {
+          throw new Error("TOKEN_EXPIRED");
+        }
+        throw new Error("Failed to fetch projects");
       }
       const data = await response.json();
       return formatProjectResponse(data);
@@ -78,11 +80,13 @@ export const projectApi = {
         headers: getHeaders(),
       });
       if (!response.ok) {
-        const errorData = await response.json();
+        if (response.status === 401) {
+          throw new Error("TOKEN_EXPIRED");
+        }
         if (response.status === 404) {
           throw new Error("Project not found");
         }
-        throw new Error(errorData.message || "Failed to fetch project");
+        throw new Error("Failed to fetch project");
       }
       const data = await response.json();
       return formatProjectResponse(data);
@@ -101,8 +105,10 @@ export const projectApi = {
         body: JSON.stringify(formattedData),
       });
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to create project");
+        if (response.status === 401) {
+          throw new Error("TOKEN_EXPIRED");
+        }
+        throw new Error("Failed to create project");
       }
       const data = await response.json();
       return formatProjectResponse(data);
@@ -121,11 +127,13 @@ export const projectApi = {
         body: JSON.stringify(formattedData),
       });
       if (!response.ok) {
-        const errorData = await response.json();
+        if (response.status === 401) {
+          throw new Error("TOKEN_EXPIRED");
+        }
         if (response.status === 404) {
           throw new Error("Project not found");
         }
-        throw new Error(errorData.message || "Failed to update project");
+        throw new Error("Failed to update project");
       }
       const data = await response.json();
       return formatProjectResponse(data);
@@ -142,11 +150,13 @@ export const projectApi = {
         headers: getHeaders(),
       });
       if (!response.ok) {
-        const errorData = await response.json();
+        if (response.status === 401) {
+          throw new Error("TOKEN_EXPIRED");
+        }
         if (response.status === 404) {
           throw new Error("Project not found");
         }
-        throw new Error(errorData.message || "Failed to delete project");
+        throw new Error("Failed to delete project");
       }
       const data = await response.json();
       return formatProjectResponse(data);

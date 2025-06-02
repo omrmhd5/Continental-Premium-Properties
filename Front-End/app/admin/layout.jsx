@@ -1,43 +1,53 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useRouter, usePathname } from "next/navigation"
-import Link from "next/link"
-import { Building, LayoutDashboard, LogOut, Home } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { Separator } from "@/components/ui/separator"
-import Logo from "@/components/logo"
+import { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import Link from "next/link";
+import { Building, LayoutDashboard, LogOut, Home } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { Separator } from "@/components/ui/separator";
+import Logo from "@/components/logo";
+import { ErrorPopup } from "@/components/error-popup";
 
 export default function AdminLayout({ children }) {
-  const router = useRouter()
-  const pathname = usePathname()
-  const [isClient, setIsClient] = useState(false)
+  const router = useRouter();
+  const pathname = usePathname();
+  const [isClient, setIsClient] = useState(false);
+  const [showErrorPopup, setShowErrorPopup] = useState(false);
+  const [errorMessage, setErrorMessage] = useState({
+    title: "",
+    description: "",
+  });
 
   useEffect(() => {
-    setIsClient(true)
+    setIsClient(true);
     // Check if user is authenticated
-    const token = localStorage.getItem("adminToken")
+    const token = localStorage.getItem("adminToken");
     if (!token && pathname !== "/admin/login") {
-      router.push("/admin/login")
+      setErrorMessage({
+        title: "Session Expired",
+        description: "Your session has expired. Please log in again.",
+      });
+      setShowErrorPopup(true);
     }
-  }, [pathname, router])
+  }, [pathname]);
 
   const handleLogout = () => {
-    localStorage.removeItem("adminToken")
-    router.push("/admin/login")
-  }
+    localStorage.removeItem("adminToken");
+    router.push("/admin/login");
+  };
 
   // Don't render the layout for the login page
   if (pathname === "/admin/login" || !isClient) {
-    return <>{children}</>
+    return <>{children}</>;
   }
 
   // Update the navItems array to include only projects
   const navItems = [
     { icon: LayoutDashboard, label: "Dashboard", href: "/admin/dashboard" },
     { icon: Building, label: "Projects", href: "/admin/projects" },
-  ]
+  ];
 
   return (
     <div className="flex h-screen bg-background">
@@ -59,8 +69,7 @@ export default function AdminLayout({ children }) {
                         pathname === item.href
                           ? "bg-brand-gold text-brand-navy hover:bg-brand-gold/90"
                           : "hover:text-brand-gold hover:bg-brand-gold/10"
-                      }`}
-                    >
+                      }`}>
                       <item.icon className="mr-2 h-4 w-4" />
                       {item.label}
                     </Button>
@@ -73,8 +82,7 @@ export default function AdminLayout({ children }) {
             <Button
               variant="outline"
               className="w-full justify-start border-brand-gold/20 hover:bg-brand-gold/10 hover:text-brand-gold"
-              onClick={handleLogout}
-            >
+              onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
               Logout
             </Button>
@@ -94,14 +102,17 @@ export default function AdminLayout({ children }) {
               <Button
                 variant="outline"
                 size="sm"
-                className="mr-2 border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold"
-              >
+                className="mr-2 border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
                 <Home className="h-4 w-4 mr-2" />
                 Homepage
               </Button>
             </Link>
             <ThemeToggle />
-            <Button variant="ghost" size="icon" className="md:hidden" onClick={handleLogout}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              onClick={handleLogout}>
               <LogOut className="h-5 w-5" />
             </Button>
           </div>
@@ -110,6 +121,15 @@ export default function AdminLayout({ children }) {
         {/* Content */}
         <main className="flex-1 overflow-auto p-4 md:p-6">{children}</main>
       </div>
+
+      {/* Error Popup */}
+      <ErrorPopup
+        isOpen={showErrorPopup}
+        onClose={() => setShowErrorPopup(false)}
+        title={errorMessage.title}
+        description={errorMessage.description}
+        isTokenError={true}
+      />
     </div>
-  )
+  );
 }

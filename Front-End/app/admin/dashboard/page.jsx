@@ -1,21 +1,55 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Building, Home, LogOut } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Home,
+  LogOut,
+  Building2,
+  Landmark,
+  Clock,
+  DollarSign,
+} from "lucide-react";
+import { projectApi } from "@/lib/api";
+import { useLanguage } from "@/context/language-context";
+import Link from "next/link";
 
 export default function AdminDashboard() {
   const router = useRouter();
-  const [projectCount, setProjectCount] = useState(0);
+  const { language, setLanguage } = useLanguage();
+  const isArabic = language === "ar";
+  const [stats, setStats] = useState({
+    totalProjects: 0,
+    availableProperties: 0,
+    availableLands: 0,
+    comingSoon: 0,
+    forSale: 0,
+  });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const projects = await projectApi.getAllProjects();
+        const stats = {
+          totalProjects: projects.length,
+          availableProperties: projects.filter(
+            (p) => p.status === "available-properties"
+          ).length,
+          availableLands: projects.filter((p) => p.status === "available-lands")
+            .length,
+          comingSoon: projects.filter((p) => p.status === "coming").length,
+          forSale: projects.filter((p) => p.status === "selling").length,
+        };
+        setStats(stats);
+      } catch (error) {
+        console.error("Error fetching stats:", error);
+      }
+    };
+
+    fetchStats();
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("adminToken");
@@ -26,84 +60,120 @@ export default function AdminDashboard() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-serif font-bold tracking-tight">
-            Projects Dashboard
+          <h1
+            className={`text-3xl font-serif font-bold tracking-tight ${
+              isArabic ? "font-arabic" : ""
+            }`}>
+            {isArabic ? "لوحة التحكم" : "Dashboard"}
           </h1>
-          <p className="text-muted-foreground">
-            Manage your real estate projects.
+          <p
+            className={`text-muted-foreground ${
+              isArabic ? "font-arabic" : ""
+            }`}>
+            {isArabic
+              ? "نظرة عامة على مشاريعك العقارية"
+              : "Overview of your real estate projects"}
           </p>
         </div>
         <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
+            className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
+            {isArabic ? "English" : "العربية"}
+          </Button>
           <Link href="/">
             <Button
               variant="outline"
               size="sm"
-              className="w-full justify-start mr-2 border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
+              className="mr-2 border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
               <Home className="h-4 w-4 mr-2" />
-              Homepage
+              {isArabic ? "الصفحة الرئيسية" : "Homepage"}
             </Button>
           </Link>
           <Button
             variant="outline"
             size="sm"
             onClick={handleLogout}
-            className="w-full justify-start mr-2 border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
+            className="mr-2 border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
             <LogOut className="h-4 w-4 mr-2" />
-            Logout
+            {isArabic ? "تسجيل الخروج" : "Logout"}
           </Button>
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card className="elegant-card">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total Projects
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle
+              className={`text-sm font-medium ${
+                isArabic ? "font-arabic" : ""
+              }`}>
+              {isArabic ? "إجمالي المشاريع" : "Total Projects"}
             </CardTitle>
-            <Building className="h-4 w-4 text-primary" />
+            <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{projectCount}</div>
-            <p className="text-xs text-muted-foreground">
-              Active projects in your portfolio
-            </p>
-            <div className="mt-4">
-              <Link href="/admin/projects">
-                <Button
-                  variant="default"
-                  size="sm"
-                  className="bg-brand-gold hover:bg-brand-gold/90 text-brand-navy font-bold px-8 py-6 text-lg">
-                  Manage Projects
-                </Button>
-              </Link>
+            <div className="text-2xl font-bold">{stats.totalProjects}</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle
+              className={`text-sm font-medium ${
+                isArabic ? "font-arabic" : ""
+              }`}>
+              {isArabic ? "عقارات متاحة" : "Available Properties"}
+            </CardTitle>
+            <Landmark className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {stats.availableProperties}
             </div>
           </CardContent>
         </Card>
-
-        <Card className="elegant-card">
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-            <CardDescription>
-              Common tasks for project management
-            </CardDescription>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle
+              className={`text-sm font-medium ${
+                isArabic ? "font-arabic" : ""
+              }`}>
+              {isArabic ? "أراضي متاحة" : "Available Lands"}
+            </CardTitle>
+            <Landmark className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent className="space-y-4">
-            <Link href="/admin/projects" className="block">
-              <Button
-                variant="outline"
-                className="w-full justify-start mr-2 border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
-                <Building className="mr-2 h-4 w-4" />
-                View All Projects
-              </Button>
-            </Link>
-            <Link href="/projects" className="block">
-              <Button
-                variant="outline"
-                className="w-full justify-start mr-2 border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
-                <Home className="mr-2 h-4 w-4" />
-                View Public Projects Page
-              </Button>
-            </Link>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats.availableLands}</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle
+              className={`text-sm font-medium ${
+                isArabic ? "font-arabic" : ""
+              }`}>
+              {isArabic ? "قريباً" : "Coming Soon"}
+            </CardTitle>
+            <Clock className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats.comingSoon}</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle
+              className={`text-sm font-medium ${
+                isArabic ? "font-arabic" : ""
+              }`}>
+              {isArabic ? "للبيع" : "For Sale"}
+            </CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats.forSale}</div>
           </CardContent>
         </Card>
       </div>
