@@ -79,57 +79,9 @@ const createProject = async (req, res) => {
 const editProject = async (req, res) => {
   try {
     const id = req.params.id;
-    const {
-      title,
-      status,
-      location,
-      price,
-      date,
-      description,
-      area,
-      bedrooms,
-      bathrooms,
-      floors,
-      features,
-      images, // existing images from frontend
-    } = req.body;
+    const editedData = req.body;
 
-    let imageUrls = [];
-
-    // Handle new file uploads
-    if (req.files && req.files.length > 0) {
-      for (const file of req.files) {
-        const result = await cloudinary.uploader.upload(file.path);
-        imageUrls.push(result.secure_url);
-        fs.unlinkSync(file.path);
-      }
-    }
-
-    // Handle existing images (URLs that were already uploaded)
-    if (images && images.length > 0) {
-      // Filter out any empty strings or invalid URLs
-      const existingImages = images.filter(
-        (img) => img && typeof img === "string"
-      );
-      imageUrls = [...imageUrls, ...existingImages];
-    }
-
-    const updateData = {
-      title,
-      status,
-      location,
-      price,
-      date: date ? new Date(date) : undefined,
-      description,
-      area,
-      bedrooms,
-      bathrooms,
-      floors,
-      images: imageUrls,
-      features,
-    };
-
-    const editedProject = await Project.findByIdAndUpdate(id, updateData, {
+    const editedProject = await Project.findByIdAndUpdate(id, editedData, {
       new: true,
       runValidators: true,
     });
@@ -140,8 +92,9 @@ const editProject = async (req, res) => {
 
     res.status(200).json(editedProject);
   } catch (error) {
-    console.error("Error in editProject:", error);
-    res.status(500).json({ message: error.message || "Something went wrong" });
+    return res
+      .status(500)
+      .json({ message: error.message || "Something went wrong" });
   }
 };
 

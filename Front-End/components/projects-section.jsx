@@ -107,7 +107,6 @@ function ProjectsSection() {
         setProjects(data);
       } catch (err) {
         setError(err.message);
-        console.error("Error fetching projects:", err);
       } finally {
         setIsLoading(false);
       }

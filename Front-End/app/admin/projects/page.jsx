@@ -101,7 +101,6 @@ export default function AdminProjects() {
         setProjects(data);
       } catch (err) {
         setError(err.message);
-        console.error("Error loading projects:", err);
       } finally {
         setIsLoading(false);
       }
@@ -143,10 +142,16 @@ export default function AdminProjects() {
 
   const handleEditProject = async () => {
     try {
+      const dataToSend = {
+        ...currentProject,
+        images: tempImages,
+      };
+
       const updatedProject = await projectApi.updateProject(
         currentProject._id,
-        currentProject
+        dataToSend
       );
+
       setProjects(
         projects.map((p) => (p._id === currentProject._id ? updatedProject : p))
       );

@@ -69,7 +69,6 @@ function PropertyComparison({ onClose }) {
         setProjects(data);
       } catch (err) {
         setError(err.message);
-        console.error("Error fetching projects:", err);
       } finally {
         setIsLoading(false);
       }
@@ -81,9 +80,7 @@ function PropertyComparison({ onClose }) {
   // Set project1 when selectedProject1 changes
   useEffect(() => {
     if (selectedProject1) {
-      const found = projects.find(
-        (p) => p.id === Number.parseInt(selectedProject1)
-      );
+      const found = projects.find((p) => p._id === selectedProject1);
       setProject1(found || null);
     } else {
       setProject1(null);
@@ -93,9 +90,7 @@ function PropertyComparison({ onClose }) {
   // Set project2 when selectedProject2 changes
   useEffect(() => {
     if (selectedProject2) {
-      const found = projects.find(
-        (p) => p.id === Number.parseInt(selectedProject2)
-      );
+      const found = projects.find((p) => p._id === selectedProject2);
       setProject2(found || null);
     } else {
       setProject2(null);
@@ -104,8 +99,17 @@ function PropertyComparison({ onClose }) {
 
   // Helper function to compare values
   const compareValues = useCallback((value1, value2) => {
-    if (value1 === value2) return "equal";
-    if (value1 > value2) return "greater";
+    if (!value1 || !value2) return "equal";
+    const num1 =
+      typeof value1 === "string"
+        ? Number.parseInt(value1.replace(/,/g, "")) || 0
+        : value1;
+    const num2 =
+      typeof value2 === "string"
+        ? Number.parseInt(value2.replace(/,/g, "")) || 0
+        : value2;
+    if (num1 === num2) return "equal";
+    if (num1 > num2) return "greater";
     return "less";
   }, []);
 
@@ -144,9 +148,7 @@ function PropertyComparison({ onClose }) {
                 </SelectTrigger>
                 <SelectContent>
                   {projects.map((project) => (
-                    <SelectItem
-                      key={`p1-${project._id}`}
-                      value={project.id.toString()}>
+                    <SelectItem key={`p1-${project._id}`} value={project._id}>
                       {project.title}
                     </SelectItem>
                   ))}
@@ -167,9 +169,7 @@ function PropertyComparison({ onClose }) {
                 </SelectTrigger>
                 <SelectContent>
                   {projects.map((project) => (
-                    <SelectItem
-                      key={`p2-${project._id}`}
-                      value={project.id.toString()}>
+                    <SelectItem key={`p2-${project._id}`} value={project._id}>
                       {project.title}
                     </SelectItem>
                   ))}
@@ -311,7 +311,7 @@ function PropertyComparison({ onClose }) {
                   className="w-full border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold"
                   onClick={handleViewDetails}
                   asChild>
-                  <Link href={`/projects/${project1.id}`}>
+                  <Link href={`/projects/${project1._id}`}>
                     {isArabic ? "عرض التفاصيل" : "View Details"}
                     {isArabic ? (
                       <ArrowRight className="mr-2 h-4 w-4 rotate-180" />
@@ -325,7 +325,7 @@ function PropertyComparison({ onClose }) {
                   className="w-full border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold"
                   onClick={handleViewDetails}
                   asChild>
-                  <Link href={`/projects/${project2.id}`}>
+                  <Link href={`/projects/${project2._id}`}>
                     {isArabic ? "عرض التفاصيل" : "View Details"}
                     {isArabic ? (
                       <ArrowRight className="mr-2 h-4 w-4 rotate-180" />
