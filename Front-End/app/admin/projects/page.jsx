@@ -57,7 +57,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-// Update import to use named import
 import { SARSymbol } from "@/components/sar-symbol";
 import Image from "next/image";
 import { DialogOverlay } from "@radix-ui/react-dialog";
@@ -114,9 +113,15 @@ export default function AdminProjects() {
   // Handle project operations
   const handleAddProject = async () => {
     try {
-      const addedProject = await projectApi.createProject(newProject);
+      const finalProject = {
+        ...newProject,
+        images: tempImages,
+      };
+
+      const addedProject = await projectApi.createProject(finalProject);
       setProjects([...projects, addedProject]);
       setIsAddDialogOpen(false);
+
       setNewProject({
         title: "",
         status: "available-properties",
@@ -130,9 +135,8 @@ export default function AdminProjects() {
         images: [],
         features: [{ en: "", ar: "" }],
       });
+      setTempImages([]);
     } catch (err) {
-      console.error("Error adding project:", err);
-      // Show error to user
       alert(err.message || "Failed to create project. Please try again.");
     }
   };
@@ -140,11 +144,11 @@ export default function AdminProjects() {
   const handleEditProject = async () => {
     try {
       const updatedProject = await projectApi.updateProject(
-        currentProject.id,
+        currentProject._id,
         currentProject
       );
       setProjects(
-        projects.map((p) => (p.id === currentProject.id ? updatedProject : p))
+        projects.map((p) => (p._id === currentProject._id ? updatedProject : p))
       );
       setIsEditDialogOpen(false);
     } catch (err) {
@@ -169,7 +173,6 @@ export default function AdminProjects() {
 
   const handleImageUpload = async (e) => {
     const files = Array.from(e.target.files);
-    console.log("Files selected for upload:", files);
 
     const uploadedImageUrls = [];
 
@@ -177,8 +180,7 @@ export default function AdminProjects() {
       const formData = new FormData();
       formData.append("file", file);
 
-      // ⚠️ Check and fix this typo
-      const uploadPreset = "unsigned_upload"; // FIXED: previously "unsinged_upload"
+      const uploadPreset = "unsigned_upload";
       formData.append("upload_preset", uploadPreset);
 
       console.log("Uploading to Cloudinary with preset:", uploadPreset);
@@ -193,35 +195,26 @@ export default function AdminProjects() {
         );
 
         const rawText = await res.text();
-        console.log("Raw Cloudinary response text:", rawText);
 
         let data;
         try {
           data = JSON.parse(rawText);
         } catch (jsonErr) {
-          console.error(
-            "Failed to parse Cloudinary response as JSON:",
-            rawText
-          );
           alert("Invalid response from Cloudinary.");
           continue;
         }
 
         if (res.ok && data.secure_url) {
-          console.log("Image uploaded successfully:", data.secure_url);
           uploadedImageUrls.push(data.secure_url);
         } else {
-          console.error("Cloudinary error data:", data);
           alert(`Upload failed: ${data.error?.message || "Unknown error"}`);
         }
       } catch (err) {
-        console.error("Network or fetch error:", err);
         alert("Error uploading image. Check console for details.");
       }
     }
 
     if (uploadedImageUrls.length === 0) {
-      console.warn("No images were uploaded successfully.");
       return;
     }
 
@@ -231,8 +224,6 @@ export default function AdminProjects() {
       ...prev,
       images: updatedImages,
     }));
-
-    console.log("Updated image list:", updatedImages);
   };
 
   const removeImage = (index) => {

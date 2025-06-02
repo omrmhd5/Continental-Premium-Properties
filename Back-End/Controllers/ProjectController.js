@@ -38,6 +38,7 @@ const createProject = async (req, res) => {
       bathrooms,
       floors,
       features,
+      images,
     } = req.body;
 
     let imageUrls = [];
@@ -48,6 +49,8 @@ const createProject = async (req, res) => {
         imageUrls.push(result.secure_url);
         fs.unlinkSync(file.path);
       }
+    } else if (images && images.length > 0) {
+      imageUrls = images;
     }
 
     const newProject = new Project({
@@ -55,7 +58,7 @@ const createProject = async (req, res) => {
       status,
       location,
       price,
-      date: new Date(date),
+      date: date ? new Date(date) : undefined,
       description,
       area,
       bedrooms,
@@ -68,7 +71,7 @@ const createProject = async (req, res) => {
     const savedProject = await newProject.save();
     res.status(201).json(savedProject);
   } catch (error) {
-    console.error(error);
+    console.error("Error in createProject:", error);
     res.status(400).json({ message: error.message });
   }
 };
@@ -76,9 +79,57 @@ const createProject = async (req, res) => {
 const editProject = async (req, res) => {
   try {
     const id = req.params.id;
-    const editedData = req.body;
+    const {
+      title,
+      status,
+      location,
+      price,
+      date,
+      description,
+      area,
+      bedrooms,
+      bathrooms,
+      floors,
+      features,
+      images, // existing images from frontend
+    } = req.body;
 
-    const editedProject = await Project.findByIdAndUpdate(id, editedData, {
+    let imageUrls = [];
+
+    // Handle new file uploads
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const result = await cloudinary.uploader.upload(file.path);
+        imageUrls.push(result.secure_url);
+        fs.unlinkSync(file.path);
+      }
+    }
+
+    // Handle existing images (URLs that were already uploaded)
+    if (images && images.length > 0) {
+      // Filter out any empty strings or invalid URLs
+      const existingImages = images.filter(
+        (img) => img && typeof img === "string"
+      );
+      imageUrls = [...imageUrls, ...existingImages];
+    }
+
+    const updateData = {
+      title,
+      status,
+      location,
+      price,
+      date: date ? new Date(date) : undefined,
+      description,
+      area,
+      bedrooms,
+      bathrooms,
+      floors,
+      images: imageUrls,
+      features,
+    };
+
+    const editedProject = await Project.findByIdAndUpdate(id, updateData, {
       new: true,
       runValidators: true,
     });
@@ -89,8 +140,8 @@ const editProject = async (req, res) => {
 
     res.status(200).json(editedProject);
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Something went wrong" });
+    console.error("Error in editProject:", error);
+    res.status(500).json({ message: error.message || "Something went wrong" });
   }
 };
 

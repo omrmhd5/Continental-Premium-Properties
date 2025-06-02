@@ -13,7 +13,7 @@ const { authenticateUser } = require("../Middlewares/authUserMiddleware");
 router.get("/", getAllProjects);
 router.get("/:id", getProjectById);
 router.post("/", authenticateUser, upload.array("images"), createProject);
-router.post("/:id", authenticateUser, editProject);
+router.put("/:id", authenticateUser, upload.array("images"), editProject);
 router.delete("/:id", authenticateUser, deleteProject);
 
 module.exports = router;

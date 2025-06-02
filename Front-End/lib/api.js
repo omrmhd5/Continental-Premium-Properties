@@ -119,7 +119,7 @@ export const projectApi = {
     try {
       const formattedData = formatProjectData(projectData);
       const response = await fetch(`${API_BASE_URL}/projects/${id}`, {
-        method: "POST",
+        method: "PUT",
         headers: getHeaders(),
         body: JSON.stringify(formattedData),
       });
