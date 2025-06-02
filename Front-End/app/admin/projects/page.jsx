@@ -472,10 +472,10 @@ export default function AdminProjects() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1
-            className={`text-3xl font-serif font-bold tracking-tight ${
+            className={`text-2xl sm:text-3xl font-serif font-bold tracking-tight ${
               isArabic ? "font-arabic" : ""
             }`}>
             {isArabic ? "المشاريع" : "Projects"}
@@ -489,7 +489,7 @@ export default function AdminProjects() {
               : "Manage your real estate projects."}
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Button
             variant="outline"
             size="sm"
@@ -501,7 +501,7 @@ export default function AdminProjects() {
             <Button
               variant="outline"
               size="sm"
-              className="mr-2 border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
+              className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
               <Home className="h-4 w-4 mr-2" />
               {isArabic ? "الصفحة الرئيسية" : "Homepage"}
             </Button>
@@ -510,7 +510,7 @@ export default function AdminProjects() {
             variant="outline"
             size="sm"
             onClick={handleLogout}
-            className="mr-2 border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
+            className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
             <LogOut className="h-4 w-4 mr-2" />
             {isArabic ? "تسجيل الخروج" : "Logout"}
           </Button>
@@ -536,63 +536,79 @@ export default function AdminProjects() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-full md:w-[180px]">
-            <SelectValue
-              placeholder={isArabic ? "تصفية حسب الحالة" : "Filter by status"}
-            />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">
-              {isArabic ? "جميع الحالات" : "All Statuses"}
-            </SelectItem>
-            <SelectItem value="available-properties">
-              {isArabic ? "عقارات متاحة" : "Available Properties"}
-            </SelectItem>
-            <SelectItem value="available-lands">
-              {isArabic ? "أراضي متاحة" : "Available Lands"}
-            </SelectItem>
-            <SelectItem value="coming">
-              {isArabic ? "قريباً" : "Coming Soon"}
-            </SelectItem>
-            <SelectItem value="selling">
-              {isArabic ? "للبيع" : "For Sale"}
-            </SelectItem>
-          </SelectContent>
-        </Select>
-        <Select value={locationFilter} onValueChange={setLocationFilter}>
-          <SelectTrigger className="w-full md:w-[180px]">
-            <SelectValue
-              placeholder={isArabic ? "تصفية حسب الموقع" : "Filter by location"}
-            />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">
-              {isArabic ? "جميع المواقع" : "All Locations"}
-            </SelectItem>
-            <SelectItem value="Riyadh">
-              {isArabic ? "الرياض" : "Riyadh"}
-            </SelectItem>
-            <SelectItem value="Jeddah">
-              {isArabic ? "جدة" : "Jeddah"}
-            </SelectItem>
-            <SelectItem value="Dammam">
-              {isArabic ? "الدمام" : "Dammam"}
-            </SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-full sm:w-[180px]">
+              <SelectValue
+                placeholder={isArabic ? "تصفية حسب الحالة" : "Filter by status"}
+              />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">
+                {isArabic ? "جميع الحالات" : "All Statuses"}
+              </SelectItem>
+              <SelectItem value="available-properties">
+                {isArabic ? "عقارات متاحة" : "Available Properties"}
+              </SelectItem>
+              <SelectItem value="available-lands">
+                {isArabic ? "أراضي متاحة" : "Available Lands"}
+              </SelectItem>
+              <SelectItem value="coming">
+                {isArabic ? "قريباً" : "Coming Soon"}
+              </SelectItem>
+              <SelectItem value="selling">
+                {isArabic ? "للبيع" : "For Sale"}
+              </SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={locationFilter} onValueChange={setLocationFilter}>
+            <SelectTrigger className="w-full sm:w-[180px]">
+              <SelectValue
+                placeholder={
+                  isArabic ? "تصفية حسب الموقع" : "Filter by location"
+                }
+              />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">
+                {isArabic ? "جميع المواقع" : "All Locations"}
+              </SelectItem>
+              <SelectItem value="Riyadh">
+                {isArabic ? "الرياض" : "Riyadh"}
+              </SelectItem>
+              <SelectItem value="Jeddah">
+                {isArabic ? "جدة" : "Jeddah"}
+              </SelectItem>
+              <SelectItem value="Dammam">
+                {isArabic ? "الدمام" : "Dammam"}
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
-      <div className="rounded-md border border-primary/20">
+      <div className="rounded-md border border-primary/20 overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>{isArabic ? "المعرف" : "ID"}</TableHead>
-              <TableHead>{isArabic ? "العنوان" : "Title"}</TableHead>
-              <TableHead>{isArabic ? "الحالة" : "Status"}</TableHead>
-              <TableHead>{isArabic ? "الموقع" : "Location"}</TableHead>
-              <TableHead>{isArabic ? "السعر (ريال)" : "Price (SAR)"}</TableHead>
-              <TableHead>{isArabic ? "تاريخ الإضافة" : "Date Added"}</TableHead>
-              <TableHead className="text-right">
+              <TableHead className="whitespace-nowrap">
+                {isArabic ? "المعرف" : "ID"}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {isArabic ? "العنوان" : "Title"}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {isArabic ? "الحالة" : "Status"}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {isArabic ? "الموقع" : "Location"}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {isArabic ? "السعر (ريال)" : "Price (SAR)"}
+              </TableHead>
+              <TableHead className="whitespace-nowrap">
+                {isArabic ? "تاريخ الإضافة" : "Date Added"}
+              </TableHead>
+              <TableHead className="text-right whitespace-nowrap">
                 {isArabic ? "الإجراءات" : "Actions"}
               </TableHead>
             </TableRow>
@@ -601,16 +617,26 @@ export default function AdminProjects() {
             {projects.length > 0 ? (
               projects.map((project) => (
                 <TableRow key={project._id}>
-                  <TableCell className="font-medium">{project._id}</TableCell>
-                  <TableCell>{project.title}</TableCell>
-                  <TableCell>{getStatusBadge(project.status)}</TableCell>
-                  <TableCell>{project.location}</TableCell>
-                  <TableCell className="flex items-center">
+                  <TableCell className="font-medium whitespace-nowrap">
+                    {project._id}
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    {project.title}
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    {getStatusBadge(project.status)}
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    {project.location}
+                  </TableCell>
+                  <TableCell className="flex items-center whitespace-nowrap">
                     <SARSymbol className="h-3.5 w-3.5 mr-1" />
                     {project.price}
                   </TableCell>
-                  <TableCell>{project.date}</TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className="whitespace-nowrap">
+                    {project.date}
+                  </TableCell>
+                  <TableCell className="text-right whitespace-nowrap">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">

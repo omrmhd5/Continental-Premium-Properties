@@ -55,7 +55,7 @@ export default function AdminLayout({ children }) {
       <div className="w-64 border-r border-brand-gold/10 bg-card/50 hidden md:block">
         <div className="h-full flex flex-col">
           <div className="p-4">
-            <Logo variant="full" />
+            <Logo variant="full" className="h-8 w-auto" />
           </div>
           <Separator className="my-2" />
           <nav className="flex-1 p-4">
@@ -95,7 +95,7 @@ export default function AdminLayout({ children }) {
         {/* Header */}
         <header className="h-16 border-b border-brand-gold/10 bg-card/50 flex items-center justify-between px-4">
           <div className="md:hidden">
-            <Logo variant="icon" className="h-10 w-auto" />
+            <Logo variant="icon" className="h-8 w-auto" />
           </div>
           <div className="flex items-center gap-2 ml-auto">
             <Link href="/">
@@ -119,7 +119,9 @@ export default function AdminLayout({ children }) {
         </header>
 
         {/* Content */}
-        <main className="flex-1 overflow-auto p-4 md:p-6">{children}</main>
+        <main className="flex-1 overflow-auto p-4 md:p-6 lg:p-8">
+          {children}
+        </main>
       </div>
 
       {/* Error Popup */}

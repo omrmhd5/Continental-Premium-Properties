@@ -58,10 +58,10 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1
-            className={`text-3xl font-serif font-bold tracking-tight ${
+            className={`text-2xl sm:text-3xl font-serif font-bold tracking-tight ${
               isArabic ? "font-arabic" : ""
             }`}>
             {isArabic ? "لوحة التحكم" : "Dashboard"}
@@ -75,7 +75,7 @@ export default function AdminDashboard() {
               : "Overview of your real estate projects"}
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Button
             variant="outline"
             size="sm"
@@ -87,7 +87,7 @@ export default function AdminDashboard() {
             <Button
               variant="outline"
               size="sm"
-              className="mr-2 border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
+              className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
               <Home className="h-4 w-4 mr-2" />
               {isArabic ? "الصفحة الرئيسية" : "Homepage"}
             </Button>
@@ -96,14 +96,14 @@ export default function AdminDashboard() {
             variant="outline"
             size="sm"
             onClick={handleLogout}
-            className="mr-2 border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
+            className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
             <LogOut className="h-4 w-4 mr-2" />
             {isArabic ? "تسجيل الخروج" : "Logout"}
           </Button>
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle
