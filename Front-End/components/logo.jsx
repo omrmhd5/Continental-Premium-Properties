@@ -45,8 +45,8 @@ export default function Logo({ variant = "full", className = "" }) {
                 ? "الحلول التطويرية العقارية"
                 : "Development Solutions Real Estate"
             }
-            width={80}
-            height={80}
+            width={35}
+            height={35}
             className="h-auto"
           />
         </div>

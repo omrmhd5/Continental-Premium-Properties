@@ -11,6 +11,7 @@ import {
   Landmark,
   Clock,
   DollarSign,
+  Building,
 } from "lucide-react";
 import { projectApi } from "@/lib/api";
 import { useLanguage } from "@/context/language-context";
@@ -76,30 +77,15 @@ export default function AdminDashboard() {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
-            className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
-            {isArabic ? "English" : "العربية"}
-          </Button>
-          <Link href="/">
+          <Link href="/admin/projects">
             <Button
-              variant="outline"
+              variant="default"
               size="sm"
-              className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
-              <Home className="h-4 w-4 mr-2" />
-              {isArabic ? "الصفحة الرئيسية" : "Homepage"}
+              className="bg-brand-gold text-brand-navy hover:bg-brand-gold/90">
+              <Building className="h-4 w-4 mr-2" />
+              {isArabic ? "المشاريع" : "Projects"}
             </Button>
           </Link>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleLogout}
-            className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
-            <LogOut className="h-4 w-4 mr-2" />
-            {isArabic ? "تسجيل الخروج" : "Logout"}
-          </Button>
         </div>
       </div>
 

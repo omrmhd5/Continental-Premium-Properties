@@ -29,6 +29,7 @@ import {
   LogOut,
   Upload,
   X,
+  LayoutDashboard,
 } from "lucide-react";
 import {
   Select,
@@ -490,30 +491,16 @@ export default function AdminProjects() {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
-            className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
-            {isArabic ? "English" : "العربية"}
-          </Button>
-          <Link href="/">
+          <Link href="/admin/dashboard">
             <Button
-              variant="outline"
+              variant="default"
               size="sm"
-              className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
-              <Home className="h-4 w-4 mr-2" />
-              {isArabic ? "الصفحة الرئيسية" : "Homepage"}
+              className="bg-brand-gold text-brand-navy hover:bg-brand-gold/90">
+              <LayoutDashboard className="h-4 w-4 mr-2" />
+              {isArabic ? "لوحة التحكم" : "Dashboard"}
             </Button>
           </Link>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleLogout}
-            className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
-            <LogOut className="h-4 w-4 mr-2" />
-            {isArabic ? "تسجيل الخروج" : "Logout"}
-          </Button>
+
           <Button onClick={() => setIsAddDialogOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
             {isArabic ? "إضافة مشروع" : "Add Project"}

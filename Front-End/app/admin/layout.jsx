@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Separator } from "@/components/ui/separator";
 import Logo from "@/components/logo";
+import { useLanguage } from "@/context/language-context";
 import { ErrorPopup } from "@/components/error-popup";
 
 export default function AdminLayout({ children }) {
@@ -19,6 +20,8 @@ export default function AdminLayout({ children }) {
     title: "",
     description: "",
   });
+  const { language, setLanguage } = useLanguage();
+  const isArabic = language === "ar";
 
   useEffect(() => {
     setIsClient(true);
@@ -78,45 +81,45 @@ export default function AdminLayout({ children }) {
               ))}
             </ul>
           </nav>
-          <div className="p-4 mt-auto">
-            <Button
-              variant="outline"
-              className="w-full justify-start border-brand-gold/20 hover:bg-brand-gold/10 hover:text-brand-gold"
-              onClick={handleLogout}>
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </Button>
-          </div>
+          <div className="p-4 mt-auto"></div>
         </div>
       </div>
 
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="h-16 border-b border-brand-gold/10 bg-card/50 flex items-center justify-between px-4">
+        <nav className="sticky top-0 z-50 h-16 flex items-center justify-between px-4 bg-background/80 backdrop-blur-sm shadow-lg border-b border-brand-gold/20">
           <div className="md:hidden">
-            <Logo variant="icon" className="h-8 w-auto" />
+            <Logo variant="icon" className="h-8 w-auto pb-12" />
           </div>
           <div className="flex items-center gap-2 ml-auto">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
+              className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
+              {isArabic ? "English" : "العربية"}
+            </Button>
             <Link href="/">
               <Button
                 variant="outline"
                 size="sm"
-                className="mr-2 border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
+                className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
                 <Home className="h-4 w-4 mr-2" />
                 Homepage
               </Button>
             </Link>
-            <ThemeToggle />
+
             <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
+              variant="outline"
+              className=" border-brand-gold/20 hover:bg-brand-gold/10 hover:text-brand-gold"
               onClick={handleLogout}>
-              <LogOut className="h-5 w-5" />
+              <LogOut className="mr-2 h-4 w-4" />
+              Logout
             </Button>
+            <ThemeToggle />
           </div>
-        </header>
+        </nav>
 
         {/* Content */}
         <main className="flex-1 overflow-auto p-4 md:p-6 lg:p-8">
