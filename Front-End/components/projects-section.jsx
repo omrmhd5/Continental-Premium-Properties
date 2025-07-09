@@ -119,15 +119,14 @@ function ProjectsSection() {
   const filters = [
     { value: "all", label: { en: "All", ar: "الكل" } },
     {
-      value: "available-properties",
-      label: { en: "Available Properties", ar: "عقارات متاحة" },
+      value: "off-plan",
+      label: { en: "Off Plan", ar: "قيد الإنشاء" },
     },
     {
-      value: "available-lands",
-      label: { en: "Available Lands", ar: "أراضي متاحة" },
+      value: "secondary",
+      label: { en: "Secondary", ar: "ثانوي" },
     },
-    { value: "coming", label: { en: "Coming Soon", ar: "قريباً" } },
-    { value: "selling", label: { en: "For Sale", ar: "للبيع" } },
+    { value: "rentals", label: { en: "Rentals", ar: "إيجار" } },
   ];
 
   // Memoize filter change handler

@@ -23,10 +23,9 @@ export default function AdminDashboard() {
   const isArabic = language === "ar";
   const [stats, setStats] = useState({
     totalProjects: 0,
-    availableProperties: 0,
-    availableLands: 0,
-    comingSoon: 0,
-    forSale: 0,
+    offPlan: 0,
+    secondary: 0,
+    rentals: 0,
   });
 
   useEffect(() => {
@@ -35,13 +34,9 @@ export default function AdminDashboard() {
         const projects = await projectApi.getAllProjects();
         const stats = {
           totalProjects: projects.length,
-          availableProperties: projects.filter(
-            (p) => p.status === "available-properties"
-          ).length,
-          availableLands: projects.filter((p) => p.status === "available-lands")
-            .length,
-          comingSoon: projects.filter((p) => p.status === "coming").length,
-          forSale: projects.filter((p) => p.status === "selling").length,
+          offPlan: projects.filter((p) => p.status === "off-plan").length,
+          secondary: projects.filter((p) => p.status === "secondary").length,
+          rentals: projects.filter((p) => p.status === "rentals").length,
         };
         setStats(stats);
       } catch (error) {
@@ -110,14 +105,12 @@ export default function AdminDashboard() {
               className={`text-sm font-medium ${
                 isArabic ? "font-arabic" : ""
               }`}>
-              {isArabic ? "عقارات متاحة" : "Available Properties"}
+              {isArabic ? "إنشاء جديد" : "Off-Plan"}
             </CardTitle>
-            <Landmark className="h-4 w-4 text-muted-foreground" />
+            <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {stats.availableProperties}
-            </div>
+            <div className="text-2xl font-bold">{stats.offPlan}</div>
           </CardContent>
         </Card>
         <Card>
@@ -126,12 +119,12 @@ export default function AdminDashboard() {
               className={`text-sm font-medium ${
                 isArabic ? "font-arabic" : ""
               }`}>
-              {isArabic ? "أراضي متاحة" : "Available Lands"}
+              {isArabic ? "ثانوي" : "Secondary"}
             </CardTitle>
-            <Landmark className="h-4 w-4 text-muted-foreground" />
+            <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.availableLands}</div>
+            <div className="text-2xl font-bold">{stats.secondary}</div>
           </CardContent>
         </Card>
         <Card>
@@ -140,26 +133,12 @@ export default function AdminDashboard() {
               className={`text-sm font-medium ${
                 isArabic ? "font-arabic" : ""
               }`}>
-              {isArabic ? "قريباً" : "Coming Soon"}
+              {isArabic ? "إيجار" : "Rentals"}
             </CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
+            <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.comingSoon}</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle
-              className={`text-sm font-medium ${
-                isArabic ? "font-arabic" : ""
-              }`}>
-              {isArabic ? "للبيع" : "For Sale"}
-            </CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.forSale}</div>
+            <div className="text-2xl font-bold">{stats.rentals}</div>
           </CardContent>
         </Card>
       </div>

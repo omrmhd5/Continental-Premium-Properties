@@ -85,7 +85,7 @@ export default function AdminProjects() {
   const [error, setError] = useState(null);
   const [newProject, setNewProject] = useState({
     title: "",
-    status: "available-properties",
+    status: "off-plan",
     location: "Riyadh",
     price: "",
     description: {
@@ -176,7 +176,7 @@ export default function AdminProjects() {
 
       setNewProject({
         title: "",
-        status: "available-properties",
+        status: "off-plan",
         location: "Riyadh",
         price: "",
         description: { en: "", ar: "" },
@@ -426,30 +426,24 @@ export default function AdminProjects() {
 
   const getStatusBadge = (status) => {
     switch (status) {
-      case "available-properties":
+      case "off-plan":
         return (
           <Badge
-            className="bg-green-500 
+            className="bg-blue-500 
           inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-            {isArabic ? "عقارات متاحة" : "Available Properties"}
+            {isArabic ? "قيد الإنشاء" : "Off Plan"}
           </Badge>
         );
-      case "available-lands":
+      case "secondary":
         return (
-          <Badge className="bg-blue-500">
-            {isArabic ? "أراضي متاحة" : "Available Lands"}
+          <Badge className="bg-green-500">
+            {isArabic ? "ثانوي" : "Secondary"}
           </Badge>
         );
-      case "coming":
+      case "rentals":
         return (
-          <Badge className="bg-yellow-500">
-            {isArabic ? "قريباً" : "Coming Soon"}
-          </Badge>
-        );
-      case "selling":
-        return (
-          <Badge className="bg-red-500">
-            {isArabic ? "للبيع" : "For Sale"}
+          <Badge className="bg-purple-500">
+            {isArabic ? "إيجار" : "Rentals"}
           </Badge>
         );
       default:
@@ -534,17 +528,14 @@ export default function AdminProjects() {
               <SelectItem value="all">
                 {isArabic ? "جميع الحالات" : "All Statuses"}
               </SelectItem>
-              <SelectItem value="available-properties">
-                {isArabic ? "عقارات متاحة" : "Available Properties"}
+              <SelectItem value="off-plan">
+                {isArabic ? "قيد الإنشاء" : "Off Plan"}
               </SelectItem>
-              <SelectItem value="available-lands">
-                {isArabic ? "أراضي متاحة" : "Available Lands"}
+              <SelectItem value="secondary">
+                {isArabic ? "ثانوي" : "Secondary"}
               </SelectItem>
-              <SelectItem value="coming">
-                {isArabic ? "قريباً" : "Coming Soon"}
-              </SelectItem>
-              <SelectItem value="selling">
-                {isArabic ? "للبيع" : "For Sale"}
+              <SelectItem value="rentals">
+                {isArabic ? "إيجار" : "Rentals"}
               </SelectItem>
             </SelectContent>
           </Select>
@@ -721,17 +712,14 @@ export default function AdminProjects() {
                   />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="available-properties">
-                    {isArabic ? "عقارات متاحة" : "Available Properties"}
+                  <SelectItem value="off-plan">
+                    {isArabic ? "قيد الإنشاء" : "Off Plan"}
                   </SelectItem>
-                  <SelectItem value="available-lands">
-                    {isArabic ? "أراضي متاحة" : "Available Lands"}
+                  <SelectItem value="secondary">
+                    {isArabic ? "ثانوي" : "Secondary"}
                   </SelectItem>
-                  <SelectItem value="coming">
-                    {isArabic ? "قريباً" : "Coming Soon"}
-                  </SelectItem>
-                  <SelectItem value="selling">
-                    {isArabic ? "للبيع" : "For Sale"}
+                  <SelectItem value="rentals">
+                    {isArabic ? "إيجار" : "Rentals"}
                   </SelectItem>
                 </SelectContent>
               </Select>
@@ -1083,14 +1071,9 @@ export default function AdminProjects() {
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="available-properties">
-                      Available Properties
-                    </SelectItem>
-                    <SelectItem value="available-lands">
-                      Available Lands
-                    </SelectItem>
-                    <SelectItem value="coming">Coming Soon</SelectItem>
-                    <SelectItem value="selling">For Sale</SelectItem>
+                    <SelectItem value="off-plan">Off Plan</SelectItem>
+                    <SelectItem value="secondary">Secondary</SelectItem>
+                    <SelectItem value="rentals">Rentals</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

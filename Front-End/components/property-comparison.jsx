@@ -355,14 +355,12 @@ function PropertyComparison({ onClose }) {
 // Helper function to get status label based on status code
 function getStatusLabel(status, isArabic) {
   switch (status) {
-    case "available-properties":
-      return isArabic ? "عقارات متاحة" : "Available Properties";
-    case "available-lands":
-      return isArabic ? "أراضي متاحة" : "Available Lands";
-    case "coming":
-      return isArabic ? "قريباً" : "Coming Soon";
-    case "selling":
-      return isArabic ? "للبيع" : "For Sale";
+    case "off-plan":
+      return isArabic ? "قيد الإنشاء" : "Off Plan";
+    case "secondary":
+      return isArabic ? "ثانوي" : "Secondary";
+    case "rentals":
+      return isArabic ? "إيجار" : "Rentals";
     default:
       return status;
   }

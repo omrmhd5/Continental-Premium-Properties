@@ -79,15 +79,14 @@ export default function ProjectsPage() {
   const statusOptions = [
     { value: "all", label: isArabic ? "جميع الحالات" : "All Statuses" },
     {
-      value: "available-properties",
-      label: isArabic ? "عقارات متاحة" : "Available Properties",
+      value: "off-plan",
+      label: isArabic ? "قيد الإنشاء" : "Off Plan",
     },
     {
-      value: "available-lands",
-      label: isArabic ? "أراضي متاحة" : "Available Lands",
+      value: "secondary",
+      label: isArabic ? "ثانوي" : "Secondary",
     },
-    { value: "coming", label: isArabic ? "قريباً" : "Coming Soon" },
-    { value: "selling", label: isArabic ? "للبيع" : "For Sale" },
+    { value: "rentals", label: isArabic ? "إيجار" : "Rentals" },
   ];
 
   // Location options for filter
@@ -323,21 +322,17 @@ function Badge({ status, isArabic }) {
   let label = isArabic ? "غير معروف" : "Unknown";
 
   switch (status) {
-    case "available-properties":
-      bgColor = "bg-green-500";
-      label = isArabic ? "عقارات متاحة" : "Available Properties";
-      break;
-    case "available-lands":
+    case "off-plan":
       bgColor = "bg-blue-500";
-      label = isArabic ? "أراضي متاحة" : "Available Lands";
+      label = isArabic ? "قيد الإنشاء" : "Off Plan";
       break;
-    case "coming":
-      bgColor = "bg-yellow-500";
-      label = isArabic ? "قريباً" : "Coming Soon";
+    case "secondary":
+      bgColor = "bg-green-500";
+      label = isArabic ? "ثانوي" : "Secondary";
       break;
-    case "selling":
-      bgColor = "bg-red-500";
-      label = isArabic ? "للبيع" : "For Sale";
+    case "rentals":
+      bgColor = "bg-purple-500";
+      label = isArabic ? "إيجار" : "Rentals";
       break;
   }
 
