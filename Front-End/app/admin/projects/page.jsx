@@ -86,7 +86,7 @@ export default function AdminProjects() {
   const [newProject, setNewProject] = useState({
     title: "",
     status: "off-plan",
-    location: "Riyadh",
+    location: "Dubai",
     price: "",
     description: {
       en: "",
@@ -177,7 +177,7 @@ export default function AdminProjects() {
       setNewProject({
         title: "",
         status: "off-plan",
-        location: "Riyadh",
+        location: "Dubai",
         price: "",
         description: { en: "", ar: "" },
         area: "",
@@ -551,14 +551,14 @@ export default function AdminProjects() {
               <SelectItem value="all">
                 {isArabic ? "جميع المواقع" : "All Locations"}
               </SelectItem>
-              <SelectItem value="Riyadh">
-                {isArabic ? "الرياض" : "Riyadh"}
+              <SelectItem value="Dubai">
+                {isArabic ? "دبي" : "Dubai"}
               </SelectItem>
-              <SelectItem value="Jeddah">
-                {isArabic ? "جدة" : "Jeddah"}
+              <SelectItem value="Abu Dhabi">
+                {isArabic ? "أبو ظبي" : "Abu Dhabi"}
               </SelectItem>
-              <SelectItem value="Dammam">
-                {isArabic ? "الدمام" : "Dammam"}
+              <SelectItem value="Sharjah">
+                {isArabic ? "الشارقة" : "Sharjah"}
               </SelectItem>
             </SelectContent>
           </Select>
@@ -581,7 +581,7 @@ export default function AdminProjects() {
                 {isArabic ? "الموقع" : "Location"}
               </TableHead>
               <TableHead className="whitespace-nowrap">
-                {isArabic ? "السعر (ريال)" : "Price (SAR)"}
+                {isArabic ? "السعر (درهم)" : "Price (AED)"}
               </TableHead>
               <TableHead className="whitespace-nowrap">
                 {isArabic ? "تاريخ الإضافة" : "Date Added"}
@@ -608,8 +608,10 @@ export default function AdminProjects() {
                     {project.location}
                   </TableCell>
                   <TableCell className="flex items-center whitespace-nowrap">
-                    <SARSymbol className="h-3.5 w-3.5 mr-1" />
-                    {project.price}
+                    <div className="flex items-center">
+                      <span className="mr-1">AED</span>
+                      {project.price}
+                    </div>
                   </TableCell>
                   <TableCell className="whitespace-nowrap">
                     {project.date}
@@ -741,14 +743,14 @@ export default function AdminProjects() {
                   />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Riyadh">
-                    {isArabic ? "الرياض" : "Riyadh"}
+                  <SelectItem value="Dubai">
+                    {isArabic ? "دبي" : "Dubai"}
                   </SelectItem>
-                  <SelectItem value="Jeddah">
-                    {isArabic ? "جدة" : "Jeddah"}
+                  <SelectItem value="Abu Dhabi">
+                    {isArabic ? "أبو ظبي" : "Abu Dhabi"}
                   </SelectItem>
-                  <SelectItem value="Dammam">
-                    {isArabic ? "الدمام" : "Dammam"}
+                  <SelectItem value="Sharjah">
+                    {isArabic ? "الشارقة" : "Sharjah"}
                   </SelectItem>
                 </SelectContent>
               </Select>
@@ -757,7 +759,7 @@ export default function AdminProjects() {
               <Label
                 htmlFor="project-price"
                 className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                {isArabic ? "السعر (ريال)" : "Price (SAR)"}
+                {isArabic ? "السعر (درهم)" : "Price (AED)"}
               </Label>
               <div className="col-span-3 relative">
                 <div className="absolute left-2.5 top-2.5">
@@ -1092,9 +1094,9 @@ export default function AdminProjects() {
                     <SelectValue placeholder="Select location" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Riyadh">Riyadh</SelectItem>
-                    <SelectItem value="Jeddah">Jeddah</SelectItem>
-                    <SelectItem value="Dammam">Dammam</SelectItem>
+                    <SelectItem value="Dubai">Dubai</SelectItem>
+                    <SelectItem value="Abu Dhabi">Abu Dhabi</SelectItem>
+                    <SelectItem value="Sharjah">Sharjah</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -1102,7 +1104,7 @@ export default function AdminProjects() {
                 <Label
                   htmlFor="edit-price"
                   className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                  {isArabic ? "السعر (ريال)" : "Price (SAR)"}
+                  {isArabic ? "السعر (درهم)" : "Price (AED)"}
                 </Label>
                 <div className="col-span-3 relative">
                   <div className="absolute left-2.5 top-2.5">

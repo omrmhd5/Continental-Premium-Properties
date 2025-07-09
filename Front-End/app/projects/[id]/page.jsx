@@ -355,9 +355,7 @@ export default function ProjectDetailPage() {
                     {isArabic ? "السعر" : "Price"}
                   </h2>
                   <div className="flex items-center justify-center text-3xl font-bold text-primary">
-                    <SARSymbol
-                      className={`h-6 w-6 ${isArabic ? "ml-2" : "mr-2"}`}
-                    />
+                    <span className="mr-2">AED</span>
                     {project.price}
                   </div>
                   <div className="mt-6">

@@ -226,13 +226,13 @@ function PropertyComparison({ onClose }) {
                   label={isArabic ? "السعر" : "Price"}
                   value1={
                     <div className="flex items-center justify-center">
-                      <SARSymbol className="h-4 w-4 mr-1" />
+                      <span className="mr-1">AED</span>
                       {project1.price}
                     </div>
                   }
                   value2={
                     <div className="flex items-center justify-center">
-                      <SARSymbol className="h-4 w-4 mr-1" />
+                      <span className="mr-1">AED</span>
                       {project2.price}
                     </div>
                   }

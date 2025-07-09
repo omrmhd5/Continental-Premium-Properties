@@ -29,8 +29,8 @@ export default function MediaPage() {
       date: "2023-12-15",
       image: "/images/Luxury.webp",
       content: {
-        en: "We are excited to announce the launch of our newest luxury residential project in Riyadh, featuring state-of-the-art amenities and modern design.",
-        ar: "يسرنا أن نعلن عن إطلاق أحدث مشروع سكني فاخر لدينا في الرياض، والذي يتميز بمرافق حديثة وتصميم عصري.",
+        en: "We are excited to announce the launch of our newest luxury residential project in Dubai, featuring state-of-the-art amenities and modern design.",
+        ar: "يسرنا أن نعلن عن إطلاق أحدث مشروع سكني فاخر لدينا في دبي، والذي يتميز بمرافق حديثة وتصميم عصري.",
       },
     },
     {
@@ -61,18 +61,27 @@ export default function MediaPage() {
   const videos = [
     {
       id: 1,
-      title: { en: "Luxury Villas Tour", ar: "جولة في الفلل الفاخرة" },
-      videoId: "lFFIO5BjGLs",
+      title: {
+        en: "Dubai’s Most Premium Master Community",
+        ar: "أرقى مجمع سكني متكامل في دبي",
+      },
+      videoId: "-MncVWVfVPY",
     },
     {
       id: 2,
-      title: { en: "Behind the Design", ar: "خلف التصميم" },
-      videoId: "Cxh4TftMJCY",
+      title: {
+        en: "DAMAC Chelsea's Residence",
+        ar: "إقامة داماك تشيلسي",
+      },
+      videoId: "gH31-9BqI7k",
     },
     {
       id: 3,
-      title: { en: "Construction Progress", ar: "تقدم البناء" },
-      videoId: "RyWN-bkhuCs",
+      title: {
+        en: "Bugatti Residences by Binghatti",
+        ar: "إقامات بوجاتي من بن غاطي",
+      },
+      videoId: "9yoJAWPtNhA",
     },
   ];
 

@@ -140,13 +140,13 @@ export default function Footer() {
               <MapPin className="w-5 h-5 text-brand-gold mt-0.5" />
               <span className="text-muted-foreground">
                 {isArabic
-                  ? "شارع الملك فهد، الرياض، المملكة العربية السعودية"
-                  : "King Fahd Road, Riyadh, Saudi Arabia"}
+                  ? "2110-B2B Office Tower - Marasi Dr - Business Bay - Dubai"
+                  : "2110-B2B Office Tower - Marasi Dr - Business Bay - Dubai"}
               </span>
             </li>
             <li className="flex items-center gap-3">
               <Phone className="w-5 h-5 text-brand-gold" />
-              <span className="text-muted-foreground">+966 12 345 6789</span>
+              <span className="text-muted-foreground">+971 4 123 4567</span>
             </li>
             <li className="flex items-center gap-3">
               <Mail className="w-5 h-5 text-brand-gold" />

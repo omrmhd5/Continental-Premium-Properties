@@ -92,9 +92,9 @@ export default function ProjectsPage() {
   // Location options for filter
   const locationOptions = [
     { value: "all", label: isArabic ? "جميع المواقع" : "All Locations" },
-    { value: "Riyadh", label: isArabic ? "الرياض" : "Riyadh" },
-    { value: "Jeddah", label: isArabic ? "جدة" : "Jeddah" },
-    { value: "Dammam", label: isArabic ? "الدمام" : "Dammam" },
+    { value: "Dubai", label: isArabic ? "دبي" : "Dubai" },
+    { value: "Abu Dhabi", label: isArabic ? "أبو ظبي" : "Abu Dhabi" },
+    { value: "Sharjah", label: isArabic ? "الشارقة" : "Sharjah" },
   ];
 
   return (
@@ -282,10 +282,10 @@ function ProjectCard({ project, isArabic, index }) {
           <span className="bg-black/50 text-white px-2 py-1 rounded text-sm">
             {project.location}
           </span>
-          <span className="bg-primary/80 text-black px-2 py-1 rounded text-sm flex items-center">
-            <SARSymbol className={`h-3 w-3 ${isArabic ? "ml-1" : "mr-1"}`} />
+          <div className="flex items-center text-primary font-bold text-lg">
+            <span className="mr-1">AED</span>
             {project.price}
-          </span>
+          </div>
         </div>
       </div>
 
