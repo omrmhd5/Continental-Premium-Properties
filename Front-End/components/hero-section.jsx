@@ -37,11 +37,10 @@ export default function HeroSection() {
           </Link>
         </div>
       </div>
-
       <div className="relative pb-[56.25%] h-0 overflow-hidden rounded-lg shadow-lg border border-brand-gold/20 fade-in-up stagger-delay-3">
         <iframe
           className="absolute top-0 left-0 w-full h-full"
-          src="https://www.youtube.com/embed/a729fLH-93E?autoplay=1&mute=1&controls=0&loop=1&playlist=a729fLH-93E"
+          src="https://www.youtube.com/embed/LLjuTvY-yQs?autoplay=1&mute=1&controls=0&loop=1&playlist=LLjuTvY-yQs"
           title="Residential Projects"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"
