@@ -67,12 +67,15 @@ export default function ContactPage() {
     {
       icon: <Phone className="h-6 w-6 text-primary" />,
       title: { en: "Call Us", ar: "اتصل بنا" },
-      details: { en: "+971 4 123 4567", ar: "+971 4 123 4567" },
+      details: { en: "+971 4 770 5704", ar: "+971 4 770 5704" },
     },
     {
       icon: <Mail className="h-6 w-6 text-primary" />,
       title: { en: "Email Us", ar: "راسلنا" },
-      details: { en: "info@eliteestates.com", ar: "info@eliteestates.com" },
+      details: {
+        en: "propertiescontinental58@gmail.com",
+        ar: "propertiescontinental58@gmail.com",
+      },
     },
   ];
 
@@ -212,7 +215,7 @@ export default function ContactPage() {
             <div className={isArabic ? "order-1" : "order-2"}>
               <div className="h-full w-full rounded-lg overflow-hidden elegant-card">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6374.550124458795!2d55.28219997482252!3d25.190918077714933!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f6824f0311909%3A0x65950f712e2bef2!2sB2B%20Office%20Tower%20-%20Marasi%20Dr%20-%20Business%20Bay%20-%20Dubai%20-%20United%20Arab%20Emirates!5e1!3m2!1sen!2seg!4v1752100557391!5m2!1sen!2seg"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3187.270752094652!2d55.285065100000004!3d25.1910828!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f690035c2cbbb%3A0x41b7a29be60f16fd!2sContinental%20Premium%20Properties%20LLC!5e1!3m2!1sen!2seg!4v1752102626943!5m2!1sen!2seg"
                   width="100%"
                   height="100%"
                   style={{ border: 0, minHeight: "400px" }}
