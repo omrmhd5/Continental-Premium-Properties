@@ -119,14 +119,20 @@ export default function AboutPage() {
               </div>
               <h2 className="text-3xl font-serif font-bold mb-6">
                 {isArabic
-                  ? "رواد في تطوير العقارات الفاخرة منذ عام 2005"
-                  : "Leading Luxury Real Estate Development Since 2005"}
+                  ? "رواد في تطوير العقارات الفاخرة"
+                  : "Leading Luxury Real Estate Development"}
               </h2>
               <div className="space-y-4 text-muted-foreground">
                 <p>
                   {isArabic
-                    ? "تأسست شركتنا في عام 2005 بهدف واضح: تقديم مشاريع سكنية استثنائية تجمع بين الفخامة والراحة والاستدامة. على مدار السنوات، نمت شركتنا لتصبح واحدة من أكثر مطوري العقارات احتراماً في المملكة العربية السعودية."
-                    : "Our company was founded in 2005 with a clear goal: to deliver exceptional residential projects that combine luxury, comfort, and sustainability. Over the years, our company has grown to become one of the most respected real estate developers in Saudi Arabia."}
+                    ? `في قلب دبي، حيث تلتقي الفرص مع الطموحات، تأسست شركتنا العقارية لتكون بوابتك إلى عالم من الاستثمار العقاري الذكي والمربح. نحن فريق من الاستشاريين العقاريين الخبراء، نمتلك رؤية واضحة، ومعرفة عميقة بسوق العقارات الديناميكي في دبي.
+نضع بين يديك خبرة ممتدة وسجلاً حافلاً من النجاحات، لنرافقك في كل خطوة من خطوات رحلتك العقارية – سواء كنت تبحث عن منزل أحلامك، أو ترغب في تنمية محفظتك الاستثمارية، أو تسعى لفهم خفايا السوق واتخاذ قرارات استراتيجية مدروسة.
+نعمل بشغف، ونؤمن أن الثقة تُبنى على الشفافية والمصداقية، ولهذا نحرص على تقديم استشارات مخصصة، قائمة على تحليل دقيق واهتمام حقيقي بأهداف عملائنا.
+معنا، لست مجرد عميل… أنت شريك نجاح`
+                    : `In the heart of Dubai, where opportunities meet ambitions, our real estate company was founded to be your gateway to a world of smart and profitable real estate investment. We are a team of expert real estate consultants with a clear vision and deep knowledge of Dubai's dynamic property market.
+We offer you extensive experience and a proven track record of success, accompanying you every step of your real estate journey—whether you're searching for your dream home, looking to grow your investment portfolio, or seeking to understand the market and make strategic decisions.
+We work with passion and believe that trust is built on transparency and credibility, which is why we provide tailored advice based on thorough analysis and a genuine interest in your goals.
+With us, you are not just a client… you are a partner in success.`}
                 </p>
                 <p>
                   {isArabic
