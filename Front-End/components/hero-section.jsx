@@ -22,18 +22,28 @@ export default function HeroSection() {
           <span className="inline-block h-0.5 w-10 bg-brand-gold ml-2 align-middle"></span>
         </div>
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight fade-in-up text-brand-gold dark:text-brand-gold">
-          {isArabic ? "مشاريع سكنية فاخرة" : "Luxury Residential Projects"}
+          {language === "ar"
+            ? "مشاريع سكنية فاخرة"
+            : language === "fr"
+            ? "Projets Résidentiels de Luxe"
+            : "Luxury Residential Projects"}
         </h1>
         <p className="text-xl text-brand-goldDark max-w-3xl mx-auto fade-in-up stagger-delay-1">
-          {isArabic
+          {language === "ar"
             ? "نقدم لكم أفضل المشاريع السكنية بمواصفات عالمية وتصاميم عصرية"
+            : language === "fr"
+            ? "Découvrez nos projets résidentiels premium avec des spécifications de classe mondiale et des designs modernes"
             : "Discover our premium residential projects with world-class specifications and modern designs"}
         </p>
 
         <div className="mt-8 fade-in-up stagger-delay-2">
           <Link href="/projects">
             <Button className="bg-gradient-to-r from-brand-gold to-brand-goldDark text-white font-bold px-8 py-6 text-lg border-none">
-              {isArabic ? "استكشف مشاريعنا" : "Explore Our Projects"}
+              {language === "ar"
+                ? "استكشف مشاريعنا"
+                : language === "fr"
+                ? "Explorer Nos Projets"
+                : "Explore Our Projects"}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>

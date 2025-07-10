@@ -37,12 +37,18 @@ export default function ContactPage() {
     // Simulate form submission
     setTimeout(() => {
       toast({
-        title: isArabic
-          ? "تم إرسال الرسالة بنجاح"
-          : "Message Sent Successfully",
-        description: isArabic
-          ? "سنتواصل معك في أقرب وقت ممكن"
-          : "We will get back to you as soon as possible",
+        title:
+          language === "ar"
+            ? "تم إرسال الرسالة بنجاح"
+            : language === "fr"
+            ? "Message Envoyé avec Succès"
+            : "Message Sent Successfully",
+        description:
+          language === "ar"
+            ? "سنتواصل معك في أقرب وقت ممكن"
+            : language === "fr"
+            ? "Nous vous répondrons dans les plus brefs délais"
+            : "We will get back to you as soon as possible",
       });
       setFormData({
         name: "",
@@ -90,20 +96,30 @@ export default function ContactPage() {
                 href="/"
                 className="inline-flex items-center text-primary mb-4">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                {isArabic ? "العودة إلى الصفحة الرئيسية" : "Back to Home"}
+                {language === "ar"
+                  ? "العودة إلى الصفحة الرئيسية"
+                  : language === "fr"
+                  ? "Retour à l'Accueil"
+                  : "Back to Home"}
               </Link>
               <h1
                 className={`text-3xl md:text-4xl font-serif font-bold ${
                   isArabic ? "font-arabic" : ""
                 }`}>
-                {isArabic ? "اتصل بنا" : "Contact Us"}
+                {language === "ar"
+                  ? "اتصل بنا"
+                  : language === "fr"
+                  ? "Contactez-nous"
+                  : "Contact Us"}
               </h1>
               <p
                 className={`text-muted-foreground mt-2 ${
                   isArabic ? "font-arabic" : ""
                 }`}>
-                {isArabic
+                {language === "ar"
                   ? "نحن هنا للإجابة على أسئلتك ومساعدتك في العثور على منزل أحلامك"
+                  : language === "fr"
+                  ? "Nous sommes là pour répondre à vos questions et vous aider à trouver votre maison de rêve"
                   : "We're here to answer your questions and help you find your dream home"}
               </p>
             </div>
@@ -136,16 +152,26 @@ export default function ContactPage() {
                 <div className="inline-block mb-4">
                   <span className="inline-block h-0.5 w-10 bg-primary mr-2 align-middle"></span>
                   <span className="text-primary text-sm uppercase tracking-wider">
-                    {isArabic ? "أرسل لنا رسالة" : "Send Us a Message"}
+                    {language === "ar"
+                      ? "أرسل لنا رسالة"
+                      : language === "fr"
+                      ? "Envoyez-nous un Message"
+                      : "Send Us a Message"}
                   </span>
                   <span className="inline-block h-0.5 w-10 bg-primary ml-2 align-middle"></span>
                 </div>
                 <h2 className="text-2xl font-serif font-bold mb-4">
-                  {isArabic ? "نحن نقدر ملاحظاتك" : "We Value Your Feedback"}
+                  {language === "ar"
+                    ? "نحن نقدر ملاحظاتك"
+                    : language === "fr"
+                    ? "Nous Apprécions Votre Avis"
+                    : "We Value Your Feedback"}
                 </h2>
                 <p className="text-muted-foreground mb-6">
-                  {isArabic
+                  {language === "ar"
                     ? "املأ النموذج أدناه وسنعاود الاتصال بك في أقرب وقت ممكن"
+                    : language === "fr"
+                    ? "Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais"
                     : "Fill out the form below and we'll get back to you as soon as possible"}
                 </p>
               </div>
@@ -154,7 +180,13 @@ export default function ContactPage() {
                 <div>
                   <Input
                     name="name"
-                    placeholder={isArabic ? "الاسم الكامل" : "Full Name"}
+                    placeholder={
+                      language === "ar"
+                        ? "الاسم الكامل"
+                        : language === "fr"
+                        ? "Nom Complet"
+                        : "Full Name"
+                    }
                     value={formData.name}
                     onChange={handleChange}
                     required
@@ -165,7 +197,11 @@ export default function ContactPage() {
                     name="email"
                     type="email"
                     placeholder={
-                      isArabic ? "البريد الإلكتروني" : "Email Address"
+                      language === "ar"
+                        ? "البريد الإلكتروني"
+                        : language === "fr"
+                        ? "Adresse Email"
+                        : "Email Address"
                     }
                     value={formData.email}
                     onChange={handleChange}
@@ -173,7 +209,13 @@ export default function ContactPage() {
                   />
                   <Input
                     name="phone"
-                    placeholder={isArabic ? "رقم الهاتف" : "Phone Number"}
+                    placeholder={
+                      language === "ar"
+                        ? "رقم الهاتف"
+                        : language === "fr"
+                        ? "Numéro de Téléphone"
+                        : "Phone Number"
+                    }
                     value={formData.phone}
                     onChange={handleChange}
                   />
@@ -181,7 +223,13 @@ export default function ContactPage() {
                 <div>
                   <Input
                     name="subject"
-                    placeholder={isArabic ? "الموضوع" : "Subject"}
+                    placeholder={
+                      language === "ar"
+                        ? "الموضوع"
+                        : language === "fr"
+                        ? "Sujet"
+                        : "Subject"
+                    }
                     value={formData.subject}
                     onChange={handleChange}
                     required
@@ -190,7 +238,13 @@ export default function ContactPage() {
                 <div>
                   <Textarea
                     name="message"
-                    placeholder={isArabic ? "رسالتك" : "Your Message"}
+                    placeholder={
+                      language === "ar"
+                        ? "رسالتك"
+                        : language === "fr"
+                        ? "Votre Message"
+                        : "Your Message"
+                    }
                     rows={5}
                     value={formData.message}
                     onChange={handleChange}
@@ -202,11 +256,15 @@ export default function ContactPage() {
                   className="w-full"
                   disabled={isSubmitting}>
                   {isSubmitting
-                    ? isArabic
+                    ? language === "ar"
                       ? "جاري الإرسال..."
+                      : language === "fr"
+                      ? "Envoi en cours..."
                       : "Sending..."
-                    : isArabic
+                    : language === "ar"
                     ? "إرسال الرسالة"
+                    : language === "fr"
+                    ? "Envoyer le Message"
                     : "Send Message"}
                 </Button>
               </form>

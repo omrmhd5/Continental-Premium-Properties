@@ -52,8 +52,10 @@ export default function AdminLogin() {
       router.push("/admin/dashboard");
     } catch (error) {
       setError(
-        isArabic
+        language === "ar"
           ? "اسم المستخدم أو كلمة المرور غير صحيحة"
+          : language === "fr"
+          ? "Nom d'utilisateur ou mot de passe invalide"
           : "Invalid username or password"
       );
     } finally {
@@ -127,12 +129,26 @@ export default function AdminLogin() {
               className="w-full"
               onClick={handleLogin}
               disabled={isLoading}>
-              {isLoading ? "Logging in..." : "Login"}
+              {isLoading
+                ? language === "ar"
+                  ? "جاري تسجيل الدخول..."
+                  : language === "fr"
+                  ? "Connexion en cours..."
+                  : "Logging in..."
+                : language === "ar"
+                ? "تسجيل الدخول"
+                : language === "fr"
+                ? "Se Connecter"
+                : "Login"}
             </Button>
             <Link href="/" className="w-full">
               <Button variant="outline" className="w-full">
                 <Home className="mr-2 h-4 w-4" />
-                Back to Homepage
+                {language === "ar"
+                  ? "العودة إلى الصفحة الرئيسية"
+                  : language === "fr"
+                  ? "Retour à l'Accueil"
+                  : "Back to Homepage"}
               </Button>
             </Link>
           </CardFooter>
@@ -144,7 +160,11 @@ export default function AdminLogin() {
             size="sm"
             onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
             className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
-            {isArabic ? "English" : "العربية"}
+            {language === "ar"
+              ? "English"
+              : language === "fr"
+              ? "العربية"
+              : "Français"}
           </Button>
         </div>
       </div>

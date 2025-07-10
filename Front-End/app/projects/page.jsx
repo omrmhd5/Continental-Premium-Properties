@@ -74,16 +74,42 @@ export default function ProjectsPage() {
 
   // Status options for filter
   const statusOptions = [
-    { value: "all", label: isArabic ? "جميع الحالات" : "All Statuses" },
+    {
+      value: "all",
+      label:
+        language === "ar"
+          ? "جميع الحالات"
+          : language === "fr"
+          ? "Tous les Statuts"
+          : "All Statuses",
+    },
     {
       value: "off-plan",
-      label: isArabic ? "قيد الإنشاء" : "Off Plan",
+      label:
+        language === "ar"
+          ? "قيد الإنشاء"
+          : language === "fr"
+          ? "En Construction"
+          : "Off Plan",
     },
     {
       value: "secondary",
-      label: isArabic ? "ثانوي" : "Secondary",
+      label:
+        language === "ar"
+          ? "ثانوي"
+          : language === "fr"
+          ? "Secondaire"
+          : "Secondary",
     },
-    { value: "rentals", label: isArabic ? "إيجار" : "Rentals" },
+    {
+      value: "rentals",
+      label:
+        language === "ar"
+          ? "إيجار"
+          : language === "fr"
+          ? "Locations"
+          : "Rentals",
+    },
   ];
 
   return (
@@ -100,15 +126,23 @@ export default function ProjectsPage() {
               <Link
                 href="/"
                 className="inline-flex items-center text-brand-gold mb-4">
-                {isArabic ? (
+                {language === "ar" ? (
                   <>
-                    {isArabic ? "العودة إلى الصفحة الرئيسية" : "Back to Home"}
+                    {language === "ar"
+                      ? "العودة إلى الصفحة الرئيسية"
+                      : language === "fr"
+                      ? "Retour à l'Accueil"
+                      : "Back to Home"}
                     <ArrowLeft className="ml-2 h-4 w-4 rotate-180" />
                   </>
                 ) : (
                   <>
                     <ArrowLeft className="mr-2 h-4 w-4" />
-                    {isArabic ? "العودة إلى الصفحة الرئيسية" : "Back to Home"}
+                    {language === "ar"
+                      ? "العودة إلى الصفحة الرئيسية"
+                      : language === "fr"
+                      ? "Retour à l'Accueil"
+                      : "Back to Home"}
                   </>
                 )}
               </Link>
@@ -116,14 +150,20 @@ export default function ProjectsPage() {
                 className={`text-3xl md:text-4xl font-serif font-bold text-brand-gold ${
                   isArabic ? "font-arabic" : ""
                 }`}>
-                {isArabic ? "مشاريعنا" : "Our Projects"}
+                {language === "ar"
+                  ? "مشاريعنا"
+                  : language === "fr"
+                  ? "Nos Projets"
+                  : "Our Projects"}
               </h1>
               <p
                 className={`text-brand-goldDark mt-2 ${
                   isArabic ? "font-arabic" : ""
                 }`}>
-                {isArabic
+                {language === "ar"
                   ? "استكشف جميع مشاريعنا العقارية الفاخرة"
+                  : language === "fr"
+                  ? "Explorez tous nos projets immobiliers de luxe"
                   : "Explore all our luxury real estate projects"}
               </p>
             </div>
@@ -136,7 +176,11 @@ export default function ProjectsPage() {
               <SplitSquareVertical
                 className={`h-4 w-4 ${isArabic ? "ml-2" : "mr-2"}`}
               />
-              {isArabic ? "مقارنة العقارات" : "Compare Properties"}
+              {language === "ar"
+                ? "مقارنة العقارات"
+                : language === "fr"
+                ? "Comparer les Propriétés"
+                : "Compare Properties"}
             </Button>
           </div>
 
@@ -151,8 +195,10 @@ export default function ProjectsPage() {
               />
               <Input
                 placeholder={
-                  isArabic
+                  language === "ar"
                     ? "ابحث بالاسم أو الموقع..."
+                    : language === "fr"
+                    ? "Rechercher par nom ou emplacement..."
                     : "Search by name or location..."
                 }
                 className={isArabic ? "pr-8" : "pl-8"}
@@ -166,7 +212,11 @@ export default function ProjectsPage() {
               <SelectTrigger>
                 <SelectValue
                   placeholder={
-                    isArabic ? "تصفية حسب الحالة" : "Filter by status"
+                    language === "ar"
+                      ? "تصفية حسب الحالة"
+                      : language === "fr"
+                      ? "Filtrer par statut"
+                      : "Filter by status"
                   }
                 />
               </SelectTrigger>
@@ -199,14 +249,20 @@ export default function ProjectsPage() {
             // No Projects Found Message
             <div className="text-center py-12 ">
               <p className={`text-xl ${isArabic ? "font-arabic" : ""}`}>
-                {isArabic ? "لم يتم العثور على مشاريع" : "No projects found"}
+                {language === "ar"
+                  ? "لم يتم العثور على مشاريع"
+                  : language === "fr"
+                  ? "Aucun projet trouvé"
+                  : "No projects found"}
               </p>
               <p
                 className={`text-muted-foreground mt-2 ${
                   isArabic ? "font-arabic" : ""
                 }`}>
-                {isArabic
+                {language === "ar"
                   ? "يرجى تعديل معايير البحث الخاصة بك"
+                  : language === "fr"
+                  ? "Veuillez ajuster vos critères de recherche"
                   : "Please adjust your search criteria"}
               </p>
               <Button
@@ -216,7 +272,11 @@ export default function ProjectsPage() {
                   setSearchTerm("");
                   setStatusFilter("all");
                 }}>
-                {isArabic ? "إعادة تعيين الفلاتر" : "Reset Filters"}
+                {language === "ar"
+                  ? "إعادة تعيين الفلاتر"
+                  : language === "fr"
+                  ? "Réinitialiser les Filtres"
+                  : "Reset Filters"}
               </Button>
             </div>
           )}
@@ -235,6 +295,7 @@ export default function ProjectsPage() {
 
 // Reusable Project Card Component
 function ProjectCard({ project, isArabic, index }) {
+  const { language } = useLanguage();
   return (
     <Card className={`elegant-card overflow-hidden ${(index % 5) + 1}`}>
       {/* Project Image with Status Badge */}
@@ -257,8 +318,14 @@ function ProjectCard({ project, isArabic, index }) {
           <div className="flex items-center text-primary font-bold text-lg">
             {project.status === "off-plan" && (
               <span
-                className={`text-sm font-normal ${isArabic ? "ml-1" : "mr-1"}`}>
-                {isArabic ? "يبدأ من" : "Starting from"}
+                className={`text-sm font-normal ${
+                  language === "ar" ? "ml-1" : "mr-1"
+                }`}>
+                {language === "ar"
+                  ? "يبدأ من"
+                  : language === "fr"
+                  ? "À partir de"
+                  : "Starting from"}
               </span>
             )}
             <span className="mr-1">AED</span>
@@ -268,7 +335,11 @@ function ProjectCard({ project, isArabic, index }) {
           {project.status === "off-plan" && project.handover && (
             <div className="bg-black/50 text-white px-2 py-1 rounded text-sm">
               <span className="font-semibold">
-                {isArabic ? "التسليم: " : "Handover: "}
+                {language === "ar"
+                  ? "التسليم: "
+                  : language === "fr"
+                  ? "Livraison: "
+                  : "Handover: "}
               </span>
               {project.handover}
             </div>
@@ -281,7 +352,11 @@ function ProjectCard({ project, isArabic, index }) {
         className={`pt-6 ${isArabic ? "text-right font-arabic" : ""}`}>
         <CardTitle className="mb-2 font-serif">{project.title}</CardTitle>
         <p className="text-muted-foreground">
-          {isArabic ? project.description?.ar : project.description?.en}
+          {language === "ar"
+            ? project.description?.ar
+            : language === "fr"
+            ? project.description?.fr
+            : project.description?.en}
         </p>
       </CardContent>
 
@@ -294,7 +369,11 @@ function ProjectCard({ project, isArabic, index }) {
           <Button
             variant="outline"
             className="border-primary/30 hover:bg-primary/10 hover:text-primary">
-            {isArabic ? "عرض التفاصيل" : "View Details"}
+            {language === "ar"
+              ? "عرض التفاصيل"
+              : language === "fr"
+              ? "Voir les Détails"
+              : "View Details"}
           </Button>
         </Link>
       </CardFooter>
@@ -304,22 +383,39 @@ function ProjectCard({ project, isArabic, index }) {
 
 // Badge component for project status
 function Badge({ status, isArabic }) {
+  const { language } = useLanguage();
   // Map status codes to colors and labels
   let bgColor = "bg-gray-500";
-  let label = isArabic ? "غير معروف" : "Unknown";
+  let label =
+    language === "ar" ? "غير معروف" : language === "fr" ? "Inconnu" : "Unknown";
 
   switch (status) {
     case "off-plan":
       bgColor = "bg-blue-500";
-      label = isArabic ? "قيد الإنشاء" : "Off Plan";
+      label =
+        language === "ar"
+          ? "قيد الإنشاء"
+          : language === "fr"
+          ? "En Construction"
+          : "Off Plan";
       break;
     case "secondary":
       bgColor = "bg-green-500";
-      label = isArabic ? "ثانوي" : "Secondary";
+      label =
+        language === "ar"
+          ? "ثانوي"
+          : language === "fr"
+          ? "Secondaire"
+          : "Secondary";
       break;
     case "rentals":
       bgColor = "bg-purple-500";
-      label = isArabic ? "إيجار" : "Rentals";
+      label =
+        language === "ar"
+          ? "إيجار"
+          : language === "fr"
+          ? "Locations"
+          : "Rentals";
       break;
   }
 

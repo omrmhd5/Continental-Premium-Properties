@@ -60,14 +60,20 @@ export default function AdminDashboard() {
             className={`text-2xl sm:text-3xl font-serif font-bold tracking-tight ${
               isArabic ? "font-arabic" : ""
             }`}>
-            {isArabic ? "لوحة التحكم" : "Dashboard"}
+            {language === "ar"
+              ? "لوحة التحكم"
+              : language === "fr"
+              ? "Tableau de Bord"
+              : "Dashboard"}
           </h1>
           <p
             className={`text-muted-foreground ${
               isArabic ? "font-arabic" : ""
             }`}>
-            {isArabic
+            {language === "ar"
               ? "نظرة عامة على مشاريعك العقارية"
+              : language === "fr"
+              ? "Aperçu de vos projets immobiliers"
               : "Overview of your real estate projects"}
           </p>
         </div>
@@ -78,7 +84,11 @@ export default function AdminDashboard() {
               size="sm"
               className="bg-brand-gold text-brand-navy hover:bg-brand-gold/90">
               <Building className="h-4 w-4 mr-2" />
-              {isArabic ? "المشاريع" : "Projects"}
+              {language === "ar"
+                ? "المشاريع"
+                : language === "fr"
+                ? "Projets"
+                : "Projects"}
             </Button>
           </Link>
         </div>
@@ -91,7 +101,11 @@ export default function AdminDashboard() {
               className={`text-sm font-medium ${
                 isArabic ? "font-arabic" : ""
               }`}>
-              {isArabic ? "إجمالي المشاريع" : "Total Projects"}
+              {language === "ar"
+                ? "إجمالي المشاريع"
+                : language === "fr"
+                ? "Total des Projets"
+                : "Total Projects"}
             </CardTitle>
             <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -105,7 +119,11 @@ export default function AdminDashboard() {
               className={`text-sm font-medium ${
                 isArabic ? "font-arabic" : ""
               }`}>
-              {isArabic ? "إنشاء جديد" : "Off-Plan"}
+              {language === "ar"
+                ? "إنشاء جديد"
+                : language === "fr"
+                ? "En Construction"
+                : "Off-Plan"}
             </CardTitle>
             <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -119,7 +137,11 @@ export default function AdminDashboard() {
               className={`text-sm font-medium ${
                 isArabic ? "font-arabic" : ""
               }`}>
-              {isArabic ? "ثانوي" : "Secondary"}
+              {language === "ar"
+                ? "ثانوي"
+                : language === "fr"
+                ? "Secondaire"
+                : "Secondary"}
             </CardTitle>
             <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -133,7 +155,11 @@ export default function AdminDashboard() {
               className={`text-sm font-medium ${
                 isArabic ? "font-arabic" : ""
               }`}>
-              {isArabic ? "إيجار" : "Rentals"}
+              {language === "ar"
+                ? "إيجار"
+                : language === "fr"
+                ? "Locations"
+                : "Rentals"}
             </CardTitle>
             <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>

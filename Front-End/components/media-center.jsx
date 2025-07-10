@@ -14,26 +14,41 @@ export default function MediaCenter() {
   const slides = [
     {
       image: "/images/Event.webp",
-      title: { en: "Project Launch Event", ar: "حدث إطلاق المشروع" },
+      title: {
+        en: "Project Launch Event",
+        ar: "حدث إطلاق المشروع",
+        fr: "Événement de Lancement du Projet",
+      },
       description: {
         en: "Grand opening ceremony of our latest residential complex",
         ar: "حفل الافتتاح الكبير لأحدث مجمع سكني لدينا",
+        fr: "Cérémonie d'ouverture grandiose de notre dernier complexe résidentiel",
       },
     },
     {
       image: "/images/Construction.webp",
-      title: { en: "Construction Progress", ar: "تقدم البناء" },
+      title: {
+        en: "Construction Progress",
+        ar: "تقدم البناء",
+        fr: "Progrès de Construction",
+      },
       description: {
         en: "Latest updates on our ongoing construction projects",
         ar: "آخر التحديثات حول مشاريع البناء الجارية لدينا",
+        fr: "Dernières mises à jour sur nos projets de construction en cours",
       },
     },
     {
       image: "/images/Community.webp",
-      title: { en: "Community Activities", ar: "أنشطة المجتمع" },
+      title: {
+        en: "Community Activities",
+        ar: "أنشطة المجتمع",
+        fr: "Activités Communautaires",
+      },
       description: {
         en: "Residents enjoying community events in our developments",
         ar: "السكان يستمتعون بفعاليات المجتمع في مشاريعنا",
+        fr: "Les résidents profitent des événements communautaires dans nos développements",
       },
     },
   ];
@@ -52,16 +67,26 @@ export default function MediaCenter() {
         <div className="inline-block mb-4">
           <span className="inline-block h-0.5 w-10 bg-primary mr-2 align-middle"></span>
           <span className="text-primary text-sm uppercase tracking-wider">
-            {isArabic ? "المركز الإعلامي" : "Media Center"}
+            {language === "ar"
+              ? "المركز الإعلامي"
+              : language === "fr"
+              ? "Centre Média"
+              : "Media Center"}
           </span>
           <span className="inline-block h-0.5 w-10 bg-primary ml-2 align-middle"></span>
         </div>
         <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4">
-          {isArabic ? "آخر الأخبار والفعاليات" : "Latest News & Events"}
+          {language === "ar"
+            ? "آخر الأخبار والفعاليات"
+            : language === "fr"
+            ? "Dernières Nouvelles et Événements"
+            : "Latest News & Events"}
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          {isArabic
+          {language === "ar"
             ? "استكشف أحدث الأخبار والأحداث والصور من مشاريعنا"
+            : language === "fr"
+            ? "Explorez les dernières nouvelles, événements et images de nos projets"
             : "Explore the latest news, events, and images from our projects"}
         </p>
       </div>
@@ -76,7 +101,13 @@ export default function MediaCenter() {
                 <div className="relative aspect-[16/9]">
                   <Image
                     src={slide.image || "/placeholder.svg"}
-                    alt={isArabic ? slide.title.ar : slide.title.en}
+                    alt={
+                      language === "ar"
+                        ? slide.title.ar
+                        : language === "fr"
+                        ? slide.title.fr
+                        : slide.title.en
+                    }
                     fill
                     className="object-cover"
                   />
@@ -85,13 +116,21 @@ export default function MediaCenter() {
                       className={`text-2xl font-serif font-bold mb-2 ${
                         isArabic ? "font-arabic text-right" : ""
                       }`}>
-                      {isArabic ? slide.title.ar : slide.title.en}
+                      {language === "ar"
+                        ? slide.title.ar
+                        : language === "fr"
+                        ? slide.title.fr
+                        : slide.title.en}
                     </h3>
                     <p
                       className={`text-white/90 ${
                         isArabic ? "font-arabic text-right" : ""
                       }`}>
-                      {isArabic ? slide.description.ar : slide.description.en}
+                      {language === "ar"
+                        ? slide.description.ar
+                        : language === "fr"
+                        ? slide.description.fr
+                        : slide.description.en}
                     </p>
                   </div>
                 </div>
@@ -106,7 +145,13 @@ export default function MediaCenter() {
           className="absolute top-1/2 left-4 -translate-y-1/2 bg-black/30 hover:bg-black/50 border-primary/30 text-primary rounded-full"
           onClick={prevSlide}>
           <ChevronLeft className="h-6 w-6" />
-          <span className="sr-only">{isArabic ? "السابق" : "Previous"}</span>
+          <span className="sr-only">
+            {language === "ar"
+              ? "السابق"
+              : language === "fr"
+              ? "Précédent"
+              : "Previous"}
+          </span>
         </Button>
 
         <Button
@@ -115,7 +160,13 @@ export default function MediaCenter() {
           className="absolute top-1/2 right-4 -translate-y-1/2 bg-black/30 hover:bg-black/50 border-primary/30 text-primary rounded-full"
           onClick={nextSlide}>
           <ChevronRight className="h-6 w-6" />
-          <span className="sr-only">{isArabic ? "التالي" : "Next"}</span>
+          <span className="sr-only">
+            {language === "ar"
+              ? "التالي"
+              : language === "fr"
+              ? "Suivant"
+              : "Next"}
+          </span>
         </Button>
 
         <div className="flex justify-center mt-4 gap-2">

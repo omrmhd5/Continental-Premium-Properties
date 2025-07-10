@@ -7,7 +7,7 @@ import { Menu, X } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 import Logo from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Button } from "@/components/ui/button";
+import LanguageSwitcher from "@/components/language-switcher";
 
 // Memoized NavItem component for better performance
 const NavItem = memo(function NavItem({ href, name, pathname, onClick }) {
@@ -34,18 +34,49 @@ function Navbar() {
   const toggleMenu = useCallback(() => setIsMenuOpen((prev) => !prev), []);
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
 
-  // Toggle language
-  const toggleLanguage = useCallback(() => {
-    setLanguage(language === "en" ? "ar" : "en");
-  }, [language, setLanguage]);
-
   // Navigation items
   const navItems = [
-    { name: isArabic ? "الرئيسية" : "Home", href: "/" },
-    { name: isArabic ? "المشاريع" : "Projects", href: "/projects" },
-    { name: isArabic ? "المركز الإعلامي" : "Media Center", href: "/media" },
-    { name: isArabic ? "من نحن" : "About Us", href: "/about" },
-    { name: isArabic ? "اتصل بنا" : "Contact Us", href: "/contact" },
+    {
+      name:
+        language === "ar" ? "الرئيسية" : language === "fr" ? "Accueil" : "Home",
+      href: "/",
+    },
+    {
+      name:
+        language === "ar"
+          ? "المشاريع"
+          : language === "fr"
+          ? "Projets"
+          : "Projects",
+      href: "/projects",
+    },
+    {
+      name:
+        language === "ar"
+          ? "المركز الإعلامي"
+          : language === "fr"
+          ? "Centre Média"
+          : "Media Center",
+      href: "/media",
+    },
+    {
+      name:
+        language === "ar"
+          ? "من نحن"
+          : language === "fr"
+          ? "À Propos"
+          : "About Us",
+      href: "/about",
+    },
+    {
+      name:
+        language === "ar"
+          ? "اتصل بنا"
+          : language === "fr"
+          ? "Contactez-nous"
+          : "Contact Us",
+      href: "/contact",
+    },
   ];
 
   return (
@@ -81,14 +112,8 @@ function Navbar() {
               />
             ))}
 
-            {/* Language Toggle */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleLanguage}
-              className="text-sm hover:bg-primary/10 hover:text-primary">
-              {language === "en" ? "العربية" : "English"}
-            </Button>
+            {/* Language Switcher */}
+            <LanguageSwitcher />
 
             {/* Theme Toggle */}
             <ThemeToggle />
@@ -112,14 +137,8 @@ function Navbar() {
             ))}
 
             <div className="flex items-center gap-4 mt-4">
-              {/* Language Toggle - Mobile */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={toggleLanguage}
-                className="text-sm hover:bg-primary/10 hover:text-primary">
-                {language === "en" ? "العربية" : "English"}
-              </Button>
+              {/* Language Switcher - Mobile */}
+              <LanguageSwitcher />
 
               {/* Theme Toggle - Mobile */}
               <ThemeToggle />

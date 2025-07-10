@@ -16,7 +16,11 @@ export default function MapSection() {
       mapElement.innerHTML = `
         <div class="bg-muted h-full w-full flex items-center justify-center">
           <p class="text-muted-foreground">${
-            isArabic ? "خريطة المواقع" : "Location Map"
+            language === "ar"
+              ? "خريطة المواقع"
+              : language === "fr"
+              ? "Carte des Emplacements"
+              : "Location Map"
           }</p>
         </div>
       `;
@@ -29,16 +33,26 @@ export default function MapSection() {
         <div className="inline-block mb-4">
           <span className="inline-block h-0.5 w-10 bg-primary mr-2 align-middle"></span>
           <span className="text-primary text-sm uppercase tracking-wider">
-            {isArabic ? "مواقعنا" : "Our Locations"}
+            {language === "ar"
+              ? "مواقعنا"
+              : language === "fr"
+              ? "Nos Emplacements"
+              : "Our Locations"}
           </span>
           <span className="inline-block h-0.5 w-10 bg-primary ml-2 align-middle"></span>
         </div>
         <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4">
-          {isArabic ? "تواجدنا حول العالم" : "Our Global Presence"}
+          {language === "ar"
+            ? "تواجدنا حول العالم"
+            : language === "fr"
+            ? "Notre Présence Mondiale"
+            : "Our Global Presence"}
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          {isArabic
+          {language === "ar"
             ? "استكشف مواقع مشاريعنا في جميع أنحاء المدينة"
+            : language === "fr"
+            ? "Explorez les emplacements de nos projets dans toute la ville"
             : "Explore our project locations throughout the city"}
         </p>
       </div>

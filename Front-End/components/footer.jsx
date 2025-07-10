@@ -27,8 +27,10 @@ export default function Footer() {
         <div>
           <Logo variant="full" className="mb-4" />
           <p className="text-muted-foreground">
-            {isArabic
+            {language === "ar"
               ? "نحن نبني مستقبلاً أفضل من خلال مشاريع سكنية مبتكرة ومستدامة."
+              : language === "fr"
+              ? "Nous construisons un avenir meilleur grâce à des projets résidentiels innovants et durables."
               : "We're building a better future through innovative and sustainable residential projects."}
           </p>
           <div className="flex gap-4 mt-4">
@@ -61,42 +63,66 @@ export default function Footer() {
 
         <div>
           <h3 className="text-xl font-bold mb-4">
-            {isArabic ? "روابط سريعة" : "Quick Links"}
+            {language === "ar"
+              ? "روابط سريعة"
+              : language === "fr"
+              ? "Liens Rapides"
+              : "Quick Links"}
           </h3>
           <ul className="space-y-2">
             <li>
               <Link
                 href="/"
                 className="text-muted-foreground hover:text-brand-gold transition-colors">
-                {isArabic ? "الرئيسية" : "Home"}
+                {language === "ar"
+                  ? "الرئيسية"
+                  : language === "fr"
+                  ? "Accueil"
+                  : "Home"}
               </Link>
             </li>
             <li>
               <Link
                 href="/projects"
                 className="text-muted-foreground hover:text-brand-gold transition-colors">
-                {isArabic ? "المشاريع" : "Projects"}
+                {language === "ar"
+                  ? "المشاريع"
+                  : language === "fr"
+                  ? "Projets"
+                  : "Projects"}
               </Link>
             </li>
             <li>
               <Link
                 href="/media"
                 className="text-muted-foreground hover:text-brand-gold transition-colors">
-                {isArabic ? "المركز الإعلامي" : "Media Center"}
+                {language === "ar"
+                  ? "المركز الإعلامي"
+                  : language === "fr"
+                  ? "Centre Média"
+                  : "Media Center"}
               </Link>
             </li>
             <li>
               <Link
                 href="/about"
                 className="text-muted-foreground hover:text-brand-gold transition-colors">
-                {isArabic ? "من نحن" : "About Us"}
+                {language === "ar"
+                  ? "من نحن"
+                  : language === "fr"
+                  ? "À Propos"
+                  : "About Us"}
               </Link>
             </li>
             <li>
               <Link
                 href="/contact"
                 className="text-muted-foreground hover:text-brand-gold transition-colors">
-                {isArabic ? "اتصل بنا" : "Contact Us"}
+                {language === "ar"
+                  ? "اتصل بنا"
+                  : language === "fr"
+                  ? "Contactez-nous"
+                  : "Contact Us"}
               </Link>
             </li>
           </ul>
@@ -104,28 +130,44 @@ export default function Footer() {
 
         <div>
           <h3 className="text-xl font-bold mb-4">
-            {isArabic ? "المشاريع" : "Projects"}
+            {language === "ar"
+              ? "المشاريع"
+              : language === "fr"
+              ? "Projets"
+              : "Projects"}
           </h3>
           <ul className="space-y-2">
             <li>
               <Link
                 href="/projects?status=off-plan"
                 className="text-muted-foreground hover:text-brand-gold transition-colors">
-                {isArabic ? "قيد الإنشاء" : "Off Plan"}
+                {language === "ar"
+                  ? "قيد الإنشاء"
+                  : language === "fr"
+                  ? "En Construction"
+                  : "Off Plan"}
               </Link>
             </li>
             <li>
               <Link
                 href="/projects?status=secondary"
                 className="text-muted-foreground hover:text-brand-gold transition-colors">
-                {isArabic ? "ثانوي" : "Secondary"}
+                {language === "ar"
+                  ? "ثانوي"
+                  : language === "fr"
+                  ? "Secondaire"
+                  : "Secondary"}
               </Link>
             </li>
             <li>
               <Link
                 href="/projects?status=rentals"
                 className="text-muted-foreground hover:text-brand-gold transition-colors">
-                {isArabic ? "إيجار" : "Rentals"}
+                {language === "ar"
+                  ? "إيجار"
+                  : language === "fr"
+                  ? "Locations"
+                  : "Rentals"}
               </Link>
             </li>
           </ul>
@@ -133,7 +175,11 @@ export default function Footer() {
 
         <div>
           <h3 className="text-xl font-bold mb-4">
-            {isArabic ? "اتصل بنا" : "Contact Us"}
+            {language === "ar"
+              ? "اتصل بنا"
+              : language === "fr"
+              ? "Contactez-nous"
+              : "Contact Us"}
           </h3>
           <ul className="space-y-4">
             <li className="flex items-start gap-3">
@@ -159,7 +205,11 @@ export default function Footer() {
               <Link
                 href="/admin/login"
                 className="text-muted-foreground hover:text-brand-gold transition-colors">
-                {isArabic ? "لوحة الإدارة" : "Admin Dashboard"}
+                {language === "ar"
+                  ? "لوحة الإدارة"
+                  : language === "fr"
+                  ? "Tableau de Bord Admin"
+                  : "Admin Dashboard"}
               </Link>
             </li>
           </ul>
@@ -170,8 +220,10 @@ export default function Footer() {
 
       <div className={`text-center ${isArabic ? "font-arabic" : ""}`}>
         <p className="text-muted-foreground">
-          {isArabic
+          {language === "ar"
             ? "© 2025 Continental Premium Properties. جميع الحقوق محفوظة."
+            : language === "fr"
+            ? "© 2025 Continental Premium Properties. Tous droits réservés."
             : "© 2025 Continental Premium Properties. All rights reserved."}
         </p>
       </div>

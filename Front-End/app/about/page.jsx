@@ -58,20 +58,30 @@ export default function AboutPage() {
                 href="/"
                 className="inline-flex items-center text-primary mb-4">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                {isArabic ? "العودة إلى الصفحة الرئيسية" : "Back to Home"}
+                {language === "ar"
+                  ? "العودة إلى الصفحة الرئيسية"
+                  : language === "fr"
+                  ? "Retour à l'Accueil"
+                  : "Back to Home"}
               </Link>
               <h1
                 className={`text-3xl md:text-4xl font-serif font-bold ${
-                  isArabic ? "font-arabic" : ""
+                  language === "ar" ? "font-arabic" : ""
                 }`}>
-                {isArabic ? "من نحن" : "About Us"}
+                {language === "ar"
+                  ? "من نحن"
+                  : language === "fr"
+                  ? "À Propos"
+                  : "About Us"}
               </h1>
               <p
                 className={`text-muted-foreground mt-2 ${
-                  isArabic ? "font-arabic" : ""
+                  language === "ar" ? "font-arabic" : ""
                 }`}>
-                {isArabic
+                {language === "ar"
                   ? "تعرف على قصتنا ورؤيتنا"
+                  : language === "fr"
+                  ? "Découvrez notre histoire et notre vision"
                   : "Learn about our story and vision"}
               </p>
             </div>

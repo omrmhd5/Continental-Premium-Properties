@@ -10,6 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import Logo from "@/components/logo";
 import { useLanguage } from "@/context/language-context";
 import { ErrorPopup } from "@/components/error-popup";
+import LanguageSwitcher from "@/components/language-switcher";
 
 export default function AdminLayout({ children }) {
   const router = useRouter();
@@ -93,20 +94,18 @@ export default function AdminLayout({ children }) {
             <Logo variant="icon" className="h-8 w-auto pb-12" />
           </div>
           <div className="flex items-center gap-2 ml-auto">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
-              className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
-              {isArabic ? "English" : "العربية"}
-            </Button>
+            <LanguageSwitcher />
             <Link href="/">
               <Button
                 variant="outline"
                 size="sm"
                 className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
                 <Home className="h-4 w-4 mr-2" />
-                Homepage
+                {language === "ar"
+                  ? "الصفحة الرئيسية"
+                  : language === "fr"
+                  ? "Page d'Accueil"
+                  : "Homepage"}
               </Button>
             </Link>
 
@@ -115,7 +114,11 @@ export default function AdminLayout({ children }) {
               className=" border-brand-gold/20 hover:bg-brand-gold/10 hover:text-brand-gold"
               onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
-              Logout
+              {language === "ar"
+                ? "تسجيل الخروج"
+                : language === "fr"
+                ? "Déconnexion"
+                : "Logout"}
             </Button>
             <ThemeToggle />
           </div>

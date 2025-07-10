@@ -122,20 +122,30 @@ export default function MediaPage() {
                 href="/"
                 className="inline-flex items-center text-primary mb-4">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                {isArabic ? "العودة إلى الصفحة الرئيسية" : "Back to Home"}
+                {language === "ar"
+                  ? "العودة إلى الصفحة الرئيسية"
+                  : language === "fr"
+                  ? "Retour à l'Accueil"
+                  : "Back to Home"}
               </Link>
               <h1
                 className={`text-3xl md:text-4xl font-serif font-bold ${
                   isArabic ? "font-arabic" : ""
                 }`}>
-                {isArabic ? "المركز الإعلامي" : "Media Center"}
+                {language === "ar"
+                  ? "المركز الإعلامي"
+                  : language === "fr"
+                  ? "Centre Média"
+                  : "Media Center"}
               </h1>
               <p
                 className={`text-muted-foreground mt-2 ${
                   isArabic ? "font-arabic" : ""
                 }`}>
-                {isArabic
+                {language === "ar"
                   ? "استكشف أحدث الأخبار والفعاليات والصور من مشاريعنا"
+                  : language === "fr"
+                  ? "Explorez les dernières nouvelles, événements et images de nos projets"
                   : "Explore the latest news, events, and images from our projects"}
               </p>
             </div>
@@ -147,13 +157,25 @@ export default function MediaPage() {
                 value="news"
                 className="
       inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm">
-                {isArabic ? "الأخبار" : "News"}
+                {language === "ar"
+                  ? "الأخبار"
+                  : language === "fr"
+                  ? "Actualités"
+                  : "News"}
               </TabsTrigger>
               <TabsTrigger value="videos">
-                {isArabic ? "الفيديوهات" : "Videos"}
+                {language === "ar"
+                  ? "الفيديوهات"
+                  : language === "fr"
+                  ? "Vidéos"
+                  : "Videos"}
               </TabsTrigger>
               <TabsTrigger value="gallery">
-                {isArabic ? "معرض الصور" : "Photo Gallery"}
+                {language === "ar"
+                  ? "معرض الصور"
+                  : language === "fr"
+                  ? "Galerie Photos"
+                  : "Photo Gallery"}
               </TabsTrigger>
             </TabsList>
 
@@ -195,7 +217,11 @@ export default function MediaPage() {
                       <Button
                         variant="outline"
                         className="border-primary/30 hover:bg-primary/10 hover:text-primary">
-                        {isArabic ? "اقرأ المزيد" : "Read More"}
+                        {language === "ar"
+                          ? "اقرأ المزيد"
+                          : language === "fr"
+                          ? "Lire Plus"
+                          : "Read More"}
                       </Button>
                     </div>
                   </div>
@@ -281,7 +307,11 @@ export default function MediaPage() {
                   onClick={prevSlide}>
                   <ChevronLeft className="h-6 w-6" />
                   <span className="sr-only">
-                    {isArabic ? "السابق" : "Previous"}
+                    {language === "ar"
+                      ? "السابق"
+                      : language === "fr"
+                      ? "Précédent"
+                      : "Previous"}
                   </span>
                 </Button>
 
@@ -292,7 +322,11 @@ export default function MediaPage() {
                   onClick={nextSlide}>
                   <ChevronRight className="h-6 w-6" />
                   <span className="sr-only">
-                    {isArabic ? "التالي" : "Next"}
+                    {language === "ar"
+                      ? "التالي"
+                      : language === "fr"
+                      ? "Suivant"
+                      : "Next"}
                   </span>
                 </Button>
 
