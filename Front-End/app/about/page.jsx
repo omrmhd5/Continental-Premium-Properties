@@ -48,7 +48,7 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar />
       <div className="container mx-auto px-4 pt-20">
         <section className="py-12">
@@ -88,13 +88,13 @@ export default function AboutPage() {
             </div>
             <div className={isArabic ? "text-right font-arabic" : ""}>
               <div className="inline-block mb-4">
-                <span className="inline-block h-0.5 w-10 bg-primary mr-2 align-middle"></span>
-                <span className="text-primary text-sm uppercase tracking-wider">
+                <span className="inline-block h-0.5 w-10 bg-brand-gold mr-2 align-middle"></span>
+                <span className="text-brand-gold text-sm uppercase tracking-wider">
                   {isArabic ? "قصتنا" : "Our Story"}
                 </span>
-                <span className="inline-block h-0.5 w-10 bg-primary ml-2 align-middle"></span>
+                <span className="inline-block h-0.5 w-10 bg-brand-gold ml-2 align-middle"></span>
               </div>
-              <h2 className="text-3xl font-serif font-bold mb-6">
+              <h2 className="text-3xl font-serif font-bold mb-6 text-brand-gold">
                 {isArabic
                   ? "رواد في تطوير العقارات الفاخرة"
                   : "Leading Luxury Real Estate Development"}
@@ -127,13 +127,13 @@ With us, you are not just a client… you are a partner in success.`}
 
           <div className={`text-center mb-12 ${isArabic ? "font-arabic" : ""}`}>
             <div className="inline-block mb-4">
-              <span className="inline-block h-0.5 w-10 bg-primary mr-2 align-middle"></span>
-              <span className="text-primary text-sm uppercase tracking-wider">
+              <span className="inline-block h-0.5 w-10 bg-brand-gold mr-2 align-middle"></span>
+              <span className="text-brand-gold text-sm uppercase tracking-wider">
                 {isArabic ? "قيمنا" : "Our Values"}
               </span>
-              <span className="inline-block h-0.5 w-10 bg-primary ml-2 align-middle"></span>
+              <span className="inline-block h-0.5 w-10 bg-brand-gold ml-2 align-middle"></span>
             </div>
-            <h2 className="text-3xl font-serif font-bold mb-4">
+            <h2 className="text-3xl font-serif font-bold mb-4 text-brand-gold">
               {isArabic
                 ? "المبادئ التي توجهنا"
                 : "The Principles That Guide Us"}
@@ -147,7 +147,9 @@ With us, you are not just a client… you are a partner in success.`}
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {values.map((value, index) => (
-              <Card key={index} className="elegant-card">
+              <Card
+                key={index}
+                className="elegant-card bg-card text-card-foreground">
                 <CardContent
                   className={`flex flex-col items-center p-6 text-center ${
                     isArabic ? "font-arabic" : ""

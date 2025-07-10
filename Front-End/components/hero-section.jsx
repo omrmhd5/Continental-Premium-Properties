@@ -10,7 +10,7 @@ export default function HeroSection() {
   const isArabic = language === "ar";
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-16 md:py-24 bg-background">
       <div className={`text-center mb-12 ${isArabic ? "font-arabic" : ""}`}>
         <div className="inline-block mb-4 fade-in">
           <span className="inline-block h-0.5 w-10 bg-brand-gold mr-2 align-middle"></span>
@@ -21,10 +21,10 @@ export default function HeroSection() {
           </span>
           <span className="inline-block h-0.5 w-10 bg-brand-gold ml-2 align-middle"></span>
         </div>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight fade-in-up">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight fade-in-up text-brand-gold dark:text-brand-gold">
           {isArabic ? "مشاريع سكنية فاخرة" : "Luxury Residential Projects"}
         </h1>
-        <p className="text-xl text-muted-foreground max-w-3xl mx-auto fade-in-up stagger-delay-1">
+        <p className="text-xl text-brand-goldDark max-w-3xl mx-auto fade-in-up stagger-delay-1">
           {isArabic
             ? "نقدم لكم أفضل المشاريع السكنية بمواصفات عالمية وتصاميم عصرية"
             : "Discover our premium residential projects with world-class specifications and modern designs"}
@@ -32,7 +32,7 @@ export default function HeroSection() {
 
         <div className="mt-8 fade-in-up stagger-delay-2">
           <Link href="/projects">
-            <Button className="bg-brand-gold hover:bg-brand-gold/90 text-brand-navy font-bold px-8 py-6 text-lg">
+            <Button className="bg-gradient-to-r from-brand-gold to-brand-goldDark text-white font-bold px-8 py-6 text-lg border-none">
               {isArabic ? "استكشف مشاريعنا" : "Explore Our Projects"}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>

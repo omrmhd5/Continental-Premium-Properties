@@ -12,7 +12,10 @@ import { projectApi } from "@/lib/api";
 // Memoized Project Card Component for better performance
 const ProjectCard = memo(function ProjectCard({ project, isArabic, index }) {
   return (
-    <Card className={`elegant-card overflow-hidden ${index + 1}`}>
+    <Card
+      className={`elegant-card overflow-hidden ${
+        index + 1
+      } bg-card text-card-foreground`}>
       {/* Project Image */}
       <div className="relative h-60">
         <Image
@@ -58,7 +61,7 @@ const ProjectCard = memo(function ProjectCard({ project, isArabic, index }) {
       {/* Project Details */}
       <CardContent
         className={`pt-6 ${isArabic ? "text-right font-arabic" : ""}`}>
-        <CardTitle className="mb-2 font-bold">
+        <CardTitle className="mb-2 font-bold text-foreground">
           {typeof project.title === "object"
             ? isArabic
               ? project.title.ar
@@ -82,7 +85,7 @@ const ProjectCard = memo(function ProjectCard({ project, isArabic, index }) {
         <Link href={`/projects/${project._id}`}>
           <Button
             variant="outline"
-            className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
+            className="bg-gradient-to-r from-brand-gold to-brand-goldDark text-white font-bold border-none">
             {isArabic ? "عرض التفاصيل" : "View Details"}
           </Button>
         </Link>
@@ -105,7 +108,7 @@ const FilterButton = memo(function FilterButton({
       onClick={onClick}
       className={`min-w-[100px] ${
         activeFilter === value
-          ? "bg-brand-gold text-brand-navy hover:bg-brand-gold/90"
+          ? "bg-brand-gold text-white hover:bg-brand-gold/90"
           : "border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold"
       }`}>
       {isArabic ? label.ar : label.en}
@@ -166,7 +169,7 @@ function ProjectsSection() {
           .slice(0, 3);
 
   return (
-    <section className="py-16" id="projects">
+    <section className="py-16 bg-background" id="projects">
       {/* Section Header */}
       <div className={`text-center mb-12 ${isArabic ? "font-arabic" : ""}`}>
         <div className="inline-block mb-4 fade-in">
@@ -176,7 +179,7 @@ function ProjectsSection() {
           </span>
           <span className="inline-block h-0.5 w-10 bg-brand-gold ml-2 align-middle"></span>
         </div>
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 fade-in-up">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4 fade-in-up text-foreground">
           {isArabic ? "استكشف مشاريعنا الفاخرة" : "Explore Our Luxury Projects"}
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto fade-in-up stagger-delay-1">
@@ -203,30 +206,44 @@ function ProjectsSection() {
         ))}
       </div>
 
-      {/* Projects Grid - Only 3 projects */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {filteredProjects.length > 0 ? (
-          filteredProjects.map((project, index) => (
+      {/* Projects Grid */}
+      {isLoading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="h-80 bg-muted animate-pulse rounded-lg"></div>
+          ))}
+        </div>
+      ) : error ? (
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">{error}</p>
+        </div>
+      ) : filteredProjects.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredProjects.map((project, index) => (
             <ProjectCard
               key={project._id}
               project={project}
               isArabic={isArabic}
               index={index}
             />
-          ))
-        ) : (
-          <div className="col-span-3 text-center py-12 fade-in">
-            <p className={`text-xl ${isArabic ? "font-arabic" : ""}`}>
-              {isArabic ? "لم يتم العثور على مشاريع" : "No projects found"}
-            </p>
-          </div>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">
+            {isArabic
+              ? "لا توجد مشاريع متاحة حالياً"
+              : "No projects available at the moment"}
+          </p>
+        </div>
+      )}
 
       {/* View All Projects Button */}
       <div className="flex justify-center mt-12 fade-in-up stagger-delay-5">
         <Link href="/projects">
-          <Button className="bg-brand-gold hover:bg-brand-gold/90 text-brand-navy group">
+          <Button className="bg-gradient-to-r from-brand-gold to-brand-goldDark text-white group">
             {isArabic ? "عرض جميع المشاريع" : "View All Projects"}
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Button>

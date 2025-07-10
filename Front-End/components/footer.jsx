@@ -20,7 +20,7 @@ export default function Footer() {
 
   return (
     <footer
-      className={`py-16 border-t border-brand-gold/20 mt-16 ${
+      className={`py-16 border-t border-border mt-16 bg-background ${
         isArabic ? "font-arabic text-right" : ""
       }`}>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

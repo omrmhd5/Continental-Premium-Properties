@@ -87,7 +87,7 @@ export default function ProjectsPage() {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar />
       <div className="container mx-auto px-4 pt-20">
         <section className="py-12">
@@ -99,7 +99,7 @@ export default function ProjectsPage() {
             <div>
               <Link
                 href="/"
-                className="inline-flex items-center text-primary mb-4">
+                className="inline-flex items-center text-brand-gold mb-4">
                 {isArabic ? (
                   <>
                     {isArabic ? "العودة إلى الصفحة الرئيسية" : "Back to Home"}
@@ -113,13 +113,13 @@ export default function ProjectsPage() {
                 )}
               </Link>
               <h1
-                className={`text-3xl md:text-4xl font-serif font-bold ${
+                className={`text-3xl md:text-4xl font-serif font-bold text-brand-gold ${
                   isArabic ? "font-arabic" : ""
                 }`}>
                 {isArabic ? "مشاريعنا" : "Our Projects"}
               </h1>
               <p
-                className={`text-muted-foreground mt-2 ${
+                className={`text-brand-goldDark mt-2 ${
                   isArabic ? "font-arabic" : ""
                 }`}>
                 {isArabic
@@ -131,7 +131,7 @@ export default function ProjectsPage() {
             {/* Compare Properties Button */}
             <Button
               variant="outline"
-              className="flex items-center gap-2 "
+              className="flex items-center gap-2 bg-gradient-to-r from-brand-gold to-brand-goldDark text-white font-bold border-none"
               onClick={() => setIsComparisonOpen(true)}>
               <SplitSquareVertical
                 className={`h-4 w-4 ${isArabic ? "ml-2" : "mr-2"}`}

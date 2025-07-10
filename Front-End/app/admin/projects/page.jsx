@@ -76,7 +76,6 @@ export default function AdminProjects() {
   const [projects, setProjects] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [locationFilter, setLocationFilter] = useState("all");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -467,6 +466,26 @@ export default function AdminProjects() {
     return parseInt(String(value || "").replace(/\D/g, "")) || 0;
   };
 
+  // Filter projects based on search and filters
+  const filteredProjects = projects.filter((project) => {
+    // Check if project matches search term (including location)
+    const matchesSearch =
+      searchTerm === "" ||
+      project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      project.description?.en
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      project.description?.ar?.includes(searchTerm) ||
+      project.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      false;
+
+    // Check if project matches status filter
+    const matchesStatus =
+      statusFilter === "all" || project.status === statusFilter;
+
+    return matchesSearch && matchesStatus;
+  });
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -503,8 +522,9 @@ export default function AdminProjects() {
           </Button>
         </div>
       </div>
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className="relative flex-1">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+        {/* Search Input */}
+        <div className="relative">
           <Search
             className={`absolute ${
               isArabic ? "right-2.5" : "left-2.5"
@@ -512,59 +532,38 @@ export default function AdminProjects() {
           />
           <Input
             placeholder={
-              isArabic ? "البحث عن المشاريع..." : "Search projects..."
+              isArabic
+                ? "ابحث بالاسم أو الموقع..."
+                : "Search by name or location..."
             }
             className={isArabic ? "pr-8" : "pl-8"}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="flex flex-col sm:flex-row gap-4">
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue
-                placeholder={isArabic ? "تصفية حسب الحالة" : "Filter by status"}
-              />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">
-                {isArabic ? "جميع الحالات" : "All Statuses"}
-              </SelectItem>
-              <SelectItem value="off-plan">
-                {isArabic ? "قيد الإنشاء" : "Off Plan"}
-              </SelectItem>
-              <SelectItem value="secondary">
-                {isArabic ? "ثانوي" : "Secondary"}
-              </SelectItem>
-              <SelectItem value="rentals">
-                {isArabic ? "إيجار" : "Rentals"}
-              </SelectItem>
-            </SelectContent>
-          </Select>
-          <Select value={locationFilter} onValueChange={setLocationFilter}>
-            <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue
-                placeholder={
-                  isArabic ? "تصفية حسب الموقع" : "Filter by location"
-                }
-              />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">
-                {isArabic ? "جميع المواقع" : "All Locations"}
-              </SelectItem>
-              <SelectItem value="Dubai">
-                {isArabic ? "دبي" : "Dubai"}
-              </SelectItem>
-              <SelectItem value="Abu Dhabi">
-                {isArabic ? "أبو ظبي" : "Abu Dhabi"}
-              </SelectItem>
-              <SelectItem value="Sharjah">
-                {isArabic ? "الشارقة" : "Sharjah"}
-              </SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+
+        {/* Status Filter */}
+        <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <SelectTrigger>
+            <SelectValue
+              placeholder={isArabic ? "تصفية حسب الحالة" : "Filter by status"}
+            />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">
+              {isArabic ? "جميع الحالات" : "All Statuses"}
+            </SelectItem>
+            <SelectItem value="off-plan">
+              {isArabic ? "قيد الإنشاء" : "Off Plan"}
+            </SelectItem>
+            <SelectItem value="secondary">
+              {isArabic ? "ثانوي" : "Secondary"}
+            </SelectItem>
+            <SelectItem value="rentals">
+              {isArabic ? "إيجار" : "Rentals"}
+            </SelectItem>
+          </SelectContent>
+        </Select>
       </div>
       <div className="rounded-md border border-primary/20 overflow-x-auto">
         <Table>
@@ -594,8 +593,8 @@ export default function AdminProjects() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {projects.length > 0 ? (
-              projects.map((project) => (
+            {filteredProjects.length > 0 ? (
+              filteredProjects.map((project) => (
                 <TableRow key={project._id}>
                   <TableCell className="font-medium whitespace-nowrap">
                     {project._id}
@@ -609,11 +608,9 @@ export default function AdminProjects() {
                   <TableCell className="whitespace-nowrap">
                     {project.location}
                   </TableCell>
-                  <TableCell className="flex items-center whitespace-nowrap">
-                    <div className="flex items-center">
-                      <span className="mr-1">AED</span>
-                      {project.price}
-                    </div>
+                  <TableCell className="whitespace-nowrap">
+                    <span className="mr-1">AED</span>
+                    {project.price}
                   </TableCell>
                   <TableCell className="whitespace-nowrap">
                     {project.date}
@@ -661,7 +658,13 @@ export default function AdminProjects() {
             ) : (
               <TableRow>
                 <TableCell colSpan={7} className="h-24 text-center">
-                  {isArabic ? "لم يتم العثور على مشاريع" : "No projects found."}
+                  {projects.length === 0
+                    ? isArabic
+                      ? "لا توجد مشاريع"
+                      : "No projects found."
+                    : isArabic
+                    ? "لم يتم العثور على مشاريع تطابق البحث"
+                    : "No projects match your search."}
                 </TableCell>
               </TableRow>
             )}
@@ -751,9 +754,9 @@ export default function AdminProjects() {
                 {isArabic ? "السعر (درهم)" : "Price (AED)"}
               </Label>
               <div className="col-span-3 relative">
-                <div className="absolute left-2.5 top-2.5">
-                  <SARSymbol className="h-4 w-4 text-muted-foreground" />
-                </div>
+                <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground text-base select-none">
+                  AED
+                </span>
                 <Input
                   id="project-price"
                   value={formatPrice(newProject.price)}
@@ -763,7 +766,7 @@ export default function AdminProjects() {
                       price: parsePrice(e.target.value),
                     })
                   }
-                  className={`pl-8 ${isArabic ? "text-right" : ""}`}
+                  className={`pl-12 ${isArabic ? "text-right" : ""}`}
                 />
               </div>
             </div>

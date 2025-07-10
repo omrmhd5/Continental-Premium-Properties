@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="icon" href="/favicon.svg" sizes="any" />
       </head>
-      <body className="font-dubai">
+      <body className="font-dubai bg-background text-foreground">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <LanguageProvider>{children}</LanguageProvider>
         </ThemeProvider>

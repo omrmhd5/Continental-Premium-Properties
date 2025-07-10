@@ -59,9 +59,18 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Brand colors
+        // Brand colors (updated for logo identity)
         brand: {
-          gold: "#b48f47",
+          gold: "#E6C27A",
+          goldDark: "#B08D57",
+          bgDark: "#1a1a1a",
+          bgLight: "#fafafa",
+          cardDark: "#2a2a2a",
+          cardLight: "#ffffff",
+          textDark: "#f8fafc",
+          textLight: "#334155",
+          borderDark: "#404040",
+          borderLight: "#e2e8f0",
           navy: "#373f4e",
           beige1: "#dccca4",
           beige2: "#d4bd91",
@@ -98,9 +107,9 @@ module.exports = {
         shimmer: "shimmer 2s linear infinite",
       },
       backgroundImage: {
-        "gold-gradient": "linear-gradient(to right, transparent, #b48f47/0.2, transparent)",
+        "gold-gradient": "linear-gradient(90deg, #E6C27A 0%, #B08D57 100%)",
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};

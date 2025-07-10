@@ -15,7 +15,7 @@ const NavItem = memo(function NavItem({ href, name, pathname, onClick }) {
     <Link
       href={href}
       className={`text-base font-medium transition-colors hover:text-brand-gold ${
-        pathname === href ? "text-brand-gold" : "text-muted-foreground"
+        pathname === href ? "text-brand-gold" : "text-brand-gold"
       }`}
       onClick={onClick}>
       {name}
@@ -49,7 +49,7 @@ function Navbar() {
   ];
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm shadow-2xl border-b border-brand-gold/20">
+    <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm shadow-2xl border-b border-border">
       <nav
         className={`container mx-auto px-4 py-4 ${
           isArabic ? "font-arabic text-right" : ""

@@ -2,6 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Remove scrollbars across the website */
+html {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+/* Remove scrollbars from all elements */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
 @font-face {
   font-family: "GE SS Two";
   src: url("/fonts/GESSTwoMedium.woff2") format("woff2");
@@ -59,24 +88,24 @@
   }
 
   .dark {
-    --background: 222 17% 26%;
+    --background: 0 0% 10%; /* #1a1a1a - soft black */
     --foreground: 40 30% 90%;
-    --card: 222 17% 20%;
+    --card: 0 0% 16%; /* #2a2a2a - slightly lighter grey */
     --card-foreground: 40 30% 90%;
-    --popover: 222 17% 26%;
+    --popover: 0 0% 10%; /* #1a1a1a - soft black */
     --popover-foreground: 40 30% 90%;
     --primary: 40 43% 49%;
     --primary-foreground: 222 17% 26%;
-    --secondary: 222 17% 15%;
+    --secondary: 0 0% 16%; /* #2a2a2a - grey */
     --secondary-foreground: 40 30% 90%;
-    --muted: 222 17% 15%;
+    --muted: 0 0% 16%; /* #2a2a2a - grey */
     --muted-foreground: 40 30% 70%;
     --accent: 40 43% 49%;
     --accent-foreground: 222 17% 26%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 40 30% 90%;
-    --border: 222 17% 20%;
-    --input: 222 17% 20%;
+    --border: 0 0% 25%; /* #404040 - grey border */
+    --input: 0 0% 16%; /* #2a2a2a - grey */
     --ring: 40 43% 49%;
   }
 }
