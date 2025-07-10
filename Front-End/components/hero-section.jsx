@@ -15,7 +15,9 @@ export default function HeroSection() {
         <div className="inline-block mb-4 fade-in">
           <span className="inline-block h-0.5 w-10 bg-brand-gold mr-2 align-middle"></span>
           <span className="text-brand-gold text-sm uppercase tracking-wider">
-            {isArabic ? "حلول تطويرية متميزة" : "Premium Development Solutions"}
+            {isArabic
+              ? "Continental Premium Properties"
+              : "Continental Premium Properties"}
           </span>
           <span className="inline-block h-0.5 w-10 bg-brand-gold ml-2 align-middle"></span>
         </div>

@@ -25,28 +25,28 @@ export default function Logo({ variant = "full", className = "" }) {
       {variant === "full" ? (
         <div className={`relative ${isDark ? "invert brightness-0" : ""}`}>
           <Image
-            src="/images/logo-full.svg"
+            src="/images/Logo.svg"
             alt={
               isArabic
-                ? "الحلول التطويرية العقارية"
-                : "Development Solutions Real Estate"
+                ? "Continental Premium Properties"
+                : "Continental Premium Properties"
             }
-            width={120}
-            height={60}
+            width={60}
+            height={30}
             className="h-auto"
           />
         </div>
       ) : (
         <div className={`relative ${isDark ? "invert brightness-0" : ""}`}>
           <Image
-            src="/images/logo-icon.svg"
+            src="/images/Logo.svg"
             alt={
               isArabic
-                ? "الحلول التطويرية العقارية"
-                : "Development Solutions Real Estate"
+                ? "Continental Premium Properties"
+                : "Continental Premium Properties"
             }
-            width={35}
-            height={35}
+            width={17}
+            height={17}
             className="h-auto"
           />
         </div>

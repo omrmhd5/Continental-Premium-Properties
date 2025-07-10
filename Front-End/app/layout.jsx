@@ -3,7 +3,7 @@ import { LanguageProvider } from "@/context/language-context";
 import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata = {
-  title: "Development Solutions Real Estate - الحلول التطويرية العقارية",
+  title: "Continental Premium Properties - Continental Premium Properties",
   description:
     "Discover our premium residential projects with world-class specifications and modern designs",
   generator: "v0.dev",

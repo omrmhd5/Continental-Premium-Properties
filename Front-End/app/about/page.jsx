@@ -47,29 +47,6 @@ export default function AboutPage() {
     },
   ];
 
-  const team = [
-    {
-      name: { en: "Ahmed Al-Saud", ar: "أحمد آل سعود" },
-      position: { en: "Chief Executive Officer", ar: "الرئيس التنفيذي" },
-      image: "/images/Ahmed.webp",
-    },
-    {
-      name: { en: "Sarah Al-Qahtani", ar: "سارة القحطاني" },
-      position: { en: "Chief Operations Officer", ar: "مدير العمليات" },
-      image: "/images/Sarah.webp",
-    },
-    {
-      name: { en: "Mohammed Al-Otaibi", ar: "محمد العتيبي" },
-      position: { en: "Chief Financial Officer", ar: "المدير المالي" },
-      image: "/images/Mohammed.webp",
-    },
-    {
-      name: { en: "Fatima Al-Harbi", ar: "فاطمة الحربي" },
-      position: { en: "Head of Design", ar: "رئيس قسم التصميم" },
-      image: "/images/Fatima.webp",
-    },
-  ];
-
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -94,8 +71,8 @@ export default function AboutPage() {
                   isArabic ? "font-arabic" : ""
                 }`}>
                 {isArabic
-                  ? "تعرف على قصتنا ورؤيتنا وفريقنا"
-                  : "Learn about our story, vision, and team"}
+                  ? "تعرف على قصتنا ورؤيتنا"
+                  : "Learn about our story and vision"}
               </p>
             </div>
           </div>
@@ -184,52 +161,6 @@ With us, you are not just a client… you are a partner in success.`}
                   </p>
                 </CardContent>
               </Card>
-            ))}
-          </div>
-
-          <div className={`text-center mb-12 ${isArabic ? "font-arabic" : ""}`}>
-            <div className="inline-block mb-4">
-              <span className="inline-block h-0.5 w-10 bg-primary mr-2 align-middle"></span>
-              <span className="text-primary text-sm uppercase tracking-wider">
-                {isArabic ? "فريقنا" : "Our Team"}
-              </span>
-              <span className="inline-block h-0.5 w-10 bg-primary ml-2 align-middle"></span>
-            </div>
-            <h2 className="text-3xl font-serif font-bold mb-4">
-              {isArabic ? "قابل قادة شركتنا" : "Meet Our Leadership"}
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              {isArabic
-                ? "فريق من المحترفين ذوي الخبرة الذين يقودون شركتنا نحو النجاح"
-                : "A team of experienced professionals who lead our company to success"}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {team.map((member, index) => (
-              <div
-                key={index}
-                className="elegant-card overflow-hidden rounded-lg">
-                <div className="relative h-64">
-                  <Image
-                    src={member.image || "/placeholder.svg"}
-                    alt={isArabic ? member.name.ar : member.name.en}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div
-                  className={`p-4 text-center ${
-                    isArabic ? "font-arabic" : ""
-                  }`}>
-                  <h3 className="text-lg font-serif font-bold">
-                    {isArabic ? member.name.ar : member.name.en}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {isArabic ? member.position.ar : member.position.en}
-                  </p>
-                </div>
-              </div>
             ))}
           </div>
         </section>

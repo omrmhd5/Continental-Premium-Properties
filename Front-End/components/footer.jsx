@@ -171,8 +171,8 @@ export default function Footer() {
       <div className={`text-center ${isArabic ? "font-arabic" : ""}`}>
         <p className="text-muted-foreground">
           {isArabic
-            ? "© 2023 الحلول التطويرية العقارية. جميع الحقوق محفوظة."
-            : "© 2023 Development Solutions Real Estate. All rights reserved."}
+            ? "© 2025 Continental Premium Properties. جميع الحقوق محفوظة."
+            : "© 2025 Continental Premium Properties. All rights reserved."}
         </p>
       </div>
     </footer>
