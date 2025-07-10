@@ -18,6 +18,7 @@ import {
   Ruler,
   Building,
   SplitSquareVertical,
+  Calendar,
 } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -341,6 +342,23 @@ export default function ProjectDetailPage() {
                       </div>
                       <span className="font-medium">{project.floors}</span>
                     </div>
+
+                    {/* Handover - Only for off-plan projects */}
+                    {project.status === "off-plan" && project.handover && (
+                      <div className="flex justify-between items-center pb-2 border-b border-border">
+                        <div className="flex items-center">
+                          <Calendar
+                            className={`h-5 w-5 text-primary ${
+                              isArabic ? "ml-2" : "mr-2"
+                            }`}
+                          />
+                          <span className={isArabic ? "font-arabic" : ""}>
+                            {isArabic ? "التسليم" : "Handover"}
+                          </span>
+                        </div>
+                        <span className="font-medium">{project.handover}</span>
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -355,9 +373,38 @@ export default function ProjectDetailPage() {
                     {isArabic ? "السعر" : "Price"}
                   </h2>
                   <div className="flex items-center justify-center text-3xl font-bold text-primary">
+                    {project.status === "off-plan" && (
+                      <span
+                        className={`text-lg font-normal ${
+                          isArabic ? "ml-2" : "mr-2"
+                        }`}>
+                        {isArabic ? "يبدأ من" : "Starting from"}
+                      </span>
+                    )}
                     <span className="mr-2">AED</span>
                     {project.price}
                   </div>
+
+                  {/* Handover - Prominent display for off-plan projects */}
+                  {project.status === "off-plan" && project.handover && (
+                    <div className="mt-4 text-center">
+                      <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
+                        <div className="flex items-center justify-center gap-2 mb-2">
+                          <Calendar className="h-5 w-5 text-primary" />
+                          <span
+                            className={`text-lg font-semibold text-primary ${
+                              isArabic ? "font-arabic" : ""
+                            }`}>
+                            {isArabic ? "التسليم" : "Handover"}
+                          </span>
+                        </div>
+                        <div className="text-2xl font-bold text-primary">
+                          {project.handover}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="mt-6">
                     <Button className="w-full">
                       {isArabic ? "تواصل معنا" : "Contact Us"}

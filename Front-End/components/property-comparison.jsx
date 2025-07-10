@@ -287,6 +287,18 @@ function PropertyComparison({ onClose }) {
                   isArabic={isArabic}
                 />
 
+                {/* Handover - Only show if both projects are off-plan and have handover dates */}
+                {project1.status === "off-plan" &&
+                  project2.status === "off-plan" && (
+                    <ComparisonRow
+                      label={isArabic ? "التسليم" : "Handover"}
+                      value1={project1.handover || "N/A"}
+                      value2={project2.handover || "N/A"}
+                      comparison="text"
+                      isArabic={isArabic}
+                    />
+                  )}
+
                 <ComparisonRow
                   label={isArabic ? "الموقع" : "Location"}
                   value1={project1.location}

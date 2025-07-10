@@ -30,6 +30,29 @@ const ProjectCard = memo(function ProjectCard({ project, isArabic, index }) {
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+
+        {/* Price and Handover Overlay */}
+        <div className="absolute bottom-4 left-4 flex flex-col gap-1">
+          <div className="flex items-center text-white font-bold text-lg">
+            {project.status === "off-plan" && (
+              <span
+                className={`text-sm font-normal ${isArabic ? "ml-1" : "mr-1"}`}>
+                {isArabic ? "يبدأ من" : "Starting from"}
+              </span>
+            )}
+            <span className="mr-1">AED</span>
+            {project.price}
+          </div>
+          {/* Handover for off-plan projects */}
+          {project.status === "off-plan" && project.handover && (
+            <div className="bg-black/50 text-white px-2 py-1 rounded text-sm">
+              <span className="font-semibold">
+                {isArabic ? "التسليم: " : "Handover: "}
+              </span>
+              {project.handover}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Project Details */}

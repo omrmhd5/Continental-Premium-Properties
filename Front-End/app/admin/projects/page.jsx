@@ -96,6 +96,7 @@ export default function AdminProjects() {
     bedrooms: "",
     bathrooms: "",
     floors: "",
+    handover: "",
     images: [],
     features: [{ en: "", ar: "" }],
   });
@@ -184,6 +185,7 @@ export default function AdminProjects() {
         bedrooms: "",
         bathrooms: "",
         floors: "",
+        handover: "",
         images: [],
         features: [{ en: "", ar: "" }],
       });
@@ -732,28 +734,15 @@ export default function AdminProjects() {
                 className={`text-right ${isArabic ? "font-arabic" : ""}`}>
                 {isArabic ? "الموقع" : "Location"}
               </Label>
-              <Select
+              <Input
+                id="project-location"
                 value={newProject.location}
-                onValueChange={(value) =>
-                  setNewProject({ ...newProject, location: value })
-                }>
-                <SelectTrigger id="project-location" className="col-span-3">
-                  <SelectValue
-                    placeholder={isArabic ? "اختر الموقع" : "Select location"}
-                  />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Dubai">
-                    {isArabic ? "دبي" : "Dubai"}
-                  </SelectItem>
-                  <SelectItem value="Abu Dhabi">
-                    {isArabic ? "أبو ظبي" : "Abu Dhabi"}
-                  </SelectItem>
-                  <SelectItem value="Sharjah">
-                    {isArabic ? "الشارقة" : "Sharjah"}
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+                onChange={(e) =>
+                  setNewProject({ ...newProject, location: e.target.value })
+                }
+                className={`col-span-3 ${isArabic ? "text-right" : ""}`}
+                placeholder={isArabic ? "أدخل الموقع" : "Enter location"}
+              />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label
@@ -903,6 +892,31 @@ export default function AdminProjects() {
                 min="0"
               />
             </div>
+            {newProject.status === "off-plan" && (
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label
+                  htmlFor="project-handover"
+                  className={`text-right ${isArabic ? "font-arabic" : ""}`}>
+                  {isArabic ? "التسليم" : "Handover"}
+                </Label>
+                <Input
+                  id="project-handover"
+                  value={newProject.handover}
+                  onChange={(e) =>
+                    setNewProject({
+                      ...newProject,
+                      handover: e.target.value,
+                    })
+                  }
+                  className={`col-span-3 ${isArabic ? "text-right" : ""}`}
+                  placeholder={
+                    isArabic
+                      ? "شهر/سنة (مثال: 12/2025)"
+                      : "Month/Year (e.g., 12/2025)"
+                  }
+                />
+              </div>
+            )}
             <div className="grid grid-cols-4 items-start gap-4">
               <Label
                 htmlFor="project-images"
@@ -1085,20 +1099,18 @@ export default function AdminProjects() {
                   className={`text-right ${isArabic ? "font-arabic" : ""}`}>
                   {isArabic ? "الموقع" : "Location"}
                 </Label>
-                <Select
-                  value={currentProject.location}
-                  onValueChange={(value) =>
-                    setCurrentProject({ ...currentProject, location: value })
-                  }>
-                  <SelectTrigger id="edit-location" className="col-span-3">
-                    <SelectValue placeholder="Select location" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Dubai">Dubai</SelectItem>
-                    <SelectItem value="Abu Dhabi">Abu Dhabi</SelectItem>
-                    <SelectItem value="Sharjah">Sharjah</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Input
+                  id="edit-location"
+                  value={currentProject.location || ""}
+                  onChange={(e) =>
+                    setCurrentProject({
+                      ...currentProject,
+                      location: e.target.value,
+                    })
+                  }
+                  className="col-span-3"
+                  placeholder={isArabic ? "أدخل الموقع" : "Enter location"}
+                />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label
@@ -1252,6 +1264,31 @@ export default function AdminProjects() {
                   min="0"
                 />
               </div>
+              {currentProject.status === "off-plan" && (
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label
+                    htmlFor="edit-handover"
+                    className={`text-right ${isArabic ? "font-arabic" : ""}`}>
+                    {isArabic ? "التسليم" : "Handover"}
+                  </Label>
+                  <Input
+                    id="edit-handover"
+                    value={currentProject.handover || ""}
+                    onChange={(e) =>
+                      setCurrentProject({
+                        ...currentProject,
+                        handover: e.target.value,
+                      })
+                    }
+                    className="col-span-3"
+                    placeholder={
+                      isArabic
+                        ? "شهر/سنة (مثال: 12/2025)"
+                        : "Month/Year (e.g., 12/2025)"
+                    }
+                  />
+                </div>
+              )}
               <div className="grid grid-cols-4 items-start gap-4">
                 <Label
                   htmlFor="edit-images"

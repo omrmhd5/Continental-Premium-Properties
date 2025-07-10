@@ -27,7 +27,6 @@ export default function ProjectsPage() {
   const isArabic = language === "ar";
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [locationFilter, setLocationFilter] = useState("all");
   const [projects, setProjects] = useState([]);
   const [isComparisonOpen, setIsComparisonOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -55,24 +54,22 @@ export default function ProjectsPage() {
 
   // Filter projects based on search and filters
   const filteredProjects = projects.filter((project) => {
-    // Check if project matches search term
+    // Check if project matches search term (including location)
     const matchesSearch =
+      searchTerm === "" ||
       project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       project.description?.en
         ?.toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
       project.description?.ar?.includes(searchTerm) ||
+      project.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
       false;
 
     // Check if project matches status filter
     const matchesStatus =
       statusFilter === "all" || project.status === statusFilter;
 
-    // Check if project matches location filter
-    const matchesLocation =
-      locationFilter === "all" || project.location === locationFilter;
-
-    return matchesSearch && matchesStatus && matchesLocation;
+    return matchesSearch && matchesStatus;
   });
 
   // Status options for filter
@@ -87,14 +84,6 @@ export default function ProjectsPage() {
       label: isArabic ? "ثانوي" : "Secondary",
     },
     { value: "rentals", label: isArabic ? "إيجار" : "Rentals" },
-  ];
-
-  // Location options for filter
-  const locationOptions = [
-    { value: "all", label: isArabic ? "جميع المواقع" : "All Locations" },
-    { value: "Dubai", label: isArabic ? "دبي" : "Dubai" },
-    { value: "Abu Dhabi", label: isArabic ? "أبو ظبي" : "Abu Dhabi" },
-    { value: "Sharjah", label: isArabic ? "الشارقة" : "Sharjah" },
   ];
 
   return (
@@ -152,7 +141,7 @@ export default function ProjectsPage() {
           </div>
 
           {/* Filters Section */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 ">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 ">
             {/* Search Input */}
             <div className="relative">
               <Search
@@ -162,7 +151,9 @@ export default function ProjectsPage() {
               />
               <Input
                 placeholder={
-                  isArabic ? "ابحث عن المشاريع..." : "Search projects..."
+                  isArabic
+                    ? "ابحث بالاسم أو الموقع..."
+                    : "Search by name or location..."
                 }
                 className={isArabic ? "pr-8" : "pl-8"}
                 value={searchTerm}
@@ -185,24 +176,6 @@ export default function ProjectsPage() {
                     key={option.value}
                     value={option.value}
                     className="backdrop-blur-sm relative flex w-full cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            {/* Location Filter */}
-            <Select value={locationFilter} onValueChange={setLocationFilter}>
-              <SelectTrigger>
-                <SelectValue
-                  placeholder={
-                    isArabic ? "تصفية حسب الموقع" : "Filter by location"
-                  }
-                />
-              </SelectTrigger>
-              <SelectContent>
-                {locationOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
                     {option.label}
                   </SelectItem>
                 ))}
@@ -242,7 +215,6 @@ export default function ProjectsPage() {
                 onClick={() => {
                   setSearchTerm("");
                   setStatusFilter("all");
-                  setLocationFilter("all");
                 }}>
                 {isArabic ? "إعادة تعيين الفلاتر" : "Reset Filters"}
               </Button>
@@ -283,9 +255,24 @@ function ProjectCard({ project, isArabic, index }) {
             {project.location}
           </span>
           <div className="flex items-center text-primary font-bold text-lg">
+            {project.status === "off-plan" && (
+              <span
+                className={`text-sm font-normal ${isArabic ? "ml-1" : "mr-1"}`}>
+                {isArabic ? "يبدأ من" : "Starting from"}
+              </span>
+            )}
             <span className="mr-1">AED</span>
             {project.price}
           </div>
+          {/* Handover for off-plan projects */}
+          {project.status === "off-plan" && project.handover && (
+            <div className="bg-black/50 text-white px-2 py-1 rounded text-sm">
+              <span className="font-semibold">
+                {isArabic ? "التسليم: " : "Handover: "}
+              </span>
+              {project.handover}
+            </div>
+          )}
         </div>
       </div>
 
