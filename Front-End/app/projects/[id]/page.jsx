@@ -35,6 +35,14 @@ export default function ProjectDetailPage() {
   const [error, setError] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isComparisonOpen, setIsComparisonOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
+  const [contactStatus, setContactStatus] = useState(null);
+  const [contactLoading, setContactLoading] = useState(false);
 
   // Fetch project data from API
   useEffect(() => {
@@ -84,6 +92,33 @@ export default function ProjectDetailPage() {
       alert("Link copied to clipboard!");
     }
   };
+
+  // Contact form submit handler
+  async function handleContactSubmit(e) {
+    e.preventDefault();
+    setContactLoading(true);
+    setContactStatus(null);
+    try {
+      const res = await fetch("http://localhost:5000/api/projects/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...contactForm,
+          project: { title: project.title, location: project.location },
+        }),
+      });
+      if (res.ok) {
+        setContactStatus("success");
+        setContactForm({ name: "", email: "", phone: "" });
+      } else {
+        setContactStatus("error");
+      }
+    } catch {
+      setContactStatus("error");
+    } finally {
+      setContactLoading(false);
+    }
+  }
 
   // Loading state
   if (loading) {
@@ -398,16 +433,19 @@ export default function ProjectDetailPage() {
                             {isArabic ? "التسليم" : "Handover"}
                           </span>
                         </div>
-                        <div className="text-2xl font-bold text-primary">
+                        <span className="text-lg font-bold text-primary">
                           {project.handover}
-                        </div>
+                        </span>
                       </div>
                     </div>
                   )}
 
-                  <div className="mt-6">
-                    <Button className="w-full">
-                      {isArabic ? "تواصل معنا" : "Contact Us"}
+                  {/* Contact Us Button */}
+                  <div className="mt-8 flex justify-center">
+                    <Button onClick={() => setIsContactOpen(true)}>
+                      {isArabic
+                        ? "تواصل معنا بشأن هذا المشروع"
+                        : "Contact Us About This Project"}
                     </Button>
                   </div>
                 </CardContent>
@@ -422,6 +460,85 @@ export default function ProjectDetailPage() {
       {/* Property Comparison Modal */}
       {isComparisonOpen && (
         <PropertyComparison onClose={() => setIsComparisonOpen(false)} />
+      )}
+
+      {isContactOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="relative bg-background rounded-lg shadow-lg w-full max-w-md mx-auto p-8 z-10">
+            <div className="text-xl font-bold mb-4">
+              {isArabic ? "تواصل معنا" : "Contact Us"}
+            </div>
+            <div className="mb-4 text-sm text-muted-foreground text-center">
+              {isArabic
+                ? `سيتواصل معك خبيرنا بخصوص ${project.title} في ${project.location}.`
+                : `Our expert will reach out to you about ${project.title} in ${project.location}.`}
+            </div>
+            <form onSubmit={handleContactSubmit} className="space-y-4">
+              <input
+                type="text"
+                required
+                placeholder={isArabic ? "الاسم" : "Your Name"}
+                className="w-full border rounded px-3 py-2"
+                value={contactForm.name}
+                onChange={(e) =>
+                  setContactForm((f) => ({ ...f, name: e.target.value }))
+                }
+              />
+              <input
+                type="email"
+                required
+                placeholder={isArabic ? "البريد الإلكتروني" : "Your Email"}
+                className="w-full border rounded px-3 py-2"
+                value={contactForm.email}
+                onChange={(e) =>
+                  setContactForm((f) => ({ ...f, email: e.target.value }))
+                }
+              />
+              <input
+                type="tel"
+                required
+                placeholder={isArabic ? "رقم الهاتف" : "Phone Number"}
+                className="w-full border rounded px-3 py-2"
+                value={contactForm.phone}
+                onChange={(e) =>
+                  setContactForm((f) => ({ ...f, phone: e.target.value }))
+                }
+              />
+              <button
+                type="submit"
+                className="w-full bg-primary text-white py-2 rounded font-bold mt-2 disabled:opacity-60"
+                disabled={contactLoading}>
+                {contactLoading
+                  ? isArabic
+                    ? "يتم الإرسال..."
+                    : "Sending..."
+                  : isArabic
+                  ? "إرسال"
+                  : "Send"}
+              </button>
+              {contactStatus === "success" && (
+                <div className="text-green-600 text-center mt-2">
+                  {isArabic
+                    ? "تم الإرسال بنجاح!"
+                    : "Message sent successfully!"}
+                </div>
+              )}
+              {contactStatus === "error" && (
+                <div className="text-red-600 text-center mt-2">
+                  {isArabic
+                    ? "حدث خطأ أثناء الإرسال."
+                    : "Failed to send message."}
+                </div>
+              )}
+            </form>
+            <button
+              className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl"
+              onClick={() => setIsContactOpen(false)}
+              aria-label="Close">
+              ×
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
