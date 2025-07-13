@@ -1,6 +1,7 @@
 import "./globals.css";
 import { LanguageProvider } from "@/context/language-context";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata = {
   title: "Continental Premium Properties - Continental Premium Properties",
@@ -19,6 +20,7 @@ export default function RootLayout({ children }) {
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <LanguageProvider>{children}</LanguageProvider>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

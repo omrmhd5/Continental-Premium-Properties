@@ -30,57 +30,111 @@ export default function ContactPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/projects/contact",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            subject: formData.subject,
+            message: formData.message,
+          }),
+        }
+      );
+      if (response.ok) {
+        toast({
+          title:
+            language === "ar"
+              ? "تم إرسال الشكوى أو الملاحظة بنجاح"
+              : language === "fr"
+              ? "Réclamation ou commentaire envoyé avec succès"
+              : "Feedback or Complaint Sent Successfully",
+          description:
+            language === "ar"
+              ? "سنتواصل معك في أقرب وقت ممكن"
+              : language === "fr"
+              ? "Nous vous répondrons dans les plus brefs délais"
+              : "We will get back to you as soon as possible",
+        });
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        toast({
+          title:
+            language === "ar"
+              ? "حدث خطأ أثناء الإرسال"
+              : language === "fr"
+              ? "Erreur lors de l'envoi"
+              : "Error Sending Message",
+          description:
+            language === "ar"
+              ? "يرجى المحاولة مرة أخرى لاحقًا"
+              : language === "fr"
+              ? "Veuillez réessayer plus tard"
+              : "Please try again later",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
       toast({
         title:
           language === "ar"
-            ? "تم إرسال الرسالة بنجاح"
+            ? "حدث خطأ أثناء الإرسال"
             : language === "fr"
-            ? "Message Envoyé avec Succès"
-            : "Message Sent Successfully",
+            ? "Erreur lors de l'envoi"
+            : "Error Sending Message",
         description:
           language === "ar"
-            ? "سنتواصل معك في أقرب وقت ممكن"
+            ? "يرجى المحاولة مرة أخرى لاحقًا"
             : language === "fr"
-            ? "Nous vous répondrons dans les plus brefs délais"
-            : "We will get back to you as soon as possible",
+            ? "Veuillez réessayer plus tard"
+            : "Please try again later",
+        variant: "destructive",
       });
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: "",
-      });
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   const contactInfo = [
     {
       icon: <MapPin className="h-6 w-6 text-primary" />,
-      title: { en: "Visit Us", ar: "زورنا" },
+      title: { en: "Visit Us", ar: "زورنا", fr: "Visitez-nous" },
       details: {
         en: "2110-B2B Office Tower - Marasi Dr - Business Bay - Dubai",
         ar: "2110-B2B Office Tower - Marasi Dr - Business Bay - Dubai",
+        fr: "2110-B2B Office Tower - Marasi Dr - Business Bay - Dubaï",
       },
     },
     {
       icon: <Phone className="h-6 w-6 text-primary" />,
-      title: { en: "Call Us", ar: "اتصل بنا" },
-      details: { en: "+971 4 770 5704", ar: "+971 4 770 5704" },
+      title: { en: "Call Us", ar: "اتصل بنا", fr: "Appelez-nous" },
+      details: {
+        en: "+971 4 770 5704",
+        ar: "+971 4 770 5704",
+        fr: "+971 4 770 5704",
+      },
     },
     {
       icon: <Mail className="h-6 w-6 text-primary" />,
-      title: { en: "Email Us", ar: "راسلنا" },
+      title: { en: "Email Us", ar: "راسلنا", fr: "Envoyez-nous un email" },
       details: {
         en: "propertiescontinental58@gmail.com",
         ar: "propertiescontinental58@gmail.com",
+        fr: "propertiescontinental58@gmail.com",
       },
     },
   ];
@@ -136,10 +190,18 @@ export default function ContactPage() {
                     {info.icon}
                   </div>
                   <h3 className="text-xl font-serif font-bold mb-2">
-                    {isArabic ? info.title.ar : info.title.en}
+                    {isArabic
+                      ? info.title.ar
+                      : language === "fr"
+                      ? info.title.fr
+                      : info.title.en}
                   </h3>
                   <p className="text-muted-foreground">
-                    {isArabic ? info.details.ar : info.details.en}
+                    {isArabic
+                      ? info.details.ar
+                      : language === "fr"
+                      ? info.details.fr
+                      : info.details.en}
                   </p>
                 </CardContent>
               </Card>

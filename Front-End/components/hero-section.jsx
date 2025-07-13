@@ -12,23 +12,23 @@ export default function HeroSection() {
   return (
     <section className="py-16 md:py-24 bg-background">
       <div className={`text-center mb-12 ${isArabic ? "font-arabic" : ""}`}>
-        <div className="inline-block mb-4 fade-in">
+        <div className="inline-block mb-4">
           <span className="inline-block h-0.5 w-10 bg-brand-gold mr-2 align-middle"></span>
           <span className="text-brand-gold text-sm uppercase tracking-wider">
-            {isArabic
-              ? "Continental Premium Properties"
-              : "Continental Premium Properties"}
+            {language === "ar"
+              ? "راحتك هي أولويتنا"
+              : language === "fr"
+              ? "Votre confort est notre priorité"
+              : "Your comfort is our priority"}
           </span>
           <span className="inline-block h-0.5 w-10 bg-brand-gold ml-2 align-middle"></span>
         </div>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight fade-in-up text-brand-gold dark:text-brand-gold">
-          {language === "ar"
-            ? "مشاريع سكنية فاخرة"
-            : language === "fr"
-            ? "Projets Résidentiels de Luxe"
-            : "Luxury Residential Projects"}
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight text-brand-gold dark:text-brand-gold">
+          {isArabic
+            ? "Continental Premium Properties"
+            : "Continental Premium Properties"}
         </h1>
-        <p className="text-xl text-brand-goldDark max-w-3xl mx-auto fade-in-up stagger-delay-1">
+        <p className="text-xl text-brand-goldDark max-w-3xl mx-auto">
           {language === "ar"
             ? "نقدم لكم أفضل المشاريع السكنية بمواصفات عالمية وتصاميم عصرية"
             : language === "fr"
@@ -36,7 +36,7 @@ export default function HeroSection() {
             : "Discover our premium residential projects with world-class specifications and modern designs"}
         </p>
 
-        <div className="mt-8 fade-in-up stagger-delay-2">
+        <div className="mt-8">
           <Link href="/projects">
             <Button className="bg-gradient-to-r from-brand-gold to-brand-goldDark text-white font-bold px-8 py-6 text-lg border-none">
               {language === "ar"
@@ -49,7 +49,7 @@ export default function HeroSection() {
           </Link>
         </div>
       </div>
-      <div className="relative pb-[56.25%] h-0 overflow-hidden rounded-lg shadow-lg border border-brand-gold/20 fade-in-up stagger-delay-3">
+      <div className="relative pb-[56.25%] h-0 overflow-hidden rounded-lg shadow-lg border border-brand-gold/20">
         <iframe
           className="absolute top-0 left-0 w-full h-full"
           src="https://www.youtube.com/embed/LLjuTvY-yQs?autoplay=1&mute=1&controls=0&loop=1&playlist=LLjuTvY-yQs"

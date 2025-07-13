@@ -381,8 +381,8 @@ function PropertyComparison({ onClose }) {
                       ? "Statut"
                       : "Status"
                   }
-                  value1={getStatusLabel(project1.status, isArabic)}
-                  value2={getStatusLabel(project2.status, isArabic)}
+                  value1={getStatusLabel(project1.status, isArabic, language)}
+                  value2={getStatusLabel(project2.status, isArabic, language)}
                   comparison="text"
                   isArabic={isArabic}
                 />
@@ -437,8 +437,7 @@ function PropertyComparison({ onClose }) {
 }
 
 // Helper function to get status label based on status code
-function getStatusLabel(status, isArabic) {
-  const { language } = useLanguage();
+function getStatusLabel(status, isArabic, language) {
   switch (status) {
     case "off-plan":
       return language === "ar"

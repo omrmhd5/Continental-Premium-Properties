@@ -8,11 +8,10 @@ import MapSection from "@/components/map-section";
 import AchievementsSection from "@/components/achievements-section";
 import MediaCenter from "@/components/media-center";
 import Footer from "@/components/footer";
-import { useAnimation } from "@/hooks/use-animation";
 
 // Loading fallback component
 const SectionLoading = () => (
-  <div className="py-16 animate-pulse">
+  <div className="py-16">
     <div className="h-8 bg-muted rounded w-1/3 mx-auto mb-4"></div>
     <div className="h-4 bg-muted rounded w-2/3 mx-auto mb-8"></div>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -24,9 +23,6 @@ const SectionLoading = () => (
 );
 
 export default function Home() {
-  // Initialize animations
-  useAnimation();
-
   return (
     <div className="min-h-screen">
       <Navbar />

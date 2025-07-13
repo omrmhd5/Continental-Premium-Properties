@@ -115,31 +115,57 @@ const deleteProject = async (req, res) => {
 // Contact Project Controller
 const contactProject = async (req, res) => {
   try {
-    const { name, email, phone, project } = req.body;
-    if (!name || !email || !phone || !project) {
+    const { name, email, phone, project, subject, message } = req.body;
+    if (!name || !email || !phone) {
       return res.status(400).json({ message: "Missing required fields." });
     }
-    const mailOptions = {
-      to:
-        process.env.CONTACT_RECEIVER ||
-        process.env.SMTP_USER ||
-        "your@email.com",
-      subject: `New Project Inquiry: ${project.title || project.name}`,
-      text: `You have a new inquiry for project: ${
-        project.title || project.name
-      }\nLocation: ${
-        project.location
-      }\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}`,
-      html: `<h2>New Project Inquiry</h2>
-        <p><b>Project:</b> ${project.title || project.name}</p>
-        <p><b>Location:</b> ${project.location}</p>
-        <hr/>
-        <p><b>Name:</b> ${name}</p>
-        <p><b>Email:</b> ${email}</p>
-        <p><b>Phone:</b> ${phone}</p>`,
-    };
-    await sendMail(mailOptions);
-    res.json({ success: true });
+    if (project) {
+      // Project inquiry
+      const mailOptions = {
+        to:
+          process.env.CONTACT_RECEIVER ||
+          process.env.SMTP_USER ||
+          "your@email.com",
+        subject: `New Project Inquiry: ${project.title || project.name}`,
+        text: `You have a new inquiry for project: ${
+          project.title || project.name
+        }\nLocation: ${
+          project.location
+        }\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}`,
+        html: `<h2>New Project Inquiry</h2>
+          <p><b>Project:</b> ${project.title || project.name}</p>
+          <p><b>Location:</b> ${project.location}</p>
+          <hr/>
+          <p><b>Name:</b> ${name}</p>
+          <p><b>Email:</b> ${email}</p>
+          <p><b>Phone:</b> ${phone}</p>`,
+      };
+      await sendMail(mailOptions);
+      return res.json({ success: true });
+    } else {
+      // General/complaint form
+      if (!subject || !message) {
+        return res
+          .status(400)
+          .json({ message: "Missing subject or message for complaint form." });
+      }
+      const mailOptions = {
+        to:
+          process.env.CONTACT_RECEIVER ||
+          process.env.SMTP_USER ||
+          "your@email.com",
+        subject: `New Complaint/Contact: ${subject}`,
+        text: `You have received a new contact/complaint form.\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nSubject: ${subject}\nMessage: ${message}`,
+        html: `<h2>New Contact/Complaint Form</h2>
+          <p><b>Name:</b> ${name}</p>
+          <p><b>Email:</b> ${email}</p>
+          <p><b>Phone:</b> ${phone}</p>
+          <p><b>Subject:</b> ${subject}</p>
+          <p><b>Message:</b> ${message}</p>`,
+      };
+      await sendMail(mailOptions);
+      return res.json({ success: true });
+    }
   } catch (err) {
     console.error("Contact Project Error:", err);
     res.status(500).json({ message: "Failed to send email." });

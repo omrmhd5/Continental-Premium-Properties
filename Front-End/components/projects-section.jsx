@@ -145,12 +145,8 @@ function ProjectsSection() {
   const filters = [
     { value: "all", label: { en: "All", ar: "الكل" } },
     {
-      value: "off-plan",
-      label: { en: "Off Plan", ar: "قيد الإنشاء" },
-    },
-    {
-      value: "secondary",
-      label: { en: "Secondary", ar: "ثانوي" },
+      value: "buy",
+      label: { en: "Buy", ar: "شراء" },
     },
     { value: "rentals", label: { en: "Rentals", ar: "إيجار" } },
   ];
@@ -164,6 +160,13 @@ function ProjectsSection() {
   const filteredProjects =
     activeFilter === "all"
       ? projects.slice(0, 3)
+      : activeFilter === "buy"
+      ? projects
+          .filter(
+            (project) =>
+              project.status === "off-plan" || project.status === "secondary"
+          )
+          .slice(0, 3)
       : projects
           .filter((project) => project.status === activeFilter)
           .slice(0, 3);
@@ -172,17 +175,17 @@ function ProjectsSection() {
     <section className="py-16 bg-background" id="projects">
       {/* Section Header */}
       <div className={`text-center mb-12 ${isArabic ? "font-arabic" : ""}`}>
-        <div className="inline-block mb-4 fade-in">
+        <div className="inline-block mb-4">
           <span className="inline-block h-0.5 w-10 bg-brand-gold mr-2 align-middle"></span>
           <span className="text-brand-gold text-sm uppercase tracking-wider">
             {isArabic ? "مشاريعنا" : "Our Projects"}
           </span>
           <span className="inline-block h-0.5 w-10 bg-brand-gold ml-2 align-middle"></span>
         </div>
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 fade-in-up text-foreground">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
           {isArabic ? "استكشف مشاريعنا الفاخرة" : "Explore Our Luxury Projects"}
         </h2>
-        <p className="text-muted-foreground max-w-2xl mx-auto fade-in-up stagger-delay-1">
+        <p className="text-muted-foreground max-w-2xl mx-auto">
           {isArabic
             ? "استكشف مجموعة متنوعة من المشاريع السكنية الفاخرة لدينا"
             : "Explore our diverse range of luxury residential projects"}
@@ -191,7 +194,7 @@ function ProjectsSection() {
 
       {/* Filter Buttons */}
       <div
-        className={`flex flex-wrap gap-3 justify-center mb-10 fade-in-up stagger-delay-2 ${
+        className={`flex flex-wrap gap-3 justify-center mb-10 ${
           isArabic ? "flex-row-reverse font-arabic" : ""
         }`}>
         {filters.map((filter) => (
@@ -210,9 +213,7 @@ function ProjectsSection() {
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className="h-80 bg-muted animate-pulse rounded-lg"></div>
+            <div key={i} className="h-80 bg-muted rounded-lg"></div>
           ))}
         </div>
       ) : error ? (
@@ -241,7 +242,7 @@ function ProjectsSection() {
       )}
 
       {/* View All Projects Button */}
-      <div className="flex justify-center mt-12 fade-in-up stagger-delay-5">
+      <div className="flex justify-center mt-12">
         <Link href="/projects">
           <Button className="bg-gradient-to-r from-brand-gold to-brand-goldDark text-white group">
             {isArabic ? "عرض جميع المشاريع" : "View All Projects"}

@@ -34,10 +34,10 @@ export default function MapSection() {
           <span className="inline-block h-0.5 w-10 bg-primary mr-2 align-middle"></span>
           <span className="text-primary text-sm uppercase tracking-wider">
             {language === "ar"
-              ? "مواقعنا"
+              ? "موقعنا"
               : language === "fr"
-              ? "Nos Emplacements"
-              : "Our Locations"}
+              ? "Nos Emplacement"
+              : "Our Location"}
           </span>
           <span className="inline-block h-0.5 w-10 bg-primary ml-2 align-middle"></span>
         </div>
@@ -50,10 +50,10 @@ export default function MapSection() {
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
           {language === "ar"
-            ? "استكشف مواقع مشاريعنا في جميع أنحاء المدينة"
+            ? "استكشف موقع مكتبنا في قلب المدينة"
             : language === "fr"
-            ? "Explorez les emplacements de nos projets dans toute la ville"
-            : "Explore our project locations throughout the city"}
+            ? "Explorez l’emplacement de notre bureau au cœur de la ville"
+            : "Explore and find our office in the heart of the city"}
         </p>
       </div>
 
