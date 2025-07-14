@@ -26,9 +26,8 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <Navbar />
+      <HeroSection />
       <div className="container mx-auto px-4 pt-20">
-        <HeroSection />
-
         {/* Use Suspense for code-splitting and better loading experience */}
         <Suspense fallback={<SectionLoading />}>
           <ProjectsSection />
