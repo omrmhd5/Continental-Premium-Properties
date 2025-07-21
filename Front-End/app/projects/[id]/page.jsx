@@ -25,6 +25,7 @@ import Footer from "@/components/footer";
 import { SARSymbol } from "@/components/sar-symbol";
 import PropertyComparison from "@/components/property-comparison";
 import { projectApi } from "@/lib/api";
+import { API_BASE_URL } from "@/lib/config";
 
 export default function ProjectDetailPage() {
   const { id } = useParams();
@@ -99,7 +100,7 @@ export default function ProjectDetailPage() {
     setContactLoading(true);
     setContactStatus(null);
     try {
-      const res = await fetch("http://localhost:5000/api/projects/contact", {
+      const res = await fetch(`${API_BASE_URL}/projects/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

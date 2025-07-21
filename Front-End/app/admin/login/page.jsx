@@ -17,6 +17,7 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Lock, Home } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
+import { API_BASE_URL } from "@/lib/config";
 
 export default function AdminLogin() {
   const router = useRouter();
@@ -33,7 +34,7 @@ export default function AdminLogin() {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:5000/api/admin/login", {
+      const response = await fetch(`${API_BASE_URL}/admin/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

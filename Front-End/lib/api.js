@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:5000/api";
+import { API_BASE_URL } from "@/lib/config";
 
 // Helper function to get headers with auth token
 const getHeaders = () => {

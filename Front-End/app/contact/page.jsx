@@ -11,6 +11,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { API_BASE_URL } from "@/lib/config";
 
 export default function ContactPage() {
   const { language } = useLanguage();
@@ -35,20 +36,17 @@ export default function ContactPage() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/projects/contact",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            subject: formData.subject,
-            message: formData.message,
-          }),
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}/projects/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          subject: formData.subject,
+          message: formData.message,
+        }),
+      });
       if (response.ok) {
         toast({
           title:
