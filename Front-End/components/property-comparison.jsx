@@ -281,12 +281,9 @@ function PropertyComparison({ onClose }) {
                       ? "Surface"
                       : "Area"
                   }
-                  value1={`${project1.area || 0} m²`}
-                  value2={`${project2.area || 0} m²`}
-                  comparison={compareValues(
-                    Number.parseInt(project1.area) || 0,
-                    Number.parseInt(project2.area) || 0
-                  )}
+                  value1={`${project1.area || 0} ft²`}
+                  value2={`${project2.area || 0} ft²`}
+                  comparison={null}
                   isArabic={isArabic}
                 />
 
@@ -298,12 +295,9 @@ function PropertyComparison({ onClose }) {
                       ? "Chambres"
                       : "Bedrooms"
                   }
-                  value1={project1.bedrooms || 0}
-                  value2={project2.bedrooms || 0}
-                  comparison={compareValues(
-                    Number.parseInt(project1.bedrooms) || 0,
-                    Number.parseInt(project2.bedrooms) || 0
-                  )}
+                  value1={project1.bedrooms || ""}
+                  value2={project2.bedrooms || ""}
+                  comparison={null}
                   isArabic={isArabic}
                 />
 
@@ -315,12 +309,9 @@ function PropertyComparison({ onClose }) {
                       ? "Salles de Bain"
                       : "Bathrooms"
                   }
-                  value1={project1.bathrooms || 0}
-                  value2={project2.bathrooms || 0}
-                  comparison={compareValues(
-                    Number.parseInt(project1.bathrooms) || 0,
-                    Number.parseInt(project2.bathrooms) || 0
-                  )}
+                  value1={project1.bathrooms || ""}
+                  value2={project2.bathrooms || ""}
+                  comparison={null}
                   isArabic={isArabic}
                 />
 
@@ -332,12 +323,9 @@ function PropertyComparison({ onClose }) {
                       ? "Étages"
                       : "Floors"
                   }
-                  value1={project1.floors || 0}
-                  value2={project2.floors || 0}
-                  comparison={compareValues(
-                    Number.parseInt(project1.floors) || 0,
-                    Number.parseInt(project2.floors) || 0
-                  )}
+                  value1={project1.floors || ""}
+                  value2={project2.floors || ""}
+                  comparison={null}
                   isArabic={isArabic}
                 />
 

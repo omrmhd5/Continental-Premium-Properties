@@ -296,6 +296,12 @@ export default function ProjectsPage() {
 // Reusable Project Card Component
 function ProjectCard({ project, isArabic, index }) {
   const { language } = useLanguage();
+  function formatPrice(price) {
+    if (!price) return "";
+    const num = Number(price.toString().replace(/,/g, ""));
+    if (isNaN(num)) return price;
+    return num.toLocaleString();
+  }
   return (
     <Card className={`elegant-card overflow-hidden ${(index % 5) + 1}`}>
       {/* Project Image with Status Badge */}
@@ -329,7 +335,7 @@ function ProjectCard({ project, isArabic, index }) {
               </span>
             )}
             <span className="mr-1">AED</span>
-            {project.price}
+            {formatPrice(project.price)}
           </div>
           {/* Handover for off-plan projects */}
           {project.status === "off-plan" && project.handover && (
@@ -351,7 +357,7 @@ function ProjectCard({ project, isArabic, index }) {
       <CardContent
         className={`pt-6 ${isArabic ? "text-right font-arabic" : ""}`}>
         <CardTitle className="mb-2 font-serif">{project.title}</CardTitle>
-        <p className="text-muted-foreground">
+        <p className="text-muted-foreground line-clamp-2">
           {language === "ar"
             ? project.description?.ar
             : language === "fr"

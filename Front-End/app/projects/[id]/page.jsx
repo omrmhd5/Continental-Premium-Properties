@@ -121,6 +121,13 @@ export default function ProjectDetailPage() {
     }
   }
 
+  function formatPrice(price) {
+    if (!price) return "";
+    const num = Number(price.toString().replace(/,/g, ""));
+    if (isNaN(num)) return price;
+    return num.toLocaleString();
+  }
+
   // Loading state
   if (loading) {
     return (
@@ -331,7 +338,7 @@ export default function ProjectDetailPage() {
                           {isArabic ? "المساحة" : "Area"}
                         </span>
                       </div>
-                      <span className="font-medium">{project.area} m²</span>
+                      <span className="font-medium">{project.area} ft²</span>
                     </div>
 
                     {/* Bedrooms */}
@@ -418,7 +425,7 @@ export default function ProjectDetailPage() {
                       </span>
                     )}
                     <span className="mr-2">AED</span>
-                    {project.price}
+                    {formatPrice(project.price)}
                   </div>
 
                   {/* Handover - Prominent display for off-plan projects */}

@@ -22,7 +22,7 @@ const ProjectSchema = new mongoose.Schema(
     bedrooms: { type: String, required: true },
     bathrooms: { type: String, required: true },
     floors: { type: String, required: true },
-    handover: { type: String }, // Month and year for off-plan projects
+    handover: { type: String },
     images: [{ type: String, required: true }],
     features: { type: [FeatureSchema] },
   },

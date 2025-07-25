@@ -610,7 +610,7 @@ export default function AdminProjects() {
                   </TableCell>
                   <TableCell className="whitespace-nowrap">
                     <span className="mr-1">AED</span>
-                    {project.price}
+                    {formatPrice(project.price)}
                   </TableCell>
                   <TableCell className="whitespace-nowrap">
                     {project.date}
@@ -692,6 +692,7 @@ export default function AdminProjects() {
                 htmlFor="project-title"
                 className={`text-right ${isArabic ? "font-arabic" : ""}`}>
                 {isArabic ? "العنوان" : "Title"}
+                <span className="text-red-500">*</span>
               </Label>
               <Input
                 id="project-title"
@@ -707,6 +708,7 @@ export default function AdminProjects() {
                 htmlFor="project-status"
                 className={`text-right ${isArabic ? "font-arabic" : ""}`}>
                 {isArabic ? "الحالة" : "Status"}
+                <span className="text-red-500">*</span>
               </Label>
               <Select
                 value={newProject.status}
@@ -736,6 +738,7 @@ export default function AdminProjects() {
                 htmlFor="project-location"
                 className={`text-right ${isArabic ? "font-arabic" : ""}`}>
                 {isArabic ? "الموقع" : "Location"}
+                <span className="text-red-500">*</span>
               </Label>
               <Input
                 id="project-location"
@@ -752,6 +755,7 @@ export default function AdminProjects() {
                 htmlFor="project-price"
                 className={`text-right ${isArabic ? "font-arabic" : ""}`}>
                 {isArabic ? "السعر (درهم)" : "Price (AED)"}
+                <span className="text-red-500">*</span>
               </Label>
               <div className="col-span-3 relative">
                 <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground text-base select-none">
@@ -775,6 +779,7 @@ export default function AdminProjects() {
                 htmlFor="project-description-en"
                 className={`text-right mt-2 ${isArabic ? "font-arabic" : ""}`}>
                 {isArabic ? "الوصف (إنجليزي)" : "Description (EN)"}
+                <span className="text-red-500">*</span>
               </Label>
               <Textarea
                 id="project-description-en"
@@ -797,6 +802,7 @@ export default function AdminProjects() {
                 htmlFor="project-description-ar"
                 className={`text-right mt-2 ${isArabic ? "font-arabic" : ""}`}>
                 {isArabic ? "الوصف (عربي)" : "Description (AR)"}
+                <span className="text-red-500">*</span>
               </Label>
               <Textarea
                 id="project-description-ar"
@@ -819,7 +825,8 @@ export default function AdminProjects() {
               <Label
                 htmlFor="project-area"
                 className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                {isArabic ? "المساحة (م²)" : "Area (m²)"}
+                {isArabic ? "المساحة (قدم²)" : "Area (ft²)"}
+                <span className="text-red-500">*</span>
               </Label>
               <Input
                 id="project-area"
@@ -827,12 +834,11 @@ export default function AdminProjects() {
                 onChange={(e) =>
                   setNewProject({
                     ...newProject,
-                    area: Math.max(0, parseInt(e.target.value) || 0),
+                    area: e.target.value,
                   })
                 }
                 className={`col-span-3 ${isArabic ? "text-right" : ""}`}
-                type="number"
-                min="0"
+                type="text"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -840,6 +846,7 @@ export default function AdminProjects() {
                 htmlFor="project-bedrooms"
                 className={`text-right ${isArabic ? "font-arabic" : ""}`}>
                 {isArabic ? "غرف النوم" : "Bedrooms"}
+                <span className="text-red-500">*</span>
               </Label>
               <Input
                 id="project-bedrooms"
@@ -847,12 +854,11 @@ export default function AdminProjects() {
                 onChange={(e) =>
                   setNewProject({
                     ...newProject,
-                    bedrooms: Math.max(0, parseInt(e.target.value) || 0),
+                    bedrooms: e.target.value,
                   })
                 }
                 className={`col-span-3 ${isArabic ? "text-right" : ""}`}
-                type="number"
-                min="0"
+                type="text"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -860,6 +866,7 @@ export default function AdminProjects() {
                 htmlFor="project-bathrooms"
                 className={`text-right ${isArabic ? "font-arabic" : ""}`}>
                 {isArabic ? "الحمامات" : "Bathrooms"}
+                <span className="text-red-500">*</span>
               </Label>
               <Input
                 id="project-bathrooms"
@@ -867,12 +874,11 @@ export default function AdminProjects() {
                 onChange={(e) =>
                   setNewProject({
                     ...newProject,
-                    bathrooms: Math.max(0, parseInt(e.target.value) || 0),
+                    bathrooms: e.target.value,
                   })
                 }
                 className={`col-span-3 ${isArabic ? "text-right" : ""}`}
-                type="number"
-                min="0"
+                type="text"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -880,6 +886,7 @@ export default function AdminProjects() {
                 htmlFor="project-floors"
                 className={`text-right ${isArabic ? "font-arabic" : ""}`}>
                 {isArabic ? "الطوابق" : "Floors"}
+                <span className="text-red-500">*</span>
               </Label>
               <Input
                 id="project-floors"
@@ -887,12 +894,11 @@ export default function AdminProjects() {
                 onChange={(e) =>
                   setNewProject({
                     ...newProject,
-                    floors: Math.max(0, parseInt(e.target.value) || 0),
+                    floors: e.target.value,
                   })
                 }
                 className={`col-span-3 ${isArabic ? "text-right" : ""}`}
-                type="number"
-                min="0"
+                type="text"
               />
             </div>
             {newProject.status === "off-plan" && (
@@ -1191,7 +1197,7 @@ export default function AdminProjects() {
                 <Label
                   htmlFor="edit-area"
                   className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                  {isArabic ? "المساحة (م²)" : "Area (m²)"}
+                  {isArabic ? "المساحة (قدم²)" : "Area (ft²)"}
                 </Label>
                 <Input
                   id="edit-area"
@@ -1199,12 +1205,11 @@ export default function AdminProjects() {
                   onChange={(e) =>
                     setCurrentProject({
                       ...currentProject,
-                      area: Math.max(0, parseInt(e.target.value) || 0),
+                      area: e.target.value,
                     })
                   }
                   className="col-span-3"
-                  type="number"
-                  min="0"
+                  type="text"
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
@@ -1219,12 +1224,11 @@ export default function AdminProjects() {
                   onChange={(e) =>
                     setCurrentProject({
                       ...currentProject,
-                      bedrooms: Math.max(0, parseInt(e.target.value) || 0),
+                      bedrooms: e.target.value,
                     })
                   }
                   className="col-span-3"
-                  type="number"
-                  min="0"
+                  type="text"
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
@@ -1239,12 +1243,11 @@ export default function AdminProjects() {
                   onChange={(e) =>
                     setCurrentProject({
                       ...currentProject,
-                      bathrooms: Math.max(0, parseInt(e.target.value) || 0),
+                      bathrooms: e.target.value,
                     })
                   }
                   className="col-span-3"
-                  type="number"
-                  min="0"
+                  type="text"
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
@@ -1259,12 +1262,11 @@ export default function AdminProjects() {
                   onChange={(e) =>
                     setCurrentProject({
                       ...currentProject,
-                      floors: Math.max(0, parseInt(e.target.value) || 0),
+                      floors: e.target.value,
                     })
                   }
                   className="col-span-3"
-                  type="number"
-                  min="0"
+                  type="text"
                 />
               </div>
               {currentProject.status === "off-plan" && (
