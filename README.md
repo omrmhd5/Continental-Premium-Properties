@@ -16,24 +16,47 @@ A fully responsive real estate website built with the MERN stack, supporting 100
 ## Screenshots 📸
 
 - Homepage
-  ![Continental Premium Properties](https://github.com/user-attachments/assets/51d609e1-2ec8-4d9c-8cb7-eb6299e033f3)
-- Projects Page
-  ![Screenshot 2025-06-13 005459](https://github.com/user-attachments/assets/3ec86a5f-6bc4-4634-9a09-327a4275eb72)
-- Property Details Page
-  ![Screenshot 2025-06-13 005708](https://github.com/user-attachments/assets/688bc3c3-ca4d-4515-870e-ccf35c477ed1)
-
-- Admin Login
-  ![Screenshot 2025-06-13 005748](https://github.com/user-attachments/assets/e7fa9514-dada-4b3e-812e-b2f643db80a2)
-- Admin Dashboard
-  ![Screenshot 2025-06-13 005826](https://github.com/user-attachments/assets/65ac6f21-f04f-493d-8036-12532a13e584)
-
-  ![Screenshot 2025-06-13 005844](https://github.com/user-attachments/assets/963c829f-7e29-441e-92f4-d5257b15a555)
-
-- About Us
-  ![Screenshot 2025-06-13 005612](https://github.com/user-attachments/assets/fb82712c-fed1-433b-b332-6262c3b4de9c)
+  
+  <img width="1919" height="916" alt="CPP" src="https://github.com/user-attachments/assets/eefa0918-24be-45aa-ba0a-e663d4527986" />
 
 - Mobile View
-  ![Screenshot 2025-07-02 020244](https://github.com/user-attachments/assets/3caf0fa1-2557-404c-90ec-f7575d64ed7f)
+  
+  <img width="672" height="910" alt="Mobile View" src="https://github.com/user-attachments/assets/f9759af0-dd83-4f32-a2cc-7aeba0bcd27e" />
+  
+- Projects Page
+  
+  <img width="1919" height="916" alt="Projects Page" src="https://github.com/user-attachments/assets/43aa29ab-b42d-4a43-bdb7-0fc341c5b953" />
+
+- Property Details Page
+  
+  <img width="1917" height="914" alt="Project Page" src="https://github.com/user-attachments/assets/bcb6d888-7a9c-4865-ac26-62ac686512af" />
+
+- Media Center
+  
+  <img width="1919" height="914" alt="Media Center" src="https://github.com/user-attachments/assets/61315e5d-19ef-4794-a01b-02a9792bd39c" />
+
+- About Us
+  
+  <img width="1919" height="916" alt="About Us" src="https://github.com/user-attachments/assets/b0175c93-5ebf-49ae-b469-260198659ba7" />
+
+- Contact Us
+  
+  <img width="1919" height="916" alt="Contact Us" src="https://github.com/user-attachments/assets/fd72ff63-ed77-4e8b-a58c-96732b5b23d2" />
+
+- Admin Login
+  
+  <img width="1919" height="915" alt="Admin Login" src="https://github.com/user-attachments/assets/57f1e4be-b4e8-480f-82ae-0534a231ac47" />
+  
+- Admin Dashboard
+  
+  <img width="1919" height="913" alt="Admin Dashboard" src="https://github.com/user-attachments/assets/dbb43346-387a-45a2-a33d-a4d57307b492" />
+
+  <img width="1919" height="913" alt="Admin Projects" src="https://github.com/user-attachments/assets/933d5ffe-39c0-42f0-8b90-bc58597a8301" />
+
+- Add Project
+  
+  <img width="1919" height="914" alt="Add Project" src="https://github.com/user-attachments/assets/eb0f6f5c-db1e-45b1-98d2-edcd5ca5cfd8" />
+
 
 ## How It Works ⚙️
 
@@ -55,7 +78,7 @@ A fully responsive real estate website built with the MERN stack, supporting 100
 
 ## Live Demo 🚀
 
-[**View Live Demo**](https://dsre.vercel.app)
+[**View Live Demo**](https://www.continentalpremiumproperties.ae/)
 
 ## Author
 
