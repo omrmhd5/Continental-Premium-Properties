@@ -39,9 +39,9 @@ export const translations = {
   // Footer
   footer: {
     description: {
-      en: "We're building a better future through innovative and sustainable residential projects.",
-      ar: "نحن نبني مستقبلاً أفضل من خلال مشاريع سكنية مبتكرة ومستدامة.",
-      fr: "Nous construisons un avenir meilleur grâce à des projets résidentiels innovants et durables.",
+      en: "We connect you to the best real estate opportunities to secure your investment or dream home.",
+      ar: "نربطك بأفضل الفرص العقارية في السوق لتأمين استثمارك أو منزلك المثالي.",
+      fr: "Nous vous connectons aux meilleures opportunités immobilières pour sécuriser votre investissement ou votre maison idéale.",
     },
     quickLinks: { en: "Quick Links", ar: "روابط سريعة", fr: "Liens Rapides" },
     contactInfo: {

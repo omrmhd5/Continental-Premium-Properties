@@ -93,8 +93,8 @@ export default function MediaPage() {
     },
     {
       id: 2,
-      title: { en: "Construction Progress", ar: "تقدم البناء" },
-      image: "/images/Construction.webp",
+      title: { en: "Skyline Living", ar: "الحياة في ناطحات السحاب" },
+      image: "/images/Skyline.webp",
     },
     {
       id: 3,

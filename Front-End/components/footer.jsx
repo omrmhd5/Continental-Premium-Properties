@@ -28,11 +28,12 @@ export default function Footer() {
           <Logo variant="full" className="mb-4" />
           <p className="text-muted-foreground">
             {language === "ar"
-              ? "نحن نبني مستقبلاً أفضل من خلال مشاريع سكنية مبتكرة ومستدامة."
+              ? "نربطك بأفضل الفرص العقارية في السوق لتأمين استثمارك أو منزلك المثالي."
               : language === "fr"
-              ? "Nous construisons un avenir meilleur grâce à des projets résidentiels innovants et durables."
-              : "We're building a better future through innovative and sustainable residential projects."}
+              ? "Nous vous connectons aux meilleures opportunités immobilières pour sécuriser votre investissement ou votre maison idéale."
+              : "We connect you to the best real estate opportunities to secure your investment or dream home."}
           </p>
+
           <div className="flex gap-4 mt-4">
             <Link
               href="#"

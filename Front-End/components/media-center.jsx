@@ -26,16 +26,16 @@ export default function MediaCenter() {
       },
     },
     {
-      image: "/images/Construction.webp",
+      image: "/images/Skyline.webp",
       title: {
-        en: "Construction Progress",
-        ar: "تقدم البناء",
-        fr: "Progrès de Construction",
+        en: "Skyline Living",
+        ar: "الحياة في ناطحات السحاب",
+        fr: "Vivre dans les gratte-ciel",
       },
       description: {
-        en: "Latest updates on our ongoing construction projects",
-        ar: "آخر التحديثات حول مشاريع البناء الجارية لدينا",
-        fr: "Dernières mises à jour sur nos projets de construction en cours",
+        en: "Experience luxury living with breathtaking views from iconic high-rises.",
+        ar: "عِش الفخامة مع إطلالات ساحرة من ناطحات السحاب المميزة.",
+        fr: "Vivez le luxe avec une vue imprenable depuis des gratte-ciel emblématiques.",
       },
     },
     {
@@ -46,9 +46,9 @@ export default function MediaCenter() {
         fr: "Activités Communautaires",
       },
       description: {
-        en: "Residents enjoying community events in our developments",
-        ar: "السكان يستمتعون بفعاليات المجتمع في مشاريعنا",
-        fr: "Les résidents profitent des événements communautaires dans nos développements",
+        en: "Residents enjoying vibrant events and gatherings across the community.",
+        ar: "السكان يستمتعون بالفعاليات والتجمعات الحيوية ضمن المجتمع.",
+        fr: "Les résidents profitent d'événements et de rassemblements dynamiques au sein de la communauté.",
       },
     },
   ];
