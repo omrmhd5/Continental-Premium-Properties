@@ -68,7 +68,7 @@ const ProjectCard = memo(function ProjectCard({ project, isArabic, index }) {
               : project.title.en
             : project.title}
         </CardTitle>
-        <p className="text-muted-foreground">
+        <p className="text-muted-foreground line-clamp-2">
           {typeof project.description === "object"
             ? isArabic
               ? project.description.ar
