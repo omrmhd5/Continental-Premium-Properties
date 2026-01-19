@@ -78,7 +78,7 @@ A fully responsive real estate website built with the MERN stack, supporting 100
 
 ## Live Demo 🚀
 
-[**View Live Demo**](https://www.continentalpremiumproperties.ae/)
+[**View Live Demo**](https://continental-premium-properties.vercel.app/)
 
 ## Author
 
