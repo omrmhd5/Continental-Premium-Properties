@@ -62,6 +62,7 @@ import { SARSymbol } from "@/components/sar-symbol";
 import Image from "next/image";
 import { DialogOverlay } from "@radix-ui/react-dialog";
 import { projectApi } from "@/lib/api";
+import { resolveMediaUrl } from "@/lib/config";
 import { useLanguage } from "@/context/language-context";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
@@ -217,11 +218,13 @@ export default function AdminProjects() {
 
       const updatedProject = await projectApi.updateProject(
         currentProject._id,
-        dataToSend
+        dataToSend,
       );
 
       setProjects(
-        projects.map((p) => (p._id === currentProject._id ? updatedProject : p))
+        projects.map((p) =>
+          p._id === currentProject._id ? updatedProject : p,
+        ),
       );
       setIsEditDialogOpen(false);
 
@@ -306,63 +309,41 @@ export default function AdminProjects() {
 
     setIsUploading(true);
     setUploadProgress(0);
-    const uploadedImageUrls = [];
 
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "unsigned_upload");
+    try {
+      const uploadedImageUrls = await projectApi.uploadImages(files);
+      setUploadProgress(100);
 
-      try {
-        const res = await fetch(
-          "https://api.cloudinary.com/v1_1/dllmcgx5k/image/upload",
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        const rawText = await res.text();
-        let data;
-        try {
-          data = JSON.parse(rawText);
-        } catch (jsonErr) {
-          alert("Invalid response from Cloudinary.");
-          continue;
+      if (uploadedImageUrls.length > 0) {
+        const updatedImages = [...tempImages, ...uploadedImageUrls];
+        setTempImages(updatedImages);
+        if (isAddDialogOpen) {
+          setNewProject((prev) => ({
+            ...prev,
+            images: updatedImages,
+          }));
+        } else if (isEditDialogOpen && currentProject) {
+          setCurrentProject((prev) => ({
+            ...prev,
+            images: updatedImages,
+          }));
         }
-
-        if (res.ok && data.secure_url) {
-          uploadedImageUrls.push(data.secure_url);
-        } else {
-          alert(`Upload failed: ${data.error?.message || "Unknown error"}`);
-        }
-      } catch (err) {
-        alert("Error uploading image. Please try again.");
       }
-
-      // Update progress
-      setUploadProgress(((i + 1) / files.length) * 100);
-    }
-
-    if (uploadedImageUrls.length > 0) {
-      const updatedImages = [...tempImages, ...uploadedImageUrls];
-      setTempImages(updatedImages);
-      if (isAddDialogOpen) {
-        setNewProject((prev) => ({
-          ...prev,
-          images: updatedImages,
-        }));
-      } else if (isEditDialogOpen && currentProject) {
-        setCurrentProject((prev) => ({
-          ...prev,
-          images: updatedImages,
-        }));
+    } catch (err) {
+      if (err.message === "TOKEN_EXPIRED") {
+        setErrorMessage({
+          title: "Session Expired",
+          description: "Your session has expired. Please log in again.",
+        });
+        setShowErrorPopup(true);
+      } else {
+        alert("Error uploading image. Please try again.");
       }
     }
 
     setIsUploading(false);
     setUploadProgress(0);
+    e.target.value = "";
   };
 
   const removeImage = (index) => {
@@ -663,8 +644,8 @@ export default function AdminProjects() {
                       ? "لا توجد مشاريع"
                       : "No projects found."
                     : isArabic
-                    ? "لم يتم العثور على مشاريع تطابق البحث"
-                    : "No projects match your search."}
+                      ? "لم يتم العثور على مشاريع تطابق البحث"
+                      : "No projects match your search."}
                 </TableCell>
               </TableRow>
             )}
@@ -939,7 +920,7 @@ export default function AdminProjects() {
                       key={index}
                       className="relative w-24 h-24 rounded-md overflow-hidden border border-border">
                       <Image
-                        src={image || "/placeholder.svg"}
+                        src={resolveMediaUrl(image)}
                         alt={`Image ${index + 1}`}
                         fill
                         className="object-cover"
@@ -1309,7 +1290,7 @@ export default function AdminProjects() {
                         key={index}
                         className="relative w-24 h-24 rounded-md overflow-hidden border border-border">
                         <Image
-                          src={image || "/placeholder.svg"}
+                          src={resolveMediaUrl(image)}
                           alt={`Image ${index + 1}`}
                           fill
                           className="object-cover"

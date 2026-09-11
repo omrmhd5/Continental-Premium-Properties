@@ -95,6 +95,32 @@ export const projectApi = {
     }
   },
 
+  uploadImages: async (files) => {
+    try {
+      const token = localStorage.getItem("adminToken");
+      const formData = new FormData();
+      Array.from(files).forEach((file) => formData.append("images", file));
+
+      const response = await fetch(`${API_BASE_URL}/projects/upload`, {
+        method: "POST",
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        body: formData,
+      });
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          throw new Error("TOKEN_EXPIRED");
+        }
+        throw new Error("Failed to upload images");
+      }
+
+      const data = await response.json();
+      return data.urls || [];
+    } catch (error) {
+      throw error;
+    }
+  },
+
   // Create new project
   createProject: async (projectData) => {
     try {

@@ -29,6 +29,10 @@ out/
 *.sublime-workspace
 *.sublime-project
 
+# Local file uploads (keep the folder)
+uploads/*
+!uploads/.gitkeep
+
 # Misc
 *.tgz
 *.swp

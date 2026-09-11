@@ -25,7 +25,7 @@ import Footer from "@/components/footer";
 import { SARSymbol } from "@/components/sar-symbol";
 import PropertyComparison from "@/components/property-comparison";
 import { projectApi } from "@/lib/api";
-import { API_BASE_URL } from "@/lib/config";
+import { API_BASE_URL, resolveMediaUrl } from "@/lib/config";
 
 export default function ProjectDetailPage() {
   const { id } = useParams();
@@ -66,7 +66,7 @@ export default function ProjectDetailPage() {
   const nextSlide = () => {
     if (project?.images) {
       setCurrentSlide((prev) =>
-        prev === project.images.length - 1 ? 0 : prev + 1
+        prev === project.images.length - 1 ? 0 : prev + 1,
       );
     }
   };
@@ -74,7 +74,7 @@ export default function ProjectDetailPage() {
   const prevSlide = () => {
     if (project?.images) {
       setCurrentSlide((prev) =>
-        prev === 0 ? project.images.length - 1 : prev - 1
+        prev === 0 ? project.images.length - 1 : prev - 1,
       );
     }
   };
@@ -219,7 +219,7 @@ export default function ProjectDetailPage() {
                 {project.images.map((image, index) => (
                   <div key={index} className="w-full flex-shrink-0 relative">
                     <Image
-                      src={image || "/placeholder.svg"}
+                      src={resolveMediaUrl(image)}
                       alt={`${project.title} - Image ${index + 1}`}
                       fill
                       className="object-cover"
@@ -521,8 +521,8 @@ export default function ProjectDetailPage() {
                     ? "يتم الإرسال..."
                     : "Sending..."
                   : isArabic
-                  ? "إرسال"
-                  : "Send"}
+                    ? "إرسال"
+                    : "Send"}
               </button>
               {contactStatus === "success" && (
                 <div className="text-green-600 text-center mt-2">

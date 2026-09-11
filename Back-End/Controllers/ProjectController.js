@@ -1,7 +1,11 @@
-const fs = require("fs");
-const cloudinary = require("../utils/cloudinary");
 const Project = require("../Models/ProjectModel");
 const { sendMail } = require("../utils/mailer");
+const {
+  collectImageUrls,
+  publicUploadPath,
+  deleteLocalUpload,
+} = require("../utils/uploads");
+const path = require("path");
 
 const getAllProjects = async (req, res) => {
   try {
@@ -39,20 +43,9 @@ const createProject = async (req, res) => {
       bathrooms,
       floors,
       features,
-      images,
     } = req.body;
 
-    let imageUrls = [];
-
-    if (req.files && req.files.length > 0) {
-      for (const file of req.files) {
-        const result = await cloudinary.uploader.upload(file.path);
-        imageUrls.push(result.secure_url);
-        fs.unlinkSync(file.path);
-      }
-    } else if (images && images.length > 0) {
-      imageUrls = images;
-    }
+    let imageUrls = collectImageUrls(req);
 
     const newProject = new Project({
       title,
@@ -80,16 +73,21 @@ const createProject = async (req, res) => {
 const editProject = async (req, res) => {
   try {
     const id = req.params.id;
-    const editedData = req.body;
+    const existing = await Project.findById(id);
+    if (!existing) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    const editedData = { ...req.body };
+    const uploadedUrls = collectImageUrls(req);
+    if (uploadedUrls.length > 0) {
+      editedData.images = uploadedUrls;
+    }
 
     const editedProject = await Project.findByIdAndUpdate(id, editedData, {
       new: true,
       runValidators: true,
     });
-
-    if (!editedProject) {
-      return res.status(404).json({ message: "Project not found" });
-    }
 
     res.status(200).json(editedProject);
   } catch (error) {
@@ -106,9 +104,26 @@ const deleteProject = async (req, res) => {
     if (!deletedProject) {
       return res.status(404).json({ message: "Project not found" });
     }
+
+    (deletedProject.images || []).forEach(deleteLocalUpload);
+
     res.status(200).json(deletedProject);
   } catch (error) {
     return res.status(500).json({ message: error.message });
+  }
+};
+
+const uploadImages = async (req, res) => {
+  try {
+    const urls = (req.files || []).map((file) =>
+      publicUploadPath(path.basename(file.filename))
+    );
+    if (urls.length === 0) {
+      return res.status(400).json({ message: "No images uploaded." });
+    }
+    res.status(201).json({ urls });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 };
 
@@ -178,5 +193,6 @@ module.exports = {
   createProject,
   editProject,
   deleteProject,
+  uploadImages,
   contactProject,
 };

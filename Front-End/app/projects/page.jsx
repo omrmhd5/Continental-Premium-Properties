@@ -21,6 +21,7 @@ import { SARSymbol } from "@/components/sar-symbol";
 import PropertyComparison from "@/components/property-comparison";
 import { useAnimation } from "@/hooks/use-animation";
 import { projectApi } from "@/lib/api";
+import { resolveMediaUrl } from "@/lib/config";
 
 export default function ProjectsPage() {
   const { language } = useLanguage();
@@ -80,8 +81,8 @@ export default function ProjectsPage() {
         language === "ar"
           ? "جميع الحالات"
           : language === "fr"
-          ? "Tous les Statuts"
-          : "All Statuses",
+            ? "Tous les Statuts"
+            : "All Statuses",
     },
     {
       value: "off-plan",
@@ -89,8 +90,8 @@ export default function ProjectsPage() {
         language === "ar"
           ? "قيد الإنشاء"
           : language === "fr"
-          ? "En Construction"
-          : "Off Plan",
+            ? "En Construction"
+            : "Off Plan",
     },
     {
       value: "secondary",
@@ -98,8 +99,8 @@ export default function ProjectsPage() {
         language === "ar"
           ? "ثانوي"
           : language === "fr"
-          ? "Secondaire"
-          : "Secondary",
+            ? "Secondaire"
+            : "Secondary",
     },
     {
       value: "rentals",
@@ -107,8 +108,8 @@ export default function ProjectsPage() {
         language === "ar"
           ? "إيجار"
           : language === "fr"
-          ? "Locations"
-          : "Rentals",
+            ? "Locations"
+            : "Rentals",
     },
   ];
 
@@ -131,8 +132,8 @@ export default function ProjectsPage() {
                     {language === "ar"
                       ? "العودة إلى الصفحة الرئيسية"
                       : language === "fr"
-                      ? "Retour à l'Accueil"
-                      : "Back to Home"}
+                        ? "Retour à l'Accueil"
+                        : "Back to Home"}
                     <ArrowLeft className="ml-2 h-4 w-4 rotate-180" />
                   </>
                 ) : (
@@ -141,8 +142,8 @@ export default function ProjectsPage() {
                     {language === "ar"
                       ? "العودة إلى الصفحة الرئيسية"
                       : language === "fr"
-                      ? "Retour à l'Accueil"
-                      : "Back to Home"}
+                        ? "Retour à l'Accueil"
+                        : "Back to Home"}
                   </>
                 )}
               </Link>
@@ -153,8 +154,8 @@ export default function ProjectsPage() {
                 {language === "ar"
                   ? "مشاريعنا"
                   : language === "fr"
-                  ? "Nos Projets"
-                  : "Our Projects"}
+                    ? "Nos Projets"
+                    : "Our Projects"}
               </h1>
               <p
                 className={`text-brand-goldDark mt-2 ${
@@ -163,8 +164,8 @@ export default function ProjectsPage() {
                 {language === "ar"
                   ? "استكشف جميع مشاريعنا العقارية الفاخرة"
                   : language === "fr"
-                  ? "Explorez tous nos projets immobiliers de luxe"
-                  : "Explore all our luxury real estate projects"}
+                    ? "Explorez tous nos projets immobiliers de luxe"
+                    : "Explore all our luxury real estate projects"}
               </p>
             </div>
 
@@ -179,8 +180,8 @@ export default function ProjectsPage() {
               {language === "ar"
                 ? "مقارنة العقارات"
                 : language === "fr"
-                ? "Comparer les Propriétés"
-                : "Compare Properties"}
+                  ? "Comparer les Propriétés"
+                  : "Compare Properties"}
             </Button>
           </div>
 
@@ -198,8 +199,8 @@ export default function ProjectsPage() {
                   language === "ar"
                     ? "ابحث بالاسم أو الموقع..."
                     : language === "fr"
-                    ? "Rechercher par nom ou emplacement..."
-                    : "Search by name or location..."
+                      ? "Rechercher par nom ou emplacement..."
+                      : "Search by name or location..."
                 }
                 className={isArabic ? "pr-8" : "pl-8"}
                 value={searchTerm}
@@ -215,8 +216,8 @@ export default function ProjectsPage() {
                     language === "ar"
                       ? "تصفية حسب الحالة"
                       : language === "fr"
-                      ? "Filtrer par statut"
-                      : "Filter by status"
+                        ? "Filtrer par statut"
+                        : "Filter by status"
                   }
                 />
               </SelectTrigger>
@@ -252,8 +253,8 @@ export default function ProjectsPage() {
                 {language === "ar"
                   ? "لم يتم العثور على مشاريع"
                   : language === "fr"
-                  ? "Aucun projet trouvé"
-                  : "No projects found"}
+                    ? "Aucun projet trouvé"
+                    : "No projects found"}
               </p>
               <p
                 className={`text-muted-foreground mt-2 ${
@@ -262,8 +263,8 @@ export default function ProjectsPage() {
                 {language === "ar"
                   ? "يرجى تعديل معايير البحث الخاصة بك"
                   : language === "fr"
-                  ? "Veuillez ajuster vos critères de recherche"
-                  : "Please adjust your search criteria"}
+                    ? "Veuillez ajuster vos critères de recherche"
+                    : "Please adjust your search criteria"}
               </p>
               <Button
                 variant="outline"
@@ -275,8 +276,8 @@ export default function ProjectsPage() {
                 {language === "ar"
                   ? "إعادة تعيين الفلاتر"
                   : language === "fr"
-                  ? "Réinitialiser les Filtres"
-                  : "Reset Filters"}
+                    ? "Réinitialiser les Filtres"
+                    : "Reset Filters"}
               </Button>
             </div>
           )}
@@ -307,7 +308,7 @@ function ProjectCard({ project, isArabic, index }) {
       {/* Project Image with Status Badge */}
       <div className="relative h-60">
         <Image
-          src={project.images?.[0] || "/placeholder.svg?height=400&width=600"}
+          src={resolveMediaUrl(project.images?.[0])}
           alt={project.title}
           fill
           className="object-cover"
@@ -330,8 +331,8 @@ function ProjectCard({ project, isArabic, index }) {
                 {language === "ar"
                   ? "يبدأ من"
                   : language === "fr"
-                  ? "À partir de"
-                  : "Starting from"}
+                    ? "À partir de"
+                    : "Starting from"}
               </span>
             )}
             <span className="mr-1">AED</span>
@@ -344,8 +345,8 @@ function ProjectCard({ project, isArabic, index }) {
                 {language === "ar"
                   ? "التسليم: "
                   : language === "fr"
-                  ? "Livraison: "
-                  : "Handover: "}
+                    ? "Livraison: "
+                    : "Handover: "}
               </span>
               {project.handover}
             </div>
@@ -361,8 +362,8 @@ function ProjectCard({ project, isArabic, index }) {
           {language === "ar"
             ? project.description?.ar
             : language === "fr"
-            ? project.description?.fr
-            : project.description?.en}
+              ? project.description?.fr
+              : project.description?.en}
         </p>
       </CardContent>
 
@@ -378,8 +379,8 @@ function ProjectCard({ project, isArabic, index }) {
             {language === "ar"
               ? "عرض التفاصيل"
               : language === "fr"
-              ? "Voir les Détails"
-              : "View Details"}
+                ? "Voir les Détails"
+                : "View Details"}
           </Button>
         </Link>
       </CardFooter>
@@ -402,8 +403,8 @@ function Badge({ status, isArabic }) {
         language === "ar"
           ? "قيد الإنشاء"
           : language === "fr"
-          ? "En Construction"
-          : "Off Plan";
+            ? "En Construction"
+            : "Off Plan";
       break;
     case "secondary":
       bgColor = "bg-green-500";
@@ -411,8 +412,8 @@ function Badge({ status, isArabic }) {
         language === "ar"
           ? "ثانوي"
           : language === "fr"
-          ? "Secondaire"
-          : "Secondary";
+            ? "Secondaire"
+            : "Secondary";
       break;
     case "rentals":
       bgColor = "bg-purple-500";
@@ -420,8 +421,8 @@ function Badge({ status, isArabic }) {
         language === "ar"
           ? "إيجار"
           : language === "fr"
-          ? "Locations"
-          : "Rentals";
+            ? "Locations"
+            : "Rentals";
       break;
   }
 

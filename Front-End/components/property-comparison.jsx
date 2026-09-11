@@ -17,6 +17,7 @@ import Image from "next/image";
 import { SARSymbol } from "@/components/sar-symbol";
 import Link from "next/link";
 import { projectApi } from "@/lib/api";
+import { resolveMediaUrl } from "@/lib/config";
 
 // Memoized comparison row component
 const ComparisonRow = memo(function ComparisonRow({
@@ -128,8 +129,8 @@ function PropertyComparison({ onClose }) {
             {language === "ar"
               ? "مقارنة العقارات"
               : language === "fr"
-              ? "Comparaison de Propriétés"
-              : "Property Comparison"}
+                ? "Comparaison de Propriétés"
+                : "Property Comparison"}
           </CardTitle>
           <Button variant="ghost" size="icon" onClick={onClose}>
             <X className="h-5 w-5" />
@@ -143,8 +144,8 @@ function PropertyComparison({ onClose }) {
                 {language === "ar"
                   ? "العقار الأول"
                   : language === "fr"
-                  ? "Première Propriété"
-                  : "First Property"}
+                    ? "Première Propriété"
+                    : "First Property"}
               </label>
               <Select
                 value={selectedProject1}
@@ -155,8 +156,8 @@ function PropertyComparison({ onClose }) {
                       language === "ar"
                         ? "اختر عقار"
                         : language === "fr"
-                        ? "Sélectionner une propriété"
-                        : "Select a property"
+                          ? "Sélectionner une propriété"
+                          : "Select a property"
                     }
                   />
                 </SelectTrigger>
@@ -174,8 +175,8 @@ function PropertyComparison({ onClose }) {
                 {language === "ar"
                   ? "العقار الثاني"
                   : language === "fr"
-                  ? "Deuxième Propriété"
-                  : "Second Property"}
+                    ? "Deuxième Propriété"
+                    : "Second Property"}
               </label>
               <Select
                 value={selectedProject2}
@@ -186,8 +187,8 @@ function PropertyComparison({ onClose }) {
                       language === "ar"
                         ? "اختر عقار"
                         : language === "fr"
-                        ? "Sélectionner une propriété"
-                        : "Select a property"
+                          ? "Sélectionner une propriété"
+                          : "Select a property"
                     }
                   />
                 </SelectTrigger>
@@ -208,10 +209,7 @@ function PropertyComparison({ onClose }) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div className="relative h-48 rounded-lg overflow-hidden">
                   <Image
-                    src={
-                      project1.images?.[0] ||
-                      "/placeholder.svg?height=400&width=600"
-                    }
+                    src={resolveMediaUrl(project1.images?.[0])}
                     alt={project1.title}
                     fill
                     className="object-cover"
@@ -226,10 +224,7 @@ function PropertyComparison({ onClose }) {
                 </div>
                 <div className="relative h-48 rounded-lg overflow-hidden">
                   <Image
-                    src={
-                      project2.images?.[0] ||
-                      "/placeholder.svg?height=400&width=600"
-                    }
+                    src={resolveMediaUrl(project2.images?.[0])}
                     alt={project2.title}
                     fill
                     className="object-cover"
@@ -251,8 +246,8 @@ function PropertyComparison({ onClose }) {
                     language === "ar"
                       ? "السعر"
                       : language === "fr"
-                      ? "Prix"
-                      : "Price"
+                        ? "Prix"
+                        : "Price"
                   }
                   value1={
                     <div className="flex items-center justify-center">
@@ -268,7 +263,7 @@ function PropertyComparison({ onClose }) {
                   }
                   comparison={compareValues(
                     Number.parseInt(project1.price?.replace(/,/g, "")) || 0,
-                    Number.parseInt(project2.price?.replace(/,/g, "")) || 0
+                    Number.parseInt(project2.price?.replace(/,/g, "")) || 0,
                   )}
                   isArabic={isArabic}
                 />
@@ -278,8 +273,8 @@ function PropertyComparison({ onClose }) {
                     language === "ar"
                       ? "المساحة"
                       : language === "fr"
-                      ? "Surface"
-                      : "Area"
+                        ? "Surface"
+                        : "Area"
                   }
                   value1={`${project1.area || 0} ft²`}
                   value2={`${project2.area || 0} ft²`}
@@ -292,8 +287,8 @@ function PropertyComparison({ onClose }) {
                     language === "ar"
                       ? "غرف النوم"
                       : language === "fr"
-                      ? "Chambres"
-                      : "Bedrooms"
+                        ? "Chambres"
+                        : "Bedrooms"
                   }
                   value1={project1.bedrooms || ""}
                   value2={project2.bedrooms || ""}
@@ -306,8 +301,8 @@ function PropertyComparison({ onClose }) {
                     language === "ar"
                       ? "الحمامات"
                       : language === "fr"
-                      ? "Salles de Bain"
-                      : "Bathrooms"
+                        ? "Salles de Bain"
+                        : "Bathrooms"
                   }
                   value1={project1.bathrooms || ""}
                   value2={project2.bathrooms || ""}
@@ -320,8 +315,8 @@ function PropertyComparison({ onClose }) {
                     language === "ar"
                       ? "الطوابق"
                       : language === "fr"
-                      ? "Étages"
-                      : "Floors"
+                        ? "Étages"
+                        : "Floors"
                   }
                   value1={project1.floors || ""}
                   value2={project2.floors || ""}
@@ -337,8 +332,8 @@ function PropertyComparison({ onClose }) {
                         language === "ar"
                           ? "التسليم"
                           : language === "fr"
-                          ? "Livraison"
-                          : "Handover"
+                            ? "Livraison"
+                            : "Handover"
                       }
                       value1={project1.handover || "N/A"}
                       value2={project2.handover || "N/A"}
@@ -352,8 +347,8 @@ function PropertyComparison({ onClose }) {
                     language === "ar"
                       ? "الموقع"
                       : language === "fr"
-                      ? "Emplacement"
-                      : "Location"
+                        ? "Emplacement"
+                        : "Location"
                   }
                   value1={project1.location}
                   value2={project2.location}
@@ -366,8 +361,8 @@ function PropertyComparison({ onClose }) {
                     language === "ar"
                       ? "الحالة"
                       : language === "fr"
-                      ? "Statut"
-                      : "Status"
+                        ? "Statut"
+                        : "Status"
                   }
                   value1={getStatusLabel(project1.status, isArabic, language)}
                   value2={getStatusLabel(project2.status, isArabic, language)}
@@ -431,20 +426,20 @@ function getStatusLabel(status, isArabic, language) {
       return language === "ar"
         ? "قيد الإنشاء"
         : language === "fr"
-        ? "En Construction"
-        : "Off Plan";
+          ? "En Construction"
+          : "Off Plan";
     case "secondary":
       return language === "ar"
         ? "ثانوي"
         : language === "fr"
-        ? "Secondaire"
-        : "Secondary";
+          ? "Secondaire"
+          : "Secondary";
     case "rentals":
       return language === "ar"
         ? "إيجار"
         : language === "fr"
-        ? "Locations"
-        : "Rentals";
+          ? "Locations"
+          : "Rentals";
     default:
       return status;
   }

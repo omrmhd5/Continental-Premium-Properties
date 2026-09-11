@@ -8,6 +8,7 @@ import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/context/language-context";
 import { ArrowRight } from "lucide-react";
 import { projectApi } from "@/lib/api";
+import { resolveMediaUrl } from "@/lib/config";
 
 // Memoized Project Card Component for better performance
 const ProjectCard = memo(function ProjectCard({ project, isArabic, index }) {
@@ -19,7 +20,7 @@ const ProjectCard = memo(function ProjectCard({ project, isArabic, index }) {
       {/* Project Image */}
       <div className="relative h-60">
         <Image
-          src={project.images?.[0] || "/placeholder.svg?height=400&width=600"}
+          src={resolveMediaUrl(project.images?.[0])}
           alt={
             typeof project.title === "object"
               ? isArabic
@@ -161,15 +162,15 @@ function ProjectsSection() {
     activeFilter === "all"
       ? projects.slice(0, 3)
       : activeFilter === "buy"
-      ? projects
-          .filter(
-            (project) =>
-              project.status === "off-plan" || project.status === "secondary"
-          )
-          .slice(0, 3)
-      : projects
-          .filter((project) => project.status === activeFilter)
-          .slice(0, 3);
+        ? projects
+            .filter(
+              (project) =>
+                project.status === "off-plan" || project.status === "secondary",
+            )
+            .slice(0, 3)
+        : projects
+            .filter((project) => project.status === activeFilter)
+            .slice(0, 3);
 
   return (
     <section className="py-16 bg-background" id="projects">

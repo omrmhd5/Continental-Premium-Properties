@@ -6,12 +6,14 @@ const {
   createProject,
   editProject,
   deleteProject,
+  uploadImages,
   contactProject,
 } = require("../Controllers/ProjectController");
 const upload = require("../Middlewares/upload");
 const { authenticateUser } = require("../Middlewares/authUserMiddleware");
 
 router.get("/", getAllProjects);
+router.post("/upload", authenticateUser, upload.array("images"), uploadImages);
 router.get("/:id", getProjectById);
 router.post("/", authenticateUser, upload.array("images"), createProject);
 router.put("/:id", authenticateUser, upload.array("images"), editProject);
