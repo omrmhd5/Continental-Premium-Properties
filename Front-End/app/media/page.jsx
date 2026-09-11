@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLanguage } from "@/context/language-context";
+import { useTranslations } from "next-intl";
 import {
   ArrowLeft,
   Calendar,
@@ -20,6 +21,7 @@ import Footer from "@/components/footer";
 export default function MediaPage() {
   const { language } = useLanguage();
   const isArabic = language === "ar";
+  const t = useTranslations();
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const newsItems = [
@@ -114,7 +116,7 @@ export default function MediaPage() {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <div className="container mx-auto px-4 pt-20">
+      <div className="container mx-auto px-4 pt-32">
         <section className="py-12">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
             <div>
@@ -122,31 +124,19 @@ export default function MediaPage() {
                 href="/"
                 className="inline-flex items-center text-primary mb-4">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                {language === "ar"
-                  ? "العودة إلى الصفحة الرئيسية"
-                  : language === "fr"
-                  ? "Retour à l'Accueil"
-                  : "Back to Home"}
+                {t("projects.backToHome")}
               </Link>
               <h1
                 className={`text-3xl md:text-4xl font-serif font-bold ${
                   isArabic ? "font-arabic" : ""
                 }`}>
-                {language === "ar"
-                  ? "المركز الإعلامي"
-                  : language === "fr"
-                  ? "Centre Média"
-                  : "Media Center"}
+                {t("media.title")}
               </h1>
               <p
                 className={`text-muted-foreground mt-2 ${
                   isArabic ? "font-arabic" : ""
                 }`}>
-                {language === "ar"
-                  ? "استكشف أحدث الأخبار والفعاليات والصور من مشاريعنا"
-                  : language === "fr"
-                  ? "Explorez les dernières nouvelles, événements et images de nos projets"
-                  : "Explore the latest news, events, and images from our projects"}
+                {t("media.explore")}
               </p>
             </div>
           </div>
@@ -157,25 +147,13 @@ export default function MediaPage() {
                 value="news"
                 className="
       inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm">
-                {language === "ar"
-                  ? "الأخبار"
-                  : language === "fr"
-                  ? "Actualités"
-                  : "News"}
+                {t("media.news")}
               </TabsTrigger>
               <TabsTrigger value="videos">
-                {language === "ar"
-                  ? "الفيديوهات"
-                  : language === "fr"
-                  ? "Vidéos"
-                  : "Videos"}
+                {t("media.videos")}
               </TabsTrigger>
               <TabsTrigger value="gallery">
-                {language === "ar"
-                  ? "معرض الصور"
-                  : language === "fr"
-                  ? "Galerie Photos"
-                  : "Photo Gallery"}
+                {t("media.photoGallery")}
               </TabsTrigger>
             </TabsList>
 
@@ -217,11 +195,7 @@ export default function MediaPage() {
                       <Button
                         variant="outline"
                         className="border-primary/30 hover:bg-primary/10 hover:text-primary">
-                        {language === "ar"
-                          ? "اقرأ المزيد"
-                          : language === "fr"
-                          ? "Lire Plus"
-                          : "Read More"}
+                        {t("media.readMore")}
                       </Button>
                     </div>
                   </div>
@@ -307,11 +281,7 @@ export default function MediaPage() {
                   onClick={prevSlide}>
                   <ChevronLeft className="h-6 w-6" />
                   <span className="sr-only">
-                    {language === "ar"
-                      ? "السابق"
-                      : language === "fr"
-                      ? "Précédent"
-                      : "Previous"}
+                    {t("common.previous")}
                   </span>
                 </Button>
 
@@ -322,11 +292,7 @@ export default function MediaPage() {
                   onClick={nextSlide}>
                   <ChevronRight className="h-6 w-6" />
                   <span className="sr-only">
-                    {language === "ar"
-                      ? "التالي"
-                      : language === "fr"
-                      ? "Suivant"
-                      : "Next"}
+                    {t("common.next")}
                   </span>
                 </Button>
 

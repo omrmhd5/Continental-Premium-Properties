@@ -33,6 +33,7 @@ function LanguageSwitcher() {
         <Button
           variant="outline"
           size="sm"
+          aria-label="Toggle language"
           className="text-sm border-primary/20 hover:bg-primary/10 hover:text-primary">
           <Globe className="h-4 w-4 mr-2" />
           {currentLanguage?.flag} {currentLanguage?.name}

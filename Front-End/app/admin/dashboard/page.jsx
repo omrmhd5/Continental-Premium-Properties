@@ -4,23 +4,17 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Home,
-  LogOut,
-  Building2,
-  Landmark,
-  Clock,
-  DollarSign,
-  Building,
-} from "lucide-react";
+import { Building2, Building } from "lucide-react";
 import { projectApi } from "@/lib/api";
 import { useLanguage } from "@/context/language-context";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 export default function AdminDashboard() {
   const router = useRouter();
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
   const isArabic = language === "ar";
+  const t = useTranslations();
   const [stats, setStats] = useState({
     totalProjects: 0,
     offPlan: 0,
@@ -32,13 +26,12 @@ export default function AdminDashboard() {
     const fetchStats = async () => {
       try {
         const projects = await projectApi.getAllProjects();
-        const stats = {
+        setStats({
           totalProjects: projects.length,
           offPlan: projects.filter((p) => p.status === "off-plan").length,
           secondary: projects.filter((p) => p.status === "secondary").length,
           rentals: projects.filter((p) => p.status === "rentals").length,
-        };
-        setStats(stats);
+        });
       } catch (error) {
         console.error("Error fetching stats:", error);
       }
@@ -46,11 +39,6 @@ export default function AdminDashboard() {
 
     fetchStats();
   }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("adminToken");
-    router.push("/admin/login");
-  };
 
   return (
     <div className="space-y-6">
@@ -60,21 +48,13 @@ export default function AdminDashboard() {
             className={`text-2xl sm:text-3xl font-serif font-bold tracking-tight ${
               isArabic ? "font-arabic" : ""
             }`}>
-            {language === "ar"
-              ? "لوحة التحكم"
-              : language === "fr"
-              ? "Tableau de Bord"
-              : "Dashboard"}
+            {t("admin.dashboard.title")}
           </h1>
           <p
             className={`text-muted-foreground ${
               isArabic ? "font-arabic" : ""
             }`}>
-            {language === "ar"
-              ? "نظرة عامة على مشاريعك العقارية"
-              : language === "fr"
-              ? "Aperçu de vos projets immobiliers"
-              : "Overview of your real estate projects"}
+            {t("admin.dashboard.overview")}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -84,11 +64,7 @@ export default function AdminDashboard() {
               size="sm"
               className="bg-brand-gold text-brand-navy hover:bg-brand-gold/90">
               <Building className="h-4 w-4 mr-2" />
-              {language === "ar"
-                ? "المشاريع"
-                : language === "fr"
-                ? "Projets"
-                : "Projects"}
+              {t("admin.dashboard.projects")}
             </Button>
           </Link>
         </div>
@@ -101,11 +77,7 @@ export default function AdminDashboard() {
               className={`text-sm font-medium ${
                 isArabic ? "font-arabic" : ""
               }`}>
-              {language === "ar"
-                ? "إجمالي المشاريع"
-                : language === "fr"
-                ? "Total des Projets"
-                : "Total Projects"}
+              {t("admin.dashboard.totalProjects")}
             </CardTitle>
             <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -119,11 +91,7 @@ export default function AdminDashboard() {
               className={`text-sm font-medium ${
                 isArabic ? "font-arabic" : ""
               }`}>
-              {language === "ar"
-                ? "إنشاء جديد"
-                : language === "fr"
-                ? "En Construction"
-                : "Off-Plan"}
+              {t("admin.dashboard.offPlan")}
             </CardTitle>
             <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -137,11 +105,7 @@ export default function AdminDashboard() {
               className={`text-sm font-medium ${
                 isArabic ? "font-arabic" : ""
               }`}>
-              {language === "ar"
-                ? "ثانوي"
-                : language === "fr"
-                ? "Secondaire"
-                : "Secondary"}
+              {t("admin.dashboard.secondary")}
             </CardTitle>
             <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -155,11 +119,7 @@ export default function AdminDashboard() {
               className={`text-sm font-medium ${
                 isArabic ? "font-arabic" : ""
               }`}>
-              {language === "ar"
-                ? "إيجار"
-                : language === "fr"
-                ? "Locations"
-                : "Rentals"}
+              {t("admin.dashboard.rentals")}
             </CardTitle>
             <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>

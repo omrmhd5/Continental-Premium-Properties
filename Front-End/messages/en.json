@@ -1,0 +1,345 @@
+{
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "mediaCenter": "Media Center",
+    "aboutUs": "About Us",
+    "contactUs": "Contact Us"
+  },
+  "hero": {
+    "companyName": "Continental Premium Properties",
+    "title": "Luxury Residential Projects",
+    "subtitle": "Discover our premium residential projects with world-class specifications and modern designs",
+    "exploreButton": "Explore Our Projects",
+    "headline": "Your comfort is our priority"
+  },
+  "footer": {
+    "description": "We connect you to the best real estate opportunities to secure your investment or dream home.",
+    "quickLinks": "Quick Links",
+    "contactInfo": "Contact Information",
+    "followUs": "Follow Us",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "adminDashboard": "Admin Dashboard",
+    "copyright": "© 2025 Continental Premium Properties. All rights reserved."
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "Learn about our story and vision",
+    "backToHome": "Back to Home",
+    "values": {
+      "excellence": {
+        "title": "Excellence",
+        "description": "We strive for excellence in every project we undertake, ensuring the highest standards of quality and design."
+      },
+      "integrity": {
+        "title": "Integrity",
+        "description": "We conduct our business with honesty, transparency, and ethical practices, building trust with our clients and partners."
+      },
+      "innovation": {
+        "title": "Innovation",
+        "description": "We embrace innovative solutions and modern technologies to create cutting-edge residential projects."
+      },
+      "community": {
+        "title": "Community",
+        "description": "We are committed to building not just properties, but thriving communities that enhance the quality of life."
+      }
+    },
+    "companyImage": "Company Image",
+    "storyLabel": "Our Story",
+    "storyTitle": "Leading Luxury Real Estate Development",
+    "storyP1": "In the heart of Dubai, where opportunities meet ambitions, our real estate company was founded to be your gateway to a world of smart and profitable real estate investment. We are a team of expert real estate consultants with a clear vision and deep knowledge of Dubai's dynamic property market.\nWe offer you extensive experience and a proven track record of success, accompanying you every step of your real estate journey—whether you're searching for your dream home, looking to grow your investment portfolio, or seeking to understand the market and make strategic decisions.\nWe work with passion and believe that trust is built on transparency and credibility, which is why we provide tailored advice based on thorough analysis and a genuine interest in your goals.\nWith us, you are not just a client… you are a partner in success.",
+    "storyP2": "We take pride in our diverse portfolio of luxury residential projects, from exclusive villas to modern apartments and integrated residential complexes. Each project we undertake reflects our commitment to excellence, innovation, and quality.",
+    "storyP3": "With a team of experienced and skilled professionals, we are committed to exceeding our clients' expectations and delivering exceptional living spaces that stand the test of time.",
+    "valuesLabel": "Our Values",
+    "valuesTitle": "The Principles That Guide Us",
+    "valuesIntro": "Our core values are the foundation of everything we do, from how we design our projects to how we interact with our clients and partners"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Get in touch with us",
+    "backToHome": "Back to Home",
+    "form": {
+      "name": "Full Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "subject": "Subject",
+      "message": "Message",
+      "sendButton": "Send Message",
+      "sending": "Sending..."
+    },
+    "success": {
+      "title": "Message Sent Successfully",
+      "description": "We will get back to you as soon as possible"
+    },
+    "contactInfo": {
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email"
+    },
+    "pageSubtitle": "We're here to answer your questions and help you find your dream home",
+    "visitUs": "Visit Us",
+    "callUs": "Call Us",
+    "emailUs": "Email Us",
+    "sendMessage": "Send Us a Message",
+    "weValue": "We Value Your Feedback",
+    "fillForm": "Fill out the form below and we'll get back to you as soon as possible",
+    "yourMessage": "Your Message",
+    "successTitle": "Feedback or Complaint Sent Successfully",
+    "errorTitle": "Error Sending Message",
+    "errorDesc": "Please try again later",
+    "addressValue": "2110-B2B Office Tower - Marasi Dr - Business Bay - Dubai",
+    "phoneValue": "+971 4 770 5704",
+    "emailValue": "propertiescontinental58@gmail.com"
+  },
+  "projects": {
+    "title": "Our Projects",
+    "subtitle": "Discover our latest residential projects",
+    "backToHome": "Back to Home",
+    "search": "Search projects...",
+    "filters": {
+      "all": "All Projects",
+      "offPlan": "Off-Plan",
+      "secondary": "Secondary",
+      "rentals": "Rentals"
+    },
+    "viewDetails": "View Details",
+    "compare": "Compare Properties",
+    "noProjects": "No projects found",
+    "resetFilters": "Reset Filters",
+    "searchByName": "Search by name or location...",
+    "exploreAll": "Explore all our luxury real estate projects",
+    "filterByStatus": "Filter by status",
+    "allStatuses": "All Statuses",
+    "adjustSearch": "Please adjust your search criteria",
+    "label": "Our Projects",
+    "exploreLuxury": "Explore Our Luxury Projects",
+    "diverseRange": "Explore our diverse range of luxury residential projects",
+    "filterAll": "All",
+    "filterBuy": "Buy",
+    "viewAll": "View All Projects",
+    "noneAvailable": "No projects available at the moment"
+  },
+  "projectDetails": {
+    "backToProjects": "Back to Projects",
+    "share": "Share",
+    "contactOwner": "Contact Owner",
+    "specifications": "Specifications",
+    "area": "Area",
+    "bedrooms": "Bedrooms",
+    "bathrooms": "Bathrooms",
+    "floors": "Floors",
+    "handover": "Handover",
+    "features": "Features",
+    "description": "Description",
+    "compare": "Compare",
+    "projectDescription": "Project Description",
+    "details": "Details",
+    "price": "Price",
+    "contactAbout": "Contact Us About This Project",
+    "contactUs": "Contact Us",
+    "expertReach": "Our expert will reach out to you about {title} in {location}.",
+    "yourName": "Your Name",
+    "yourEmail": "Your Email",
+    "sentOk": "Message sent successfully!",
+    "sentFail": "Failed to send message.",
+    "notFound": "Project not found",
+    "linkCopied": "Link copied to clipboard!"
+  },
+  "media": {
+    "title": "Media Center",
+    "subtitle": "Latest news and updates",
+    "backToHome": "Back to Home",
+    "news": "News",
+    "events": "Events",
+    "gallery": "Gallery",
+    "readMore": "Read More",
+    "explore": "Explore the latest news, events, and images from our projects",
+    "latestNews": "Latest News & Events",
+    "videos": "Videos",
+    "photoGallery": "Photo Gallery",
+    "slides": {
+      "launch": {
+        "title": "Project Launch Event",
+        "description": "Grand opening ceremony of our latest residential complex"
+      },
+      "skyline": {
+        "title": "Skyline Living",
+        "description": "Experience luxury living with breathtaking views from iconic high-rises."
+      },
+      "community": {
+        "title": "Community Activities",
+        "description": "Residents enjoying vibrant events and gatherings across the community."
+      }
+    },
+    "news1Title": "New Luxury Project Launch",
+    "news1Content": "We are excited to announce the launch of our newest luxury residential project in Dubai, featuring state-of-the-art amenities and modern design.",
+    "news2Title": "Completion of Sky Towers",
+    "news2Content": "We are proud to announce the successful completion of the Sky Towers project, ahead of schedule and with exceptional quality standards.",
+    "news3Title": "Annual Real Estate Exhibition",
+    "news3Content": "Join us at the Annual Real Estate Exhibition where we will showcase our latest projects and offer exclusive deals for attendees.",
+    "video1": "Dubai’s Most Premium Master Community",
+    "video2": "DAMAC Chelsea's Residence",
+    "video3": "Bugatti Residences by Binghatti"
+  },
+  "admin": {
+    "login": {
+      "title": "Admin Login",
+      "username": "Username",
+      "password": "Password",
+      "loginButton": "Login",
+      "loggingIn": "Logging in...",
+      "backToHomepage": "Back to Homepage",
+      "error": "Invalid username or password",
+      "subtitle": "Sign in to access the admin dashboard"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "totalProjects": "Total Projects",
+      "offPlan": "Off-Plan",
+      "secondary": "Secondary",
+      "rentals": "Rentals",
+      "overview": "Overview of your real estate projects",
+      "projects": "Projects"
+    },
+    "projects": {
+      "title": "Manage Projects",
+      "addProject": "Add New Project",
+      "editProject": "Edit Project",
+      "deleteProject": "Delete Project",
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "confirmDelete": "Are you sure you want to delete this project?"
+    },
+    "logout": "Logout",
+    "homepage": "Homepage",
+    "sessionExpired": "Session Expired",
+    "sessionExpiredDesc": "Your session has expired. Please log in again.",
+    "addProject": "Add Project",
+    "addProjectFill": "Fill in the details to add a new project to your portfolio.",
+    "addedSuccess": "Project has been successfully added to your portfolio",
+    "updatedSuccess": "Project has been successfully updated",
+    "deletedSuccess": "Project has been successfully deleted",
+    "viewProject": "View Project",
+    "uploadError": "Error uploading image. Please try again.",
+    "titleField": "Title",
+    "images": "Images",
+    "uploadImages": "Upload Images",
+    "navDashboard": "Dashboard",
+    "navProjects": "Projects",
+    "toastAdded": "Success",
+    "toastUpdated": "Success",
+    "toastDeleted": "Success",
+    "fields": {
+      "id": "ID",
+      "title": "Title",
+      "status": "Status",
+      "location": "Location",
+      "priceAed": "Price (AED)",
+      "dateAdded": "Date Added",
+      "actions": "Actions",
+      "openMenu": "Open menu",
+      "descriptionEn": "Description (EN)",
+      "descriptionAr": "Description (AR)",
+      "areaFt": "Area (ft²)",
+      "bedrooms": "Bedrooms",
+      "bathrooms": "Bathrooms",
+      "floors": "Floors",
+      "handover": "Handover",
+      "images": "Images",
+      "features": "Features",
+      "featureEn": "Feature (EN)",
+      "featureAr": "Feature (AR)",
+      "addFeature": "Add Feature",
+      "selectStatus": "Select status",
+      "enterLocation": "Enter location",
+      "enterTitle": "Enter project title",
+      "handoverPh": "Month/Year (e.g., 12/2025)",
+      "uploading": "Uploading..."
+    },
+    "editFill": "Update the details of your project.",
+    "saveChanges": "Save Changes",
+    "areYouSure": "Are you sure?",
+    "deleteForever": "This will permanently delete the project \"{title}\". This action cannot be undone.",
+    "addProjectSubmit": "Add Project"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "noData": "No data available",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close",
+    "open": "Open",
+    "yes": "Yes",
+    "no": "No",
+    "submit": "Submit",
+    "reset": "Reset",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+    "add": "Add",
+    "create": "Create",
+    "update": "Update",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Information"
+  },
+  "map": {
+    "title": "Our Global Presence",
+    "subtitle": "Our Locations",
+    "description": "Explore our project locations throughout the city",
+    "mapPlaceholder": "Location Map",
+    "ourLocation": "Our Location",
+    "headquarters": "Headquarters"
+  },
+  "comparison": {
+    "title": "Property Comparison",
+    "selectProject1": "Select First Project",
+    "selectProject2": "Select Second Project",
+    "compare": "Compare",
+    "price": "Price",
+    "location": "Location",
+    "status": "Status",
+    "better": "Better",
+    "firstProperty": "First Property",
+    "secondProperty": "Second Property",
+    "selectProperty": "Select a property",
+    "pickTwo": "Please select two properties to compare"
+  },
+  "theme": {
+    "toggle": "Toggle theme"
+  },
+  "banner": {
+    "demo": "DEMO MODE",
+    "wake": "First load after idle may take a few seconds"
+  },
+  "demoLogin": {
+    "title": "Demo login",
+    "role": "Admin",
+    "usernameLabel": "Username",
+    "passwordLabel": "Password",
+    "hint": "Demo may take ~30s to wake after idle."
+  },
+  "partners": {
+    "label": "Our Partners",
+    "title": "Our Success Partners",
+    "subtitle": "We are proud to work with the region's leading real estate companies"
+  },
+  "status": {
+    "offPlan": "Off-Plan",
+    "secondary": "Secondary",
+    "rentals": "Rentals",
+    "startingFrom": "Starting from",
+    "unknown": "Unknown",
+    "all": "All Projects"
+  }
+}

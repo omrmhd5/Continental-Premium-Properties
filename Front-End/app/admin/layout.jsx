@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Separator } from "@/components/ui/separator";
 import Logo from "@/components/logo";
-import { useLanguage } from "@/context/language-context";
+import { useTranslations } from "next-intl";
 import { ErrorPopup } from "@/components/error-popup";
 import LanguageSwitcher from "@/components/language-switcher";
 
@@ -21,8 +21,7 @@ export default function AdminLayout({ children }) {
     title: "",
     description: "",
   });
-  const { language, setLanguage } = useLanguage();
-  const isArabic = language === "ar";
+  const t = useTranslations();
 
   useEffect(() => {
     setIsClient(true);
@@ -30,8 +29,8 @@ export default function AdminLayout({ children }) {
     const token = localStorage.getItem("adminToken");
     if (!token && pathname !== "/admin/login") {
       setErrorMessage({
-        title: "Session Expired",
-        description: "Your session has expired. Please log in again.",
+        title: t("admin.sessionExpired"),
+        description: t("admin.sessionExpiredDesc"),
       });
       setShowErrorPopup(true);
     }
@@ -49,12 +48,16 @@ export default function AdminLayout({ children }) {
 
   // Update the navItems array to include only projects
   const navItems = [
-    { icon: LayoutDashboard, label: "Dashboard", href: "/admin/dashboard" },
-    { icon: Building, label: "Projects", href: "/admin/projects" },
+    {
+      icon: LayoutDashboard,
+      label: t("admin.navDashboard"),
+      href: "/admin/dashboard",
+    },
+    { icon: Building, label: t("admin.navProjects"), href: "/admin/projects" },
   ];
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex h-full bg-background">
       {/* Sidebar */}
       <div className="w-64 border-r border-brand-gold/10 bg-card/50 hidden md:block">
         <div className="h-full flex flex-col">
@@ -101,11 +104,7 @@ export default function AdminLayout({ children }) {
                 size="sm"
                 className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
                 <Home className="h-4 w-4 mr-2" />
-                {language === "ar"
-                  ? "الصفحة الرئيسية"
-                  : language === "fr"
-                  ? "Page d'Accueil"
-                  : "Homepage"}
+                {t("admin.homepage")}
               </Button>
             </Link>
 
@@ -114,11 +113,7 @@ export default function AdminLayout({ children }) {
               className=" border-brand-gold/20 hover:bg-brand-gold/10 hover:text-brand-gold"
               onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
-              {language === "ar"
-                ? "تسجيل الخروج"
-                : language === "fr"
-                ? "Déconnexion"
-                : "Logout"}
+              {t("admin.logout")}
             </Button>
             <ThemeToggle />
           </div>
@@ -136,7 +131,7 @@ export default function AdminLayout({ children }) {
         onClose={() => setShowErrorPopup(false)}
         title={errorMessage.title}
         description={errorMessage.description}
-        isTokenError={true}
+        isTokenError={errorMessage.title === t("admin.sessionExpired")}
       />
     </div>
   );

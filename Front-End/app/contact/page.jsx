@@ -6,16 +6,18 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useLanguage } from "@/context/language-context";
+import { useTranslations } from "next-intl";
 import { ArrowLeft, Mail, MapPin, Phone } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { API_BASE_URL } from "@/lib/config";
+import { API_BASE_URL, languageHeaders } from "@/lib/config";
 
 export default function ContactPage() {
   const { language } = useLanguage();
   const isArabic = language === "ar";
+  const t = useTranslations();
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
@@ -38,7 +40,7 @@ export default function ContactPage() {
     try {
       const response = await fetch(`${API_BASE_URL}/projects/contact`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...languageHeaders() },
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
@@ -49,18 +51,8 @@ export default function ContactPage() {
       });
       if (response.ok) {
         toast({
-          title:
-            language === "ar"
-              ? "تم إرسال الشكوى أو الملاحظة بنجاح"
-              : language === "fr"
-              ? "Réclamation ou commentaire envoyé avec succès"
-              : "Feedback or Complaint Sent Successfully",
-          description:
-            language === "ar"
-              ? "سنتواصل معك في أقرب وقت ممكن"
-              : language === "fr"
-              ? "Nous vous répondrons dans les plus brefs délais"
-              : "We will get back to you as soon as possible",
+          title: t("contact.successTitle"),
+          description: t("contact.success.description"),
         });
         setFormData({
           name: "",
@@ -71,35 +63,15 @@ export default function ContactPage() {
         });
       } else {
         toast({
-          title:
-            language === "ar"
-              ? "حدث خطأ أثناء الإرسال"
-              : language === "fr"
-              ? "Erreur lors de l'envoi"
-              : "Error Sending Message",
-          description:
-            language === "ar"
-              ? "يرجى المحاولة مرة أخرى لاحقًا"
-              : language === "fr"
-              ? "Veuillez réessayer plus tard"
-              : "Please try again later",
+          title: t("contact.errorTitle"),
+          description: t("contact.errorDesc"),
           variant: "destructive",
         });
       }
     } catch (error) {
       toast({
-        title:
-          language === "ar"
-            ? "حدث خطأ أثناء الإرسال"
-            : language === "fr"
-            ? "Erreur lors de l'envoi"
-            : "Error Sending Message",
-        description:
-          language === "ar"
-            ? "يرجى المحاولة مرة أخرى لاحقًا"
-            : language === "fr"
-            ? "Veuillez réessayer plus tard"
-            : "Please try again later",
+        title: t("contact.errorTitle"),
+        description: t("contact.errorDesc"),
         variant: "destructive",
       });
     } finally {
@@ -110,37 +82,25 @@ export default function ContactPage() {
   const contactInfo = [
     {
       icon: <MapPin className="h-6 w-6 text-primary" />,
-      title: { en: "Visit Us", ar: "زورنا", fr: "Visitez-nous" },
-      details: {
-        en: "2110-B2B Office Tower - Marasi Dr - Business Bay - Dubai",
-        ar: "2110-B2B Office Tower - Marasi Dr - Business Bay - Dubai",
-        fr: "2110-B2B Office Tower - Marasi Dr - Business Bay - Dubaï",
-      },
+      title: t("contact.visitUs"),
+      details: t("contact.addressValue"),
     },
     {
       icon: <Phone className="h-6 w-6 text-primary" />,
-      title: { en: "Call Us", ar: "اتصل بنا", fr: "Appelez-nous" },
-      details: {
-        en: "+971 4 770 5704",
-        ar: "+971 4 770 5704",
-        fr: "+971 4 770 5704",
-      },
+      title: t("contact.callUs"),
+      details: t("contact.phoneValue"),
     },
     {
       icon: <Mail className="h-6 w-6 text-primary" />,
-      title: { en: "Email Us", ar: "راسلنا", fr: "Envoyez-nous un email" },
-      details: {
-        en: "propertiescontinental58@gmail.com",
-        ar: "propertiescontinental58@gmail.com",
-        fr: "propertiescontinental58@gmail.com",
-      },
+      title: t("contact.emailUs"),
+      details: t("contact.emailValue"),
     },
   ];
 
   return (
     <div className="min-h-screen">
       <Navbar />
-      <div className="container mx-auto px-4 pt-20">
+      <div className="container mx-auto px-4 pt-32">
         <section className="py-12">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
             <div>
@@ -148,31 +108,19 @@ export default function ContactPage() {
                 href="/"
                 className="inline-flex items-center text-primary mb-4">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                {language === "ar"
-                  ? "العودة إلى الصفحة الرئيسية"
-                  : language === "fr"
-                  ? "Retour à l'Accueil"
-                  : "Back to Home"}
+                {t("contact.backToHome")}
               </Link>
               <h1
                 className={`text-3xl md:text-4xl font-serif font-bold ${
                   isArabic ? "font-arabic" : ""
                 }`}>
-                {language === "ar"
-                  ? "اتصل بنا"
-                  : language === "fr"
-                  ? "Contactez-nous"
-                  : "Contact Us"}
+                {t("contact.title")}
               </h1>
               <p
                 className={`text-muted-foreground mt-2 ${
                   isArabic ? "font-arabic" : ""
                 }`}>
-                {language === "ar"
-                  ? "نحن هنا للإجابة على أسئلتك ومساعدتك في العثور على منزل أحلامك"
-                  : language === "fr"
-                  ? "Nous sommes là pour répondre à vos questions et vous aider à trouver votre maison de rêve"
-                  : "We're here to answer your questions and help you find your dream home"}
+                {t("contact.pageSubtitle")}
               </p>
             </div>
           </div>
@@ -188,19 +136,9 @@ export default function ContactPage() {
                     {info.icon}
                   </div>
                   <h3 className="text-xl font-serif font-bold mb-2">
-                    {isArabic
-                      ? info.title.ar
-                      : language === "fr"
-                      ? info.title.fr
-                      : info.title.en}
+                    {info.title}
                   </h3>
-                  <p className="text-muted-foreground">
-                    {isArabic
-                      ? info.details.ar
-                      : language === "fr"
-                      ? info.details.fr
-                      : info.details.en}
-                  </p>
+                  <p className="text-muted-foreground">{info.details}</p>
                 </CardContent>
               </Card>
             ))}
@@ -212,27 +150,15 @@ export default function ContactPage() {
                 <div className="inline-block mb-4">
                   <span className="inline-block h-0.5 w-10 bg-primary mr-2 align-middle"></span>
                   <span className="text-primary text-sm uppercase tracking-wider">
-                    {language === "ar"
-                      ? "أرسل لنا رسالة"
-                      : language === "fr"
-                      ? "Envoyez-nous un Message"
-                      : "Send Us a Message"}
+                    {t("contact.sendMessage")}
                   </span>
                   <span className="inline-block h-0.5 w-10 bg-primary ml-2 align-middle"></span>
                 </div>
                 <h2 className="text-2xl font-serif font-bold mb-4">
-                  {language === "ar"
-                    ? "نحن نقدر ملاحظاتك"
-                    : language === "fr"
-                    ? "Nous Apprécions Votre Avis"
-                    : "We Value Your Feedback"}
+                  {t("contact.weValue")}
                 </h2>
                 <p className="text-muted-foreground mb-6">
-                  {language === "ar"
-                    ? "املأ النموذج أدناه وسنعاود الاتصال بك في أقرب وقت ممكن"
-                    : language === "fr"
-                    ? "Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais"
-                    : "Fill out the form below and we'll get back to you as soon as possible"}
+                  {t("contact.fillForm")}
                 </p>
               </div>
 
@@ -240,13 +166,7 @@ export default function ContactPage() {
                 <div>
                   <Input
                     name="name"
-                    placeholder={
-                      language === "ar"
-                        ? "الاسم الكامل"
-                        : language === "fr"
-                        ? "Nom Complet"
-                        : "Full Name"
-                    }
+                    placeholder={t("contact.form.name")}
                     value={formData.name}
                     onChange={handleChange}
                     required
@@ -256,26 +176,14 @@ export default function ContactPage() {
                   <Input
                     name="email"
                     type="email"
-                    placeholder={
-                      language === "ar"
-                        ? "البريد الإلكتروني"
-                        : language === "fr"
-                        ? "Adresse Email"
-                        : "Email Address"
-                    }
+                    placeholder={t("contact.form.email")}
                     value={formData.email}
                     onChange={handleChange}
                     required
                   />
                   <Input
                     name="phone"
-                    placeholder={
-                      language === "ar"
-                        ? "رقم الهاتف"
-                        : language === "fr"
-                        ? "Numéro de Téléphone"
-                        : "Phone Number"
-                    }
+                    placeholder={t("contact.form.phone")}
                     value={formData.phone}
                     onChange={handleChange}
                   />
@@ -283,13 +191,7 @@ export default function ContactPage() {
                 <div>
                   <Input
                     name="subject"
-                    placeholder={
-                      language === "ar"
-                        ? "الموضوع"
-                        : language === "fr"
-                        ? "Sujet"
-                        : "Subject"
-                    }
+                    placeholder={t("contact.form.subject")}
                     value={formData.subject}
                     onChange={handleChange}
                     required
@@ -298,13 +200,7 @@ export default function ContactPage() {
                 <div>
                   <Textarea
                     name="message"
-                    placeholder={
-                      language === "ar"
-                        ? "رسالتك"
-                        : language === "fr"
-                        ? "Votre Message"
-                        : "Your Message"
-                    }
+                    placeholder={t("contact.yourMessage")}
                     rows={5}
                     value={formData.message}
                     onChange={handleChange}
@@ -316,16 +212,8 @@ export default function ContactPage() {
                   className="w-full"
                   disabled={isSubmitting}>
                   {isSubmitting
-                    ? language === "ar"
-                      ? "جاري الإرسال..."
-                      : language === "fr"
-                      ? "Envoi en cours..."
-                      : "Sending..."
-                    : language === "ar"
-                    ? "إرسال الرسالة"
-                    : language === "fr"
-                    ? "Envoyer le Message"
-                    : "Send Message"}
+                    ? t("contact.form.sending")
+                    : t("contact.form.sendButton")}
                 </Button>
               </form>
             </div>

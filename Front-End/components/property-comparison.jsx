@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useLanguage } from "@/context/language-context";
+import { useTranslations } from "next-intl";
 import { X, Check, ArrowRight } from "lucide-react";
 import Image from "next/image";
 // Make sure the import is correct
@@ -53,6 +54,7 @@ const ComparisonRow = memo(function ComparisonRow({
 function PropertyComparison({ onClose }) {
   const { language } = useLanguage();
   const isArabic = language === "ar";
+  const t = useTranslations();
   const [projects, setProjects] = useState([]);
   const [selectedProject1, setSelectedProject1] = useState(null);
   const [selectedProject2, setSelectedProject2] = useState(null);
@@ -126,11 +128,7 @@ function PropertyComparison({ onClose }) {
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle
             className={`text-2xl font-bold ${isArabic ? "font-arabic" : ""}`}>
-            {language === "ar"
-              ? "مقارنة العقارات"
-              : language === "fr"
-                ? "Comparaison de Propriétés"
-                : "Property Comparison"}
+            {t("comparison.title")}
           </CardTitle>
           <Button variant="ghost" size="icon" onClick={onClose}>
             <X className="h-5 w-5" />
@@ -141,11 +139,7 @@ function PropertyComparison({ onClose }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
               <label className={`block mb-2 ${isArabic ? "font-arabic" : ""}`}>
-                {language === "ar"
-                  ? "العقار الأول"
-                  : language === "fr"
-                    ? "Première Propriété"
-                    : "First Property"}
+                {t("comparison.firstProperty")}
               </label>
               <Select
                 value={selectedProject1}
@@ -153,11 +147,7 @@ function PropertyComparison({ onClose }) {
                 <SelectTrigger>
                   <SelectValue
                     placeholder={
-                      language === "ar"
-                        ? "اختر عقار"
-                        : language === "fr"
-                          ? "Sélectionner une propriété"
-                          : "Select a property"
+                      t("comparison.selectProperty")
                     }
                   />
                 </SelectTrigger>
@@ -172,11 +162,7 @@ function PropertyComparison({ onClose }) {
             </div>
             <div>
               <label className={`block mb-2 ${isArabic ? "font-arabic" : ""}`}>
-                {language === "ar"
-                  ? "العقار الثاني"
-                  : language === "fr"
-                    ? "Deuxième Propriété"
-                    : "Second Property"}
+                {t("comparison.secondProperty")}
               </label>
               <Select
                 value={selectedProject2}
@@ -184,11 +170,7 @@ function PropertyComparison({ onClose }) {
                 <SelectTrigger>
                   <SelectValue
                     placeholder={
-                      language === "ar"
-                        ? "اختر عقار"
-                        : language === "fr"
-                          ? "Sélectionner une propriété"
-                          : "Select a property"
+                      t("comparison.selectProperty")
                     }
                   />
                 </SelectTrigger>
@@ -243,11 +225,7 @@ function PropertyComparison({ onClose }) {
               <div className="space-y-4">
                 <ComparisonRow
                   label={
-                    language === "ar"
-                      ? "السعر"
-                      : language === "fr"
-                        ? "Prix"
-                        : "Price"
+                    t("projectDetails.price")
                   }
                   value1={
                     <div className="flex items-center justify-center">
@@ -270,11 +248,7 @@ function PropertyComparison({ onClose }) {
 
                 <ComparisonRow
                   label={
-                    language === "ar"
-                      ? "المساحة"
-                      : language === "fr"
-                        ? "Surface"
-                        : "Area"
+                    t("projectDetails.area")
                   }
                   value1={`${project1.area || 0} ft²`}
                   value2={`${project2.area || 0} ft²`}
@@ -284,11 +258,7 @@ function PropertyComparison({ onClose }) {
 
                 <ComparisonRow
                   label={
-                    language === "ar"
-                      ? "غرف النوم"
-                      : language === "fr"
-                        ? "Chambres"
-                        : "Bedrooms"
+                    t("projectDetails.bedrooms")
                   }
                   value1={project1.bedrooms || ""}
                   value2={project2.bedrooms || ""}
@@ -298,11 +268,7 @@ function PropertyComparison({ onClose }) {
 
                 <ComparisonRow
                   label={
-                    language === "ar"
-                      ? "الحمامات"
-                      : language === "fr"
-                        ? "Salles de Bain"
-                        : "Bathrooms"
+                    t("projectDetails.bathrooms")
                   }
                   value1={project1.bathrooms || ""}
                   value2={project2.bathrooms || ""}
@@ -312,11 +278,7 @@ function PropertyComparison({ onClose }) {
 
                 <ComparisonRow
                   label={
-                    language === "ar"
-                      ? "الطوابق"
-                      : language === "fr"
-                        ? "Étages"
-                        : "Floors"
+                    t("projectDetails.floors")
                   }
                   value1={project1.floors || ""}
                   value2={project2.floors || ""}
@@ -329,11 +291,7 @@ function PropertyComparison({ onClose }) {
                   project2.status === "off-plan" && (
                     <ComparisonRow
                       label={
-                        language === "ar"
-                          ? "التسليم"
-                          : language === "fr"
-                            ? "Livraison"
-                            : "Handover"
+                        t("projectDetails.handover")
                       }
                       value1={project1.handover || "N/A"}
                       value2={project2.handover || "N/A"}
@@ -344,11 +302,7 @@ function PropertyComparison({ onClose }) {
 
                 <ComparisonRow
                   label={
-                    language === "ar"
-                      ? "الموقع"
-                      : language === "fr"
-                        ? "Emplacement"
-                        : "Location"
+                    {t("comparison.location")}
                   }
                   value1={project1.location}
                   value2={project2.location}
@@ -358,14 +312,10 @@ function PropertyComparison({ onClose }) {
 
                 <ComparisonRow
                   label={
-                    language === "ar"
-                      ? "الحالة"
-                      : language === "fr"
-                        ? "Statut"
-                        : "Status"
+                    {t("comparison.status")}
                   }
-                  value1={getStatusLabel(project1.status, isArabic, language)}
-                  value2={getStatusLabel(project2.status, isArabic, language)}
+                  value1={getStatusLabel(project1.status, t)}
+                  value2={getStatusLabel(project2.status, t)}
                   comparison="text"
                   isArabic={isArabic}
                 />
@@ -379,7 +329,7 @@ function PropertyComparison({ onClose }) {
                   onClick={handleViewDetails}
                   asChild>
                   <Link href={`/projects/${project1._id}`}>
-                    {isArabic ? "عرض التفاصيل" : "View Details"}
+                    {t("projects.viewDetails")}
                     {isArabic ? (
                       <ArrowRight className="mr-2 h-4 w-4 rotate-180" />
                     ) : (
@@ -393,7 +343,7 @@ function PropertyComparison({ onClose }) {
                   onClick={handleViewDetails}
                   asChild>
                   <Link href={`/projects/${project2._id}`}>
-                    {isArabic ? "عرض التفاصيل" : "View Details"}
+                    {t("projects.viewDetails")}
                     {isArabic ? (
                       <ArrowRight className="mr-2 h-4 w-4 rotate-180" />
                     ) : (
@@ -407,9 +357,7 @@ function PropertyComparison({ onClose }) {
             <div
               className={`text-center py-12 ${isArabic ? "font-arabic" : ""}`}>
               <p className="text-muted-foreground">
-                {isArabic
-                  ? "يرجى اختيار عقارين للمقارنة"
-                  : "Please select two properties to compare"}
+                {t("comparison.pickTwo")}
               </p>
             </div>
           )}
@@ -420,26 +368,14 @@ function PropertyComparison({ onClose }) {
 }
 
 // Helper function to get status label based on status code
-function getStatusLabel(status, isArabic, language) {
+function getStatusLabel(status, t) {
   switch (status) {
     case "off-plan":
-      return language === "ar"
-        ? "قيد الإنشاء"
-        : language === "fr"
-          ? "En Construction"
-          : "Off Plan";
+      return t("status.offPlan");
     case "secondary":
-      return language === "ar"
-        ? "ثانوي"
-        : language === "fr"
-          ? "Secondaire"
-          : "Secondary";
+      return t("status.secondary");
     case "rentals":
-      return language === "ar"
-        ? "إيجار"
-        : language === "fr"
-          ? "Locations"
-          : "Rentals";
+      return t("status.rentals");
     default:
       return status;
   }

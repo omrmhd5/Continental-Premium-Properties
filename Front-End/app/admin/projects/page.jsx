@@ -64,6 +64,7 @@ import { DialogOverlay } from "@radix-ui/react-dialog";
 import { projectApi } from "@/lib/api";
 import { resolveMediaUrl } from "@/lib/config";
 import { useLanguage } from "@/context/language-context";
+import { useTranslations } from "next-intl";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { SuccessPopup } from "@/components/success-popup";
@@ -71,8 +72,9 @@ import { ErrorPopup } from "@/components/error-popup";
 
 export default function AdminProjects() {
   const router = useRouter();
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
   const isArabic = language === "ar";
+  const t = useTranslations();
   const { toast } = useToast();
   const [projects, setProjects] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -158,10 +160,8 @@ export default function AdminProjects() {
 
       // Show success popup
       setSuccessMessage({
-        title: isArabic ? "تمت الإضافة بنجاح" : "Success",
-        description: isArabic
-          ? "تم إضافة المشروع بنجاح إلى محفظتك"
-          : "Project has been successfully added to your portfolio",
+        title: t("admin.toastAdded"),
+        description: t("admin.addedSuccess"),
         action: (
           <Button
             onClick={() => {
@@ -169,7 +169,7 @@ export default function AdminProjects() {
               router.push(`/projects/${addedProject._id}`);
             }}
             className="bg-green-600 hover:bg-green-700">
-            {isArabic ? "عرض المشروع" : "View Project"}
+            {t("admin.viewProject")}
           </Button>
         ),
       });
@@ -193,13 +193,13 @@ export default function AdminProjects() {
     } catch (err) {
       if (err.message === "TOKEN_EXPIRED") {
         setErrorMessage({
-          title: "Session Expired",
-          description: "Your session has expired. Please log in again.",
+          title: t("admin.sessionExpired"),
+          description: t("admin.sessionExpiredDesc"),
         });
         setShowErrorPopup(true);
       } else {
         setErrorMessage({
-          title: isArabic ? "خطأ" : "Error",
+          title: t("common.error"),
           description: isArabic
             ? "حدث خطأ أثناء إضافة المشروع. يرجى المحاولة مرة أخرى."
             : "Failed to create project. Please try again.",
@@ -230,10 +230,8 @@ export default function AdminProjects() {
 
       // Show success popup
       setSuccessMessage({
-        title: isArabic ? "تم التحديث بنجاح" : "Success",
-        description: isArabic
-          ? "تم تحديث المشروع بنجاح"
-          : "Project has been successfully updated",
+        title: t("admin.toastUpdated"),
+        description: t("admin.updatedSuccess"),
         action: (
           <Button
             onClick={() => {
@@ -241,7 +239,7 @@ export default function AdminProjects() {
               router.push(`/projects/${updatedProject._id}`);
             }}
             className="bg-green-600 hover:bg-green-700">
-            {isArabic ? "عرض المشروع" : "View Project"}
+            {t("admin.viewProject")}
           </Button>
         ),
       });
@@ -249,13 +247,13 @@ export default function AdminProjects() {
     } catch (err) {
       if (err.message === "TOKEN_EXPIRED") {
         setErrorMessage({
-          title: "Session Expired",
-          description: "Your session has expired. Please log in again.",
+          title: t("admin.sessionExpired"),
+          description: t("admin.sessionExpiredDesc"),
         });
         setShowErrorPopup(true);
       } else {
         setErrorMessage({
-          title: isArabic ? "خطأ" : "Error",
+          title: t("common.error"),
           description: isArabic
             ? "حدث خطأ أثناء تحديث المشروع. يرجى المحاولة مرة أخرى."
             : "Failed to update project. Please try again.",
@@ -273,22 +271,20 @@ export default function AdminProjects() {
 
       // Show success popup
       setSuccessMessage({
-        title: isArabic ? "تم الحذف بنجاح" : "Success",
-        description: isArabic
-          ? "تم حذف المشروع بنجاح"
-          : "Project has been successfully deleted",
+        title: t("admin.toastDeleted"),
+        description: t("admin.deletedSuccess"),
       });
       setShowSuccessPopup(true);
     } catch (err) {
       if (err.message === "TOKEN_EXPIRED") {
         setErrorMessage({
-          title: "Session Expired",
-          description: "Your session has expired. Please log in again.",
+          title: t("admin.sessionExpired"),
+          description: t("admin.sessionExpiredDesc"),
         });
         setShowErrorPopup(true);
       } else {
         setErrorMessage({
-          title: isArabic ? "خطأ" : "Error",
+          title: t("common.error"),
           description: isArabic
             ? "حدث خطأ أثناء حذف المشروع. يرجى المحاولة مرة أخرى."
             : "Failed to delete project. Please try again.",
@@ -332,8 +328,8 @@ export default function AdminProjects() {
     } catch (err) {
       if (err.message === "TOKEN_EXPIRED") {
         setErrorMessage({
-          title: "Session Expired",
-          description: "Your session has expired. Please log in again.",
+          title: t("admin.sessionExpired"),
+          description: t("admin.sessionExpiredDesc"),
         });
         setShowErrorPopup(true);
       } else {
@@ -413,19 +409,19 @@ export default function AdminProjects() {
           <Badge
             className="bg-blue-500 
           inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-            {isArabic ? "قيد الإنشاء" : "Off Plan"}
+            {t("status.offPlan")}
           </Badge>
         );
       case "secondary":
         return (
           <Badge className="bg-green-500">
-            {isArabic ? "ثانوي" : "Secondary"}
+            {t("status.secondary")}
           </Badge>
         );
       case "rentals":
         return (
           <Badge className="bg-purple-500">
-            {isArabic ? "إيجار" : "Rentals"}
+            {t("status.rentals")}
           </Badge>
         );
       default:
@@ -475,15 +471,13 @@ export default function AdminProjects() {
             className={`text-2xl sm:text-3xl font-serif font-bold tracking-tight ${
               isArabic ? "font-arabic" : ""
             }`}>
-            {isArabic ? "المشاريع" : "Projects"}
+            {t("admin.navProjects")}
           </h1>
           <p
             className={`text-muted-foreground ${
               isArabic ? "font-arabic" : ""
             }`}>
-            {isArabic
-              ? "إدارة مشاريعك العقارية"
-              : "Manage your real estate projects."}
+            {t("admin.projects.title")}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -493,13 +487,13 @@ export default function AdminProjects() {
               size="sm"
               className="bg-brand-gold text-brand-navy hover:bg-brand-gold/90">
               <LayoutDashboard className="h-4 w-4 mr-2" />
-              {isArabic ? "لوحة التحكم" : "Dashboard"}
+              {t("admin.navDashboard")}
             </Button>
           </Link>
 
           <Button onClick={() => setIsAddDialogOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
-            {isArabic ? "إضافة مشروع" : "Add Project"}
+            {t("admin.addProject")}
           </Button>
         </div>
       </div>
@@ -512,11 +506,7 @@ export default function AdminProjects() {
             } top-2.5 h-4 w-4 text-muted-foreground`}
           />
           <Input
-            placeholder={
-              isArabic
-                ? "ابحث بالاسم أو الموقع..."
-                : "Search by name or location..."
-            }
+            placeholder={t("projects.searchByName")}
             className={isArabic ? "pr-8" : "pl-8"}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -527,21 +517,21 @@ export default function AdminProjects() {
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger>
             <SelectValue
-              placeholder={isArabic ? "تصفية حسب الحالة" : "Filter by status"}
+              placeholder={t("projects.filterByStatus")}
             />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">
-              {isArabic ? "جميع الحالات" : "All Statuses"}
+              {t("projects.allStatuses")}
             </SelectItem>
             <SelectItem value="off-plan">
-              {isArabic ? "قيد الإنشاء" : "Off Plan"}
+              {t("status.offPlan")}
             </SelectItem>
             <SelectItem value="secondary">
-              {isArabic ? "ثانوي" : "Secondary"}
+              {t("status.secondary")}
             </SelectItem>
             <SelectItem value="rentals">
-              {isArabic ? "إيجار" : "Rentals"}
+              {t("status.rentals")}
             </SelectItem>
           </SelectContent>
         </Select>
@@ -551,25 +541,25 @@ export default function AdminProjects() {
           <TableHeader>
             <TableRow>
               <TableHead className="whitespace-nowrap">
-                {isArabic ? "المعرف" : "ID"}
+                {t("admin.fields.id")}
               </TableHead>
               <TableHead className="whitespace-nowrap">
-                {isArabic ? "العنوان" : "Title"}
+                {t("admin.fields.title")}
               </TableHead>
               <TableHead className="whitespace-nowrap">
-                {isArabic ? "الحالة" : "Status"}
+                {t("admin.fields.status")}
               </TableHead>
               <TableHead className="whitespace-nowrap">
-                {isArabic ? "الموقع" : "Location"}
+                {t("admin.fields.location")}
               </TableHead>
               <TableHead className="whitespace-nowrap">
-                {isArabic ? "السعر (درهم)" : "Price (AED)"}
+                {t("admin.fields.priceAed")}
               </TableHead>
               <TableHead className="whitespace-nowrap">
-                {isArabic ? "تاريخ الإضافة" : "Date Added"}
+                {t("admin.fields.dateAdded")}
               </TableHead>
               <TableHead className="text-right whitespace-nowrap">
-                {isArabic ? "الإجراءات" : "Actions"}
+                {t("admin.fields.actions")}
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -601,7 +591,7 @@ export default function AdminProjects() {
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">
                           <span className="sr-only">
-                            {isArabic ? "فتح القائمة" : "Open menu"}
+                            {t("admin.fields.openMenu")}
                           </span>
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
@@ -614,7 +604,7 @@ export default function AdminProjects() {
                             setIsEditDialogOpen(true);
                           }}>
                           <Edit className="mr-2 h-4 w-4" />
-                          <span>{isArabic ? "تعديل" : "Edit"}</span>
+                          <span>{t("common.edit")}</span>
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           className="text-red-600"
@@ -623,12 +613,12 @@ export default function AdminProjects() {
                             setIsDeleteDialogOpen(true);
                           }}>
                           <Trash2 className="mr-2 h-4 w-4" />
-                          <span>{isArabic ? "حذف" : "Delete"}</span>
+                          <span>{t("common.delete")}</span>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
                           <Link href={`/projects/${project._id}`}>
                             <Home className="mr-2 h-4 w-4" />
-                            <span>{isArabic ? "عرض" : "View"}</span>
+                            <span>{t("common.view")}</span>
                           </Link>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
@@ -659,12 +649,10 @@ export default function AdminProjects() {
         <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto fixed top-[50%] left-[50%] z-[50] translate-x-[-50%] translate-y-[-50%] bg-background p-6 shadow-lg border rounded-lg">
           <DialogHeader>
             <DialogTitle className={isArabic ? "font-arabic" : ""}>
-              {isArabic ? "إضافة مشروع جديد" : "Add New Project"}
+              {t("admin.projects.addProject")}
             </DialogTitle>
             <DialogDescription className={isArabic ? "font-arabic" : ""}>
-              {isArabic
-                ? "املأ التفاصيل لإضافة مشروع جديد إلى محفظتك"
-                : "Fill in the details to add a new project to your portfolio."}
+              {t("admin.addProjectFill")}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
@@ -672,7 +660,7 @@ export default function AdminProjects() {
               <Label
                 htmlFor="project-title"
                 className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                {isArabic ? "العنوان" : "Title"}
+                {t("admin.fields.title")}
                 <span className="text-red-500">*</span>
               </Label>
               <Input
@@ -688,7 +676,7 @@ export default function AdminProjects() {
               <Label
                 htmlFor="project-status"
                 className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                {isArabic ? "الحالة" : "Status"}
+                {t("admin.fields.status")}
                 <span className="text-red-500">*</span>
               </Label>
               <Select
@@ -698,18 +686,18 @@ export default function AdminProjects() {
                 }>
                 <SelectTrigger id="project-status" className="col-span-3">
                   <SelectValue
-                    placeholder={isArabic ? "اختر الحالة" : "Select status"}
+                    placeholder={t("admin.fields.selectStatus")}
                   />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="off-plan">
-                    {isArabic ? "قيد الإنشاء" : "Off Plan"}
+                    {t("status.offPlan")}
                   </SelectItem>
                   <SelectItem value="secondary">
-                    {isArabic ? "ثانوي" : "Secondary"}
+                    {t("status.secondary")}
                   </SelectItem>
                   <SelectItem value="rentals">
-                    {isArabic ? "إيجار" : "Rentals"}
+                    {t("status.rentals")}
                   </SelectItem>
                 </SelectContent>
               </Select>
@@ -718,7 +706,7 @@ export default function AdminProjects() {
               <Label
                 htmlFor="project-location"
                 className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                {isArabic ? "الموقع" : "Location"}
+                {t("admin.fields.location")}
                 <span className="text-red-500">*</span>
               </Label>
               <Input
@@ -728,14 +716,14 @@ export default function AdminProjects() {
                   setNewProject({ ...newProject, location: e.target.value })
                 }
                 className={`col-span-3 ${isArabic ? "text-right" : ""}`}
-                placeholder={isArabic ? "أدخل الموقع" : "Enter location"}
+                placeholder={t("admin.fields.enterLocation")}
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label
                 htmlFor="project-price"
                 className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                {isArabic ? "السعر (درهم)" : "Price (AED)"}
+                {t("admin.fields.priceAed")}
                 <span className="text-red-500">*</span>
               </Label>
               <div className="col-span-3 relative">
@@ -759,7 +747,7 @@ export default function AdminProjects() {
               <Label
                 htmlFor="project-description-en"
                 className={`text-right mt-2 ${isArabic ? "font-arabic" : ""}`}>
-                {isArabic ? "الوصف (إنجليزي)" : "Description (EN)"}
+                {t("admin.fields.descriptionEn")}
                 <span className="text-red-500">*</span>
               </Label>
               <Textarea
@@ -782,7 +770,7 @@ export default function AdminProjects() {
               <Label
                 htmlFor="project-description-ar"
                 className={`text-right mt-2 ${isArabic ? "font-arabic" : ""}`}>
-                {isArabic ? "الوصف (عربي)" : "Description (AR)"}
+                {t("admin.fields.descriptionAr")}
                 <span className="text-red-500">*</span>
               </Label>
               <Textarea
@@ -806,7 +794,7 @@ export default function AdminProjects() {
               <Label
                 htmlFor="project-area"
                 className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                {isArabic ? "المساحة (قدم²)" : "Area (ft²)"}
+                {t("admin.fields.areaFt")}
                 <span className="text-red-500">*</span>
               </Label>
               <Input
@@ -826,7 +814,7 @@ export default function AdminProjects() {
               <Label
                 htmlFor="project-bedrooms"
                 className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                {isArabic ? "غرف النوم" : "Bedrooms"}
+                {t("admin.fields.bedrooms")}
                 <span className="text-red-500">*</span>
               </Label>
               <Input
@@ -846,7 +834,7 @@ export default function AdminProjects() {
               <Label
                 htmlFor="project-bathrooms"
                 className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                {isArabic ? "الحمامات" : "Bathrooms"}
+                {t("admin.fields.bathrooms")}
                 <span className="text-red-500">*</span>
               </Label>
               <Input
@@ -866,7 +854,7 @@ export default function AdminProjects() {
               <Label
                 htmlFor="project-floors"
                 className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                {isArabic ? "الطوابق" : "Floors"}
+                {t("admin.fields.floors")}
                 <span className="text-red-500">*</span>
               </Label>
               <Input
@@ -887,7 +875,7 @@ export default function AdminProjects() {
                 <Label
                   htmlFor="project-handover"
                   className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                  {isArabic ? "التسليم" : "Handover"}
+                  {t("admin.fields.handover")}
                 </Label>
                 <Input
                   id="project-handover"
@@ -911,7 +899,7 @@ export default function AdminProjects() {
               <Label
                 htmlFor="project-images"
                 className={`text-right mt-2 ${isArabic ? "font-arabic" : ""}`}>
-                {isArabic ? "الصور" : "Images"}
+                {t("admin.fields.images")}
               </Label>
               <div className="col-span-3">
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -951,7 +939,7 @@ export default function AdminProjects() {
                     }
                     className="w-full">
                     <Upload className="mr-2 h-4 w-4" />
-                    {isArabic ? "رفع الصور" : "Upload Images"}
+                    {t("admin.uploadImages")}
                   </Button>
                 </div>
               </div>
@@ -960,7 +948,7 @@ export default function AdminProjects() {
               <Label
                 htmlFor="project-features"
                 className={`text-right mt-2 ${isArabic ? "font-arabic" : ""}`}>
-                {isArabic ? "المميزات" : "Features"}
+                {t("admin.fields.features")}
               </Label>
               <div className="col-span-3 space-y-3" id="project-features">
                 {newProject.features.map((feature, index) => (
@@ -972,7 +960,7 @@ export default function AdminProjects() {
                         updateFeature(index, "en", e.target.value)
                       }
                       placeholder={
-                        isArabic ? "الميزة (إنجليزي)" : "Feature (EN)"
+                        t("admin.fields.featureEn")
                       }
                       className="flex-1"
                     />
@@ -982,7 +970,7 @@ export default function AdminProjects() {
                       onChange={(e) =>
                         updateFeature(index, "ar", e.target.value)
                       }
-                      placeholder={isArabic ? "الميزة (عربي)" : "Feature (AR)"}
+                      placeholder={t("admin.fields.featureAr")}
                       className="flex-1"
                       dir="rtl"
                     />
@@ -1000,14 +988,14 @@ export default function AdminProjects() {
                   onClick={addFeatureField}
                   className="w-full">
                   <Plus className="mr-2 h-4 w-4" />
-                  {isArabic ? "إضافة ميزة" : "Add Feature"}
+                  {t("admin.fields.addFeature")}
                 </Button>
               </div>
             </div>
           </div>
           <DialogFooter className="flex items-baseline gap-5">
             <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
-              {isArabic ? "إلغاء" : "Cancel"}
+              {t("common.cancel")}
             </Button>
             <Button
               onClick={handleAddProject}
@@ -1021,7 +1009,7 @@ export default function AdminProjects() {
                 !newProject.bathrooms ||
                 !newProject.floors
               }>
-              {isArabic ? "إضافة المشروع" : "Add Project"}
+              {t("admin.addProjectSubmit")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -1031,12 +1019,10 @@ export default function AdminProjects() {
         <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className={isArabic ? "font-arabic" : ""}>
-              {isArabic ? "تعديل المشروع" : "Edit Project"}
+              {t("admin.projects.editProject")}
             </DialogTitle>
             <DialogDescription className={isArabic ? "font-arabic" : ""}>
-              {isArabic
-                ? "تحديث تفاصيل مشروعك"
-                : "Update the details of your project."}
+              {t("admin.editFill")}
             </DialogDescription>
           </DialogHeader>
           {currentProject && (
@@ -1045,7 +1031,7 @@ export default function AdminProjects() {
                 <Label
                   htmlFor="edit-title"
                   className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                  {isArabic ? "العنوان" : "Title"}
+                  {t("admin.fields.title")}
                 </Label>
                 <Input
                   id="edit-title"
@@ -1058,7 +1044,7 @@ export default function AdminProjects() {
                   }
                   className={`col-span-3 ${isArabic ? "text-right" : ""}`}
                   placeholder={
-                    isArabic ? "أدخل عنوان المشروع" : "Enter project title"
+                    t("admin.fields.enterTitle")
                   }
                 />
               </div>
@@ -1066,7 +1052,7 @@ export default function AdminProjects() {
                 <Label
                   htmlFor="edit-status"
                   className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                  {isArabic ? "الحالة" : "Status"}
+                  {t("admin.fields.status")}
                 </Label>
                 <Select
                   value={currentProject.status}
@@ -1087,7 +1073,7 @@ export default function AdminProjects() {
                 <Label
                   htmlFor="edit-location"
                   className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                  {isArabic ? "الموقع" : "Location"}
+                  {t("admin.fields.location")}
                 </Label>
                 <Input
                   id="edit-location"
@@ -1099,14 +1085,14 @@ export default function AdminProjects() {
                     })
                   }
                   className="col-span-3"
-                  placeholder={isArabic ? "أدخل الموقع" : "Enter location"}
+                  placeholder={t("admin.fields.enterLocation")}
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label
                   htmlFor="edit-price"
                   className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                  {isArabic ? "السعر (درهم)" : "Price (AED)"}
+                  {t("admin.fields.priceAed")}
                 </Label>
                 <div className="col-span-3 relative">
                   <div className="absolute left-2.5 top-2.5">
@@ -1131,7 +1117,7 @@ export default function AdminProjects() {
                   className={`text-right mt-2 ${
                     isArabic ? "font-arabic" : ""
                   }`}>
-                  {isArabic ? "الوصف (إنجليزي)" : "Description (EN)"}
+                  {t("admin.fields.descriptionEn")}
                 </Label>
                 <Textarea
                   id="edit-description-en"
@@ -1155,7 +1141,7 @@ export default function AdminProjects() {
                   className={`text-right mt-2 ${
                     isArabic ? "font-arabic" : ""
                   }`}>
-                  {isArabic ? "الوصف (عربي)" : "Description (AR)"}
+                  {t("admin.fields.descriptionAr")}
                 </Label>
                 <Textarea
                   id="edit-description-ar"
@@ -1178,7 +1164,7 @@ export default function AdminProjects() {
                 <Label
                   htmlFor="edit-area"
                   className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                  {isArabic ? "المساحة (قدم²)" : "Area (ft²)"}
+                  {t("admin.fields.areaFt")}
                 </Label>
                 <Input
                   id="edit-area"
@@ -1197,7 +1183,7 @@ export default function AdminProjects() {
                 <Label
                   htmlFor="edit-bedrooms"
                   className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                  {isArabic ? "غرف النوم" : "Bedrooms"}
+                  {t("admin.fields.bedrooms")}
                 </Label>
                 <Input
                   id="edit-bedrooms"
@@ -1216,7 +1202,7 @@ export default function AdminProjects() {
                 <Label
                   htmlFor="edit-bathrooms"
                   className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                  {isArabic ? "الحمامات" : "Bathrooms"}
+                  {t("admin.fields.bathrooms")}
                 </Label>
                 <Input
                   id="edit-bathrooms"
@@ -1235,7 +1221,7 @@ export default function AdminProjects() {
                 <Label
                   htmlFor="edit-floors"
                   className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                  {isArabic ? "الطوابق" : "Floors"}
+                  {t("admin.fields.floors")}
                 </Label>
                 <Input
                   id="edit-floors"
@@ -1255,7 +1241,7 @@ export default function AdminProjects() {
                   <Label
                     htmlFor="edit-handover"
                     className={`text-right ${isArabic ? "font-arabic" : ""}`}>
-                    {isArabic ? "التسليم" : "Handover"}
+                    {t("admin.fields.handover")}
                   </Label>
                   <Input
                     id="edit-handover"
@@ -1281,7 +1267,7 @@ export default function AdminProjects() {
                   className={`text-right mt-2 ${
                     isArabic ? "font-arabic" : ""
                   }`}>
-                  {isArabic ? "الصور" : "Images"}
+                  {t("admin.fields.images")}
                 </Label>
                 <div className="col-span-3">
                   <div className="flex flex-wrap gap-2 mb-4">
@@ -1333,17 +1319,17 @@ export default function AdminProjects() {
                                 />
                               </div>
                               <p className="text-xs text-center mt-2">
-                                Uploading... {Math.round(uploadProgress)}%
+                                {t("admin.fields.uploading")} {Math.round(uploadProgress)}%
                               </p>
                             </div>
                           </div>
                           <Upload className="mr-2 h-4 w-4 animate-pulse" />
-                          Uploading...
+                          {t("admin.fields.uploading")}
                         </>
                       ) : (
                         <>
                           <Upload className="mr-2 h-4 w-4" />
-                          Upload Images
+                          {t("admin.uploadImages")}
                         </>
                       )}
                     </Button>
@@ -1356,7 +1342,7 @@ export default function AdminProjects() {
                   className={`text-right mt-2 ${
                     isArabic ? "font-arabic" : ""
                   }`}>
-                  {isArabic ? "المميزات" : "Features"}
+                  {t("admin.fields.features")}
                 </Label>
                 <div className="col-span-3 space-y-3" id="edit-features">
                   {currentProject.features?.map((feature, index) => (
@@ -1368,7 +1354,7 @@ export default function AdminProjects() {
                           updateFeature(index, "en", e.target.value)
                         }
                         placeholder={
-                          isArabic ? "الميزة (إنجليزي)" : "Feature (EN)"
+                          t("admin.fields.featureEn")
                         }
                         className="flex-1"
                       />
@@ -1379,7 +1365,7 @@ export default function AdminProjects() {
                           updateFeature(index, "ar", e.target.value)
                         }
                         placeholder={
-                          isArabic ? "الميزة (عربي)" : "Feature (AR)"
+                          t("admin.fields.featureAr")
                         }
                         className="flex-1"
                         dir="rtl"
@@ -1398,7 +1384,7 @@ export default function AdminProjects() {
                     onClick={addFeatureField}
                     className="w-full">
                     <Plus className="mr-2 h-4 w-4" />
-                    {isArabic ? "إضافة ميزة" : "Add Feature"}
+                    {t("admin.fields.addFeature")}
                   </Button>
                 </div>
               </div>
@@ -1408,10 +1394,10 @@ export default function AdminProjects() {
             <Button
               variant="outline"
               onClick={() => setIsEditDialogOpen(false)}>
-              {isArabic ? "إلغاء" : "Cancel"}
+              {t("common.cancel")}
             </Button>
             <Button onClick={handleEditProject}>
-              {isArabic ? "حفظ التغييرات" : "Save Changes"}
+              {t("admin.saveChanges")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -1423,22 +1409,20 @@ export default function AdminProjects() {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle className={isArabic ? "font-arabic" : ""}>
-              {isArabic ? "هل أنت متأكد؟" : "Are you sure?"}
+              {t("admin.areYouSure")}
             </AlertDialogTitle>
             <AlertDialogDescription className={isArabic ? "font-arabic" : ""}>
-              {isArabic
-                ? `سيتم حذف المشروع "${currentProject?.title}" نهائياً. لا يمكن التراجع عن هذا الإجراء.`
-                : `This will permanently delete the project "${currentProject?.title}". This action cannot be undone.`}
+              {t("admin.deleteForever", { title: currentProject?.title || "" })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="flex items-baseline gap-5">
             <AlertDialogCancel>
-              {isArabic ? "إلغاء" : "Cancel"}
+              {t("common.cancel")}
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDeleteProject}
               className="bg-red-600 hover:bg-red-700">
-              {isArabic ? "حذف" : "Delete"}
+              {t("common.delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -1458,7 +1442,7 @@ export default function AdminProjects() {
         onClose={() => setShowErrorPopup(false)}
         title={errorMessage.title}
         description={errorMessage.description}
-        isTokenError={errorMessage.title === "Session Expired"}
+        isTokenError={errorMessage.title === t("admin.sessionExpired")}
       />
     </div>
   );

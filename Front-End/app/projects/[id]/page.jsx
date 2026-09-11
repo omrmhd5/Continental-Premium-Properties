@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/context/language-context";
+import { useTranslations } from "next-intl";
 import {
   ArrowLeft,
   ChevronLeft,
@@ -25,12 +26,13 @@ import Footer from "@/components/footer";
 import { SARSymbol } from "@/components/sar-symbol";
 import PropertyComparison from "@/components/property-comparison";
 import { projectApi } from "@/lib/api";
-import { API_BASE_URL, resolveMediaUrl } from "@/lib/config";
+import { API_BASE_URL, resolveMediaUrl, languageHeaders } from "@/lib/config";
 
 export default function ProjectDetailPage() {
   const { id } = useParams();
   const { language } = useLanguage();
   const isArabic = language === "ar";
+  const t = useTranslations();
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -90,7 +92,7 @@ export default function ProjectDetailPage() {
     } else {
       // Fallback for browsers that don't support the Web Share API
       navigator.clipboard.writeText(window.location.href);
-      alert("Link copied to clipboard!");
+      alert(t("projectDetails.linkCopied"));
     }
   };
 
@@ -102,7 +104,7 @@ export default function ProjectDetailPage() {
     try {
       const res = await fetch(`${API_BASE_URL}/projects/contact`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...languageHeaders() },
         body: JSON.stringify({
           ...contactForm,
           project: { title: project.title, location: project.location },
@@ -141,11 +143,11 @@ export default function ProjectDetailPage() {
   if (!project) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center">
-        <h1 className="text-2xl font-serif mb-4">Project not found</h1>
+        <h1 className="text-2xl font-serif mb-4">{t("projectDetails.notFound")}</h1>
         <Link href="/projects">
           <Button>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Projects
+            {t("projectDetails.backToProjects")}
           </Button>
         </Link>
       </div>
@@ -155,7 +157,7 @@ export default function ProjectDetailPage() {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <div className="container mx-auto px-4 pt-20">
+      <div className="container mx-auto px-4 pt-32">
         <section className="py-12">
           {/* Project Header */}
           <div className="mb-8">
@@ -164,13 +166,13 @@ export default function ProjectDetailPage() {
               className="inline-flex items-center text-primary mb-4">
               {isArabic ? (
                 <>
-                  {isArabic ? "العودة إلى المشاريع" : "Back to Projects"}
+                  {t("projectDetails.backToProjects")}
                   <ArrowLeft className="ml-2 h-4 w-4 rotate-180" />
                 </>
               ) : (
                 <>
                   <ArrowLeft className="mr-2 h-4 w-4" />
-                  {isArabic ? "العودة إلى المشاريع" : "Back to Projects"}
+                  {t("projectDetails.backToProjects")}
                 </>
               )}
             </Link>
@@ -200,11 +202,11 @@ export default function ProjectDetailPage() {
                   <SplitSquareVertical
                     className={`h-4 w-4 ${isArabic ? "ml-2" : "mr-2"}`}
                   />
-                  {isArabic ? "مقارنة" : "Compare"}
+                  {t("projectDetails.compare")}
                 </Button>
                 <Button variant="outline" size="sm" onClick={handleShare}>
                   <Share2 className={`h-4 w-4 ${isArabic ? "ml-2" : "mr-2"}`} />
-                  {isArabic ? "مشاركة" : "Share"}
+                  {t("projectDetails.share")}
                 </Button>
               </div>
             </div>
@@ -237,7 +239,7 @@ export default function ProjectDetailPage() {
               onClick={prevSlide}>
               <ChevronLeft className="h-6 w-6" />
               <span className="sr-only">
-                {isArabic ? "السابق" : "Previous"}
+                {t("common.previous")}
               </span>
             </Button>
 
@@ -247,7 +249,7 @@ export default function ProjectDetailPage() {
               className="absolute top-1/2 right-4 -translate-y-1/2 bg-black/30 hover:bg-black/50 border-primary/30 text-primary rounded-full"
               onClick={nextSlide}>
               <ChevronRight className="h-6 w-6" />
-              <span className="sr-only">{isArabic ? "التالي" : "Next"}</span>
+              <span className="sr-only">{t("common.next")}</span>
             </Button>
 
             {/* Slideshow Indicators */}
@@ -276,7 +278,7 @@ export default function ProjectDetailPage() {
                     className={`text-2xl font-serif font-bold mb-4 ${
                       isArabic ? "font-arabic" : ""
                     }`}>
-                    {isArabic ? "وصف المشروع" : "Project Description"}
+                    {t("projectDetails.projectDescription")}
                   </h2>
                   <p
                     className={`text-muted-foreground ${
@@ -294,7 +296,7 @@ export default function ProjectDetailPage() {
                     className={`text-2xl font-serif font-bold mb-4 ${
                       isArabic ? "font-arabic" : ""
                     }`}>
-                    {isArabic ? "المميزات" : "Features"}
+                    {t("projectDetails.features")}
                   </h2>
                   <ul
                     className={`grid grid-cols-2 gap-4 ${
@@ -323,7 +325,7 @@ export default function ProjectDetailPage() {
                     className={`text-2xl font-serif font-bold mb-4 ${
                       isArabic ? "font-arabic" : ""
                     }`}>
-                    {isArabic ? "التفاصيل" : "Details"}
+                    {t("projectDetails.details")}
                   </h2>
                   <div className="space-y-4">
                     {/* Area */}
@@ -335,7 +337,7 @@ export default function ProjectDetailPage() {
                           }`}
                         />
                         <span className={isArabic ? "font-arabic" : ""}>
-                          {isArabic ? "المساحة" : "Area"}
+                          {t("projectDetails.area")}
                         </span>
                       </div>
                       <span className="font-medium">{project.area} ft²</span>
@@ -350,7 +352,7 @@ export default function ProjectDetailPage() {
                           }`}
                         />
                         <span className={isArabic ? "font-arabic" : ""}>
-                          {isArabic ? "غرف النوم" : "Bedrooms"}
+                          {t("projectDetails.bedrooms")}
                         </span>
                       </div>
                       <span className="font-medium">{project.bedrooms}</span>
@@ -365,7 +367,7 @@ export default function ProjectDetailPage() {
                           }`}
                         />
                         <span className={isArabic ? "font-arabic" : ""}>
-                          {isArabic ? "الحمامات" : "Bathrooms"}
+                          {t("projectDetails.bathrooms")}
                         </span>
                       </div>
                       <span className="font-medium">{project.bathrooms}</span>
@@ -380,7 +382,7 @@ export default function ProjectDetailPage() {
                           }`}
                         />
                         <span className={isArabic ? "font-arabic" : ""}>
-                          {isArabic ? "الطوابق" : "Floors"}
+                          {t("projectDetails.floors")}
                         </span>
                       </div>
                       <span className="font-medium">{project.floors}</span>
@@ -396,7 +398,7 @@ export default function ProjectDetailPage() {
                             }`}
                           />
                           <span className={isArabic ? "font-arabic" : ""}>
-                            {isArabic ? "التسليم" : "Handover"}
+                            {t("projectDetails.handover")}
                           </span>
                         </div>
                         <span className="font-medium">{project.handover}</span>
@@ -413,7 +415,7 @@ export default function ProjectDetailPage() {
                     className={`text-2xl font-serif font-bold mb-4 ${
                       isArabic ? "font-arabic" : ""
                     }`}>
-                    {isArabic ? "السعر" : "Price"}
+                    {t("projectDetails.price")}
                   </h2>
                   <div className="flex items-center justify-center text-3xl font-bold text-primary">
                     {project.status === "off-plan" && (
@@ -421,7 +423,7 @@ export default function ProjectDetailPage() {
                         className={`text-lg font-normal ${
                           isArabic ? "ml-2" : "mr-2"
                         }`}>
-                        {isArabic ? "يبدأ من" : "Starting from"}
+                        {t("status.startingFrom")}
                       </span>
                     )}
                     <span className="mr-2">AED</span>
@@ -438,7 +440,7 @@ export default function ProjectDetailPage() {
                             className={`text-lg font-semibold text-primary ${
                               isArabic ? "font-arabic" : ""
                             }`}>
-                            {isArabic ? "التسليم" : "Handover"}
+                            {t("projectDetails.handover")}
                           </span>
                         </div>
                         <span className="text-lg font-bold text-primary">
@@ -451,9 +453,7 @@ export default function ProjectDetailPage() {
                   {/* Contact Us Button */}
                   <div className="mt-8 flex justify-center">
                     <Button onClick={() => setIsContactOpen(true)}>
-                      {isArabic
-                        ? "تواصل معنا بشأن هذا المشروع"
-                        : "Contact Us About This Project"}
+                      {t("projectDetails.contactAbout")}
                     </Button>
                   </div>
                 </CardContent>
@@ -474,18 +474,19 @@ export default function ProjectDetailPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="relative bg-background rounded-lg shadow-lg w-full max-w-md mx-auto p-8 z-10">
             <div className="text-xl font-bold mb-4">
-              {isArabic ? "تواصل معنا" : "Contact Us"}
+              {t("projectDetails.contactUs")}
             </div>
             <div className="mb-4 text-sm text-muted-foreground text-center">
-              {isArabic
-                ? `سيتواصل معك خبيرنا بخصوص ${project.title} في ${project.location}.`
-                : `Our expert will reach out to you about ${project.title} in ${project.location}.`}
+              {t("projectDetails.expertReach", {
+                title: project.title,
+                location: project.location,
+              })}
             </div>
             <form onSubmit={handleContactSubmit} className="space-y-4">
               <input
                 type="text"
                 required
-                placeholder={isArabic ? "الاسم" : "Your Name"}
+                placeholder={t("projectDetails.yourName")}
                 className="w-full border rounded px-3 py-2"
                 value={contactForm.name}
                 onChange={(e) =>
@@ -495,7 +496,7 @@ export default function ProjectDetailPage() {
               <input
                 type="email"
                 required
-                placeholder={isArabic ? "البريد الإلكتروني" : "Your Email"}
+                placeholder={t("projectDetails.yourEmail")}
                 className="w-full border rounded px-3 py-2"
                 value={contactForm.email}
                 onChange={(e) =>
@@ -505,7 +506,7 @@ export default function ProjectDetailPage() {
               <input
                 type="tel"
                 required
-                placeholder={isArabic ? "رقم الهاتف" : "Phone Number"}
+                placeholder={t("contact.form.phone")}
                 className="w-full border rounded px-3 py-2"
                 value={contactForm.phone}
                 onChange={(e) =>
@@ -517,25 +518,17 @@ export default function ProjectDetailPage() {
                 className="w-full bg-primary text-white py-2 rounded font-bold mt-2 disabled:opacity-60"
                 disabled={contactLoading}>
                 {contactLoading
-                  ? isArabic
-                    ? "يتم الإرسال..."
-                    : "Sending..."
-                  : isArabic
-                    ? "إرسال"
-                    : "Send"}
+                  ? t("contact.form.sending")
+                  : t("common.submit")}
               </button>
               {contactStatus === "success" && (
                 <div className="text-green-600 text-center mt-2">
-                  {isArabic
-                    ? "تم الإرسال بنجاح!"
-                    : "Message sent successfully!"}
+                  {t("projectDetails.sentOk")}
                 </div>
               )}
               {contactStatus === "error" && (
                 <div className="text-red-600 text-center mt-2">
-                  {isArabic
-                    ? "حدث خطأ أثناء الإرسال."
-                    : "Failed to send message."}
+                  {t("projectDetails.sentFail")}
                 </div>
               )}
             </form>

@@ -1,7 +1,8 @@
 import "./globals.css";
-import { LanguageProvider } from "@/context/language-context";
+import { LocaleProvider } from "@/components/providers/locale-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import DemoBanner from "@/components/demo-banner";
 
 export const metadata = {
   title: "Continental Premium Properties - Continental Premium Properties",
@@ -57,7 +58,12 @@ export default function RootLayout({ children }) {
       </head>
       <body className="font-dubai bg-background text-foreground">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <LanguageProvider>{children}</LanguageProvider>
+          <LocaleProvider>
+            <div className="flex min-h-screen flex-col">
+              <DemoBanner />
+              <div className="flex-1 min-h-0">{children}</div>
+            </div>
+          </LocaleProvider>
         </ThemeProvider>
         <Toaster />
       </body>

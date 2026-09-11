@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useLanguage } from "@/context/language-context";
+import { useTranslations } from "next-intl";
 import { ArrowLeft, Search, SplitSquareVertical } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -26,6 +27,7 @@ import { resolveMediaUrl } from "@/lib/config";
 export default function ProjectsPage() {
   const { language } = useLanguage();
   const isArabic = language === "ar";
+  const t = useTranslations();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [projects, setProjects] = useState([]);
@@ -78,45 +80,29 @@ export default function ProjectsPage() {
     {
       value: "all",
       label:
-        language === "ar"
-          ? "جميع الحالات"
-          : language === "fr"
-            ? "Tous les Statuts"
-            : "All Statuses",
+        t("projects.allStatuses"),
     },
     {
       value: "off-plan",
       label:
-        language === "ar"
-          ? "قيد الإنشاء"
-          : language === "fr"
-            ? "En Construction"
-            : "Off Plan",
+        t("status.offPlan"),
     },
     {
       value: "secondary",
       label:
-        language === "ar"
-          ? "ثانوي"
-          : language === "fr"
-            ? "Secondaire"
-            : "Secondary",
+        t("status.secondary"),
     },
     {
       value: "rentals",
       label:
-        language === "ar"
-          ? "إيجار"
-          : language === "fr"
-            ? "Locations"
-            : "Rentals",
+        t("status.rentals"),
     },
   ];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
-      <div className="container mx-auto px-4 pt-20">
+      <div className="container mx-auto px-4 pt-32">
         <section className="py-12">
           {/* Page Header */}
           <div
@@ -129,21 +115,13 @@ export default function ProjectsPage() {
                 className="inline-flex items-center text-brand-gold mb-4">
                 {language === "ar" ? (
                   <>
-                    {language === "ar"
-                      ? "العودة إلى الصفحة الرئيسية"
-                      : language === "fr"
-                        ? "Retour à l'Accueil"
-                        : "Back to Home"}
+                    {t("projects.backToHome")}
                     <ArrowLeft className="ml-2 h-4 w-4 rotate-180" />
                   </>
                 ) : (
                   <>
                     <ArrowLeft className="mr-2 h-4 w-4" />
-                    {language === "ar"
-                      ? "العودة إلى الصفحة الرئيسية"
-                      : language === "fr"
-                        ? "Retour à l'Accueil"
-                        : "Back to Home"}
+                    {t("projects.backToHome")}
                   </>
                 )}
               </Link>
@@ -151,21 +129,13 @@ export default function ProjectsPage() {
                 className={`text-3xl md:text-4xl font-serif font-bold text-brand-gold ${
                   isArabic ? "font-arabic" : ""
                 }`}>
-                {language === "ar"
-                  ? "مشاريعنا"
-                  : language === "fr"
-                    ? "Nos Projets"
-                    : "Our Projects"}
+                {t("projects.title")}
               </h1>
               <p
                 className={`text-brand-goldDark mt-2 ${
                   isArabic ? "font-arabic" : ""
                 }`}>
-                {language === "ar"
-                  ? "استكشف جميع مشاريعنا العقارية الفاخرة"
-                  : language === "fr"
-                    ? "Explorez tous nos projets immobiliers de luxe"
-                    : "Explore all our luxury real estate projects"}
+                {t("projects.exploreAll")}
               </p>
             </div>
 
@@ -177,11 +147,7 @@ export default function ProjectsPage() {
               <SplitSquareVertical
                 className={`h-4 w-4 ${isArabic ? "ml-2" : "mr-2"}`}
               />
-              {language === "ar"
-                ? "مقارنة العقارات"
-                : language === "fr"
-                  ? "Comparer les Propriétés"
-                  : "Compare Properties"}
+              {t("projects.compare")}
             </Button>
           </div>
 
@@ -196,11 +162,7 @@ export default function ProjectsPage() {
               />
               <Input
                 placeholder={
-                  language === "ar"
-                    ? "ابحث بالاسم أو الموقع..."
-                    : language === "fr"
-                      ? "Rechercher par nom ou emplacement..."
-                      : "Search by name or location..."
+                  t("projects.searchByName")
                 }
                 className={isArabic ? "pr-8" : "pl-8"}
                 value={searchTerm}
@@ -213,11 +175,7 @@ export default function ProjectsPage() {
               <SelectTrigger>
                 <SelectValue
                   placeholder={
-                    language === "ar"
-                      ? "تصفية حسب الحالة"
-                      : language === "fr"
-                        ? "Filtrer par statut"
-                        : "Filter by status"
+                    t("projects.filterByStatus")
                   }
                 />
               </SelectTrigger>
@@ -250,21 +208,13 @@ export default function ProjectsPage() {
             // No Projects Found Message
             <div className="text-center py-12 ">
               <p className={`text-xl ${isArabic ? "font-arabic" : ""}`}>
-                {language === "ar"
-                  ? "لم يتم العثور على مشاريع"
-                  : language === "fr"
-                    ? "Aucun projet trouvé"
-                    : "No projects found"}
+                {t("projects.noProjects")}
               </p>
               <p
                 className={`text-muted-foreground mt-2 ${
                   isArabic ? "font-arabic" : ""
                 }`}>
-                {language === "ar"
-                  ? "يرجى تعديل معايير البحث الخاصة بك"
-                  : language === "fr"
-                    ? "Veuillez ajuster vos critères de recherche"
-                    : "Please adjust your search criteria"}
+                {t("projects.adjustSearch")}
               </p>
               <Button
                 variant="outline"
@@ -273,11 +223,7 @@ export default function ProjectsPage() {
                   setSearchTerm("");
                   setStatusFilter("all");
                 }}>
-                {language === "ar"
-                  ? "إعادة تعيين الفلاتر"
-                  : language === "fr"
-                    ? "Réinitialiser les Filtres"
-                    : "Reset Filters"}
+                {t("projects.resetFilters")}
               </Button>
             </div>
           )}
@@ -297,6 +243,7 @@ export default function ProjectsPage() {
 // Reusable Project Card Component
 function ProjectCard({ project, isArabic, index }) {
   const { language } = useLanguage();
+  const t = useTranslations();
   function formatPrice(price) {
     if (!price) return "";
     const num = Number(price.toString().replace(/,/g, ""));
@@ -328,11 +275,7 @@ function ProjectCard({ project, isArabic, index }) {
                 className={`text-sm font-normal ${
                   language === "ar" ? "ml-1" : "mr-1"
                 }`}>
-                {language === "ar"
-                  ? "يبدأ من"
-                  : language === "fr"
-                    ? "À partir de"
-                    : "Starting from"}
+                {t("status.startingFrom")}
               </span>
             )}
             <span className="mr-1">AED</span>
@@ -342,11 +285,7 @@ function ProjectCard({ project, isArabic, index }) {
           {project.status === "off-plan" && project.handover && (
             <div className="bg-black/50 text-white px-2 py-1 rounded text-sm">
               <span className="font-semibold">
-                {language === "ar"
-                  ? "التسليم: "
-                  : language === "fr"
-                    ? "Livraison: "
-                    : "Handover: "}
+                {t("projectDetails.handover") + ": "}
               </span>
               {project.handover}
             </div>
@@ -376,11 +315,7 @@ function ProjectCard({ project, isArabic, index }) {
           <Button
             variant="outline"
             className="border-primary/30 hover:bg-primary/10 hover:text-primary">
-            {language === "ar"
-              ? "عرض التفاصيل"
-              : language === "fr"
-                ? "Voir les Détails"
-                : "View Details"}
+            {t("projects.viewDetails")}
           </Button>
         </Link>
       </CardFooter>
@@ -390,39 +325,27 @@ function ProjectCard({ project, isArabic, index }) {
 
 // Badge component for project status
 function Badge({ status, isArabic }) {
-  const { language } = useLanguage();
+  const t = useTranslations();
   // Map status codes to colors and labels
   let bgColor = "bg-gray-500";
   let label =
-    language === "ar" ? "غير معروف" : language === "fr" ? "Inconnu" : "Unknown";
+t("status.unknown");
 
   switch (status) {
     case "off-plan":
       bgColor = "bg-blue-500";
       label =
-        language === "ar"
-          ? "قيد الإنشاء"
-          : language === "fr"
-            ? "En Construction"
-            : "Off Plan";
+        t("status.offPlan");
       break;
     case "secondary":
       bgColor = "bg-green-500";
       label =
-        language === "ar"
-          ? "ثانوي"
-          : language === "fr"
-            ? "Secondaire"
-            : "Secondary";
+        t("status.secondary");
       break;
     case "rentals":
       bgColor = "bg-purple-500";
       label =
-        language === "ar"
-          ? "إيجار"
-          : language === "fr"
-            ? "Locations"
-            : "Rentals";
+        t("status.rentals");
       break;
   }
 

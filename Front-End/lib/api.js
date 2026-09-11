@@ -1,10 +1,10 @@
-import { API_BASE_URL } from "@/lib/config";
+import { API_BASE_URL, languageHeaders } from "@/lib/config";
 
-// Helper function to get headers with auth token
 const getHeaders = () => {
   const token = localStorage.getItem("adminToken");
   return {
     "Content-Type": "application/json",
+    ...languageHeaders(),
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
 };
@@ -103,7 +103,7 @@ export const projectApi = {
 
       const response = await fetch(`${API_BASE_URL}/projects/upload`, {
         method: "POST",
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        headers: token ? { Authorization: `Bearer ${token}`, ...languageHeaders() } : languageHeaders(),
         body: formData,
       });
 

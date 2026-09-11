@@ -11,12 +11,14 @@ import {
   Twitter,
   Lock,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useLanguage } from "@/context/language-context";
 import Logo from "@/components/logo";
 
 export default function Footer() {
   const { language } = useLanguage();
   const isArabic = language === "ar";
+  const t = useTranslations();
 
   return (
     <footer
@@ -26,13 +28,7 @@ export default function Footer() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
           <Logo variant="full" className="mb-4" />
-          <p className="text-muted-foreground">
-            {language === "ar"
-              ? "نربطك بأفضل الفرص العقارية في السوق لتأمين استثمارك أو منزلك المثالي."
-              : language === "fr"
-              ? "Nous vous connectons aux meilleures opportunités immobilières pour sécuriser votre investissement ou votre maison idéale."
-              : "We connect you to the best real estate opportunities to secure your investment or dream home."}
-          </p>
+          <p className="text-muted-foreground">{t("footer.description")}</p>
 
           <div className="flex gap-4 mt-4">
             <Link
@@ -63,142 +59,92 @@ export default function Footer() {
         </div>
 
         <div>
-          <h3 className="text-xl font-bold mb-4">
-            {language === "ar"
-              ? "روابط سريعة"
-              : language === "fr"
-              ? "Liens Rapides"
-              : "Quick Links"}
-          </h3>
+          <h3 className="text-xl font-bold mb-4">{t("footer.quickLinks")}</h3>
           <ul className="space-y-2">
             <li>
               <Link
                 href="/"
                 className="text-muted-foreground hover:text-brand-gold transition-colors">
-                {language === "ar"
-                  ? "الرئيسية"
-                  : language === "fr"
-                  ? "Accueil"
-                  : "Home"}
+                {t("nav.home")}
               </Link>
             </li>
             <li>
               <Link
                 href="/projects"
                 className="text-muted-foreground hover:text-brand-gold transition-colors">
-                {language === "ar"
-                  ? "المشاريع"
-                  : language === "fr"
-                  ? "Projets"
-                  : "Projects"}
+                {t("nav.projects")}
               </Link>
             </li>
             <li>
               <Link
                 href="/media"
                 className="text-muted-foreground hover:text-brand-gold transition-colors">
-                {language === "ar"
-                  ? "المركز الإعلامي"
-                  : language === "fr"
-                  ? "Centre Média"
-                  : "Media Center"}
+                {t("nav.mediaCenter")}
               </Link>
             </li>
             <li>
               <Link
                 href="/about"
                 className="text-muted-foreground hover:text-brand-gold transition-colors">
-                {language === "ar"
-                  ? "من نحن"
-                  : language === "fr"
-                  ? "À Propos"
-                  : "About Us"}
+                {t("nav.aboutUs")}
               </Link>
             </li>
             <li>
               <Link
                 href="/contact"
                 className="text-muted-foreground hover:text-brand-gold transition-colors">
-                {language === "ar"
-                  ? "اتصل بنا"
-                  : language === "fr"
-                  ? "Contactez-nous"
-                  : "Contact Us"}
+                {t("nav.contactUs")}
               </Link>
             </li>
           </ul>
         </div>
 
         <div>
-          <h3 className="text-xl font-bold mb-4">
-            {language === "ar"
-              ? "المشاريع"
-              : language === "fr"
-              ? "Projets"
-              : "Projects"}
-          </h3>
+          <h3 className="text-xl font-bold mb-4">{t("nav.projects")}</h3>
           <ul className="space-y-2">
             <li>
               <Link
                 href="/projects?status=off-plan"
                 className="text-muted-foreground hover:text-brand-gold transition-colors">
-                {language === "ar"
-                  ? "قيد الإنشاء"
-                  : language === "fr"
-                  ? "En Construction"
-                  : "Off Plan"}
+                {t("status.offPlan")}
               </Link>
             </li>
             <li>
               <Link
                 href="/projects?status=secondary"
                 className="text-muted-foreground hover:text-brand-gold transition-colors">
-                {language === "ar"
-                  ? "ثانوي"
-                  : language === "fr"
-                  ? "Secondaire"
-                  : "Secondary"}
+                {t("status.secondary")}
               </Link>
             </li>
             <li>
               <Link
                 href="/projects?status=rentals"
                 className="text-muted-foreground hover:text-brand-gold transition-colors">
-                {language === "ar"
-                  ? "إيجار"
-                  : language === "fr"
-                  ? "Locations"
-                  : "Rentals"}
+                {t("status.rentals")}
               </Link>
             </li>
           </ul>
         </div>
 
         <div>
-          <h3 className="text-xl font-bold mb-4">
-            {language === "ar"
-              ? "اتصل بنا"
-              : language === "fr"
-              ? "Contactez-nous"
-              : "Contact Us"}
-          </h3>
+          <h3 className="text-xl font-bold mb-4">{t("nav.contactUs")}</h3>
           <ul className="space-y-4">
             <li className="flex items-start gap-3">
               <MapPin className="w-5 h-5 text-brand-gold mt-0.5" />
               <span className="text-muted-foreground">
-                {isArabic
-                  ? "2110-B2B Office Tower - Marasi Dr - Business Bay - Dubai"
-                  : "2110-B2B Office Tower - Marasi Dr - Business Bay - Dubai"}
+                {t("contact.addressValue")}
               </span>
             </li>
             <li className="flex items-center gap-3">
               <Phone className="w-5 h-5 text-brand-gold" />
-              <span className="text-muted-foreground">+971 4 770 5704</span>
+              <span className="text-muted-foreground">
+                {t("contact.phoneValue")}
+              </span>
             </li>
             <li className="flex items-center gap-3">
               <Mail className="w-5 h-5 text-brand-gold" />
               <span className="text-muted-foreground">
-                propertiescontinental58@gmail.com{" "}
+                {t("contact.emailValue")}
               </span>
             </li>
             <li className="flex items-center gap-3 mt-6">
@@ -206,11 +152,7 @@ export default function Footer() {
               <Link
                 href="/admin/login"
                 className="text-muted-foreground hover:text-brand-gold transition-colors">
-                {language === "ar"
-                  ? "لوحة الإدارة"
-                  : language === "fr"
-                  ? "Tableau de Bord Admin"
-                  : "Admin Dashboard"}
+                {t("footer.adminDashboard")}
               </Link>
             </li>
           </ul>
@@ -220,13 +162,7 @@ export default function Footer() {
       <div className="elegant-divider my-8"></div>
 
       <div className={`text-center ${isArabic ? "font-arabic" : ""}`}>
-        <p className="text-muted-foreground">
-          {language === "ar"
-            ? "© 2025 Continental Premium Properties. جميع الحقوق محفوظة."
-            : language === "fr"
-            ? "© 2025 Continental Premium Properties. Tous droits réservés."
-            : "© 2025 Continental Premium Properties. All rights reserved."}
-        </p>
+        <p className="text-muted-foreground">{t("footer.copyright")}</p>
       </div>
     </footer>
   );

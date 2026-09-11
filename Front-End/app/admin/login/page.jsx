@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,11 +18,14 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Lock, Home } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
-import { API_BASE_URL } from "@/lib/config";
+import { API_BASE_URL, languageHeaders } from "@/lib/config";
+import LanguageSwitcher from "@/components/language-switcher";
+import DemoLoginCard from "@/components/demo-login-card";
 
 export default function AdminLogin() {
   const router = useRouter();
-  const { language, setLanguage } = useLanguage();
+  const t = useTranslations("admin.login");
+  const { language } = useLanguage();
   const isArabic = language === "ar";
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -38,6 +42,7 @@ export default function AdminLogin() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...languageHeaders(),
         },
         body: JSON.stringify({ username, password }),
       });
@@ -45,27 +50,20 @@ export default function AdminLogin() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Login failed");
+        throw new Error(data.message || t("error"));
       }
 
-      // Store the token in localStorage
       localStorage.setItem("adminToken", data.token);
       router.push("/admin/dashboard");
-    } catch (error) {
-      setError(
-        language === "ar"
-          ? "اسم المستخدم أو كلمة المرور غير صحيحة"
-          : language === "fr"
-          ? "Nom d'utilisateur ou mot de passe invalide"
-          : "Invalid username or password"
-      );
+    } catch (err) {
+      setError(err.message || t("error"));
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
+    <div className="min-h-full flex items-center justify-center bg-background py-10">
       <div className="w-full max-w-md p-4">
         <Card className="elegant-card border-primary/20">
           <CardHeader className="space-y-1 text-center">
@@ -74,14 +72,9 @@ export default function AdminLogin() {
                 <Lock className="w-6 h-6 text-primary" />
               </div>
             </div>
-            <CardTitle className="text-2xl font-serif">
-              {isArabic ? "تسجيل الدخول" : "Admin Login"}
-            </CardTitle>
-            <CardDescription>
-              {isArabic
-                ? "قم بتسجيل الدخول للوصول إلى لوحة التحكم"
-                : "Sign in to access the admin dashboard"}
-            </CardDescription>
+            <CardTitle className="text-2xl font-serif">{t("title")}</CardTitle>
+            <CardDescription>{t("subtitle")}</CardDescription>
+            <DemoLoginCard className="mt-3" />
           </CardHeader>
           <CardContent>
             {error && (
@@ -92,12 +85,10 @@ export default function AdminLogin() {
             <form onSubmit={handleLogin}>
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="username">
-                    {isArabic ? "اسم المستخدم" : "Username"}
-                  </Label>
+                  <Label htmlFor="username">{t("username")}</Label>
                   <Input
                     id="username"
-                    placeholder={isArabic ? "اسم المستخدم" : "Username"}
+                    placeholder={t("username")}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     required
@@ -107,13 +98,11 @@ export default function AdminLogin() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="password">
-                    {isArabic ? "كلمة المرور" : "Password"}
-                  </Label>
+                  <Label htmlFor="password">{t("password")}</Label>
                   <Input
                     id="password"
                     type="password"
-                    placeholder={isArabic ? "كلمة المرور" : "Password"}
+                    placeholder={t("password")}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -130,43 +119,18 @@ export default function AdminLogin() {
               className="w-full"
               onClick={handleLogin}
               disabled={isLoading}>
-              {isLoading
-                ? language === "ar"
-                  ? "جاري تسجيل الدخول..."
-                  : language === "fr"
-                  ? "Connexion en cours..."
-                  : "Logging in..."
-                : language === "ar"
-                ? "تسجيل الدخول"
-                : language === "fr"
-                ? "Se Connecter"
-                : "Login"}
+              {isLoading ? t("loggingIn") : t("loginButton")}
             </Button>
             <Link href="/" className="w-full">
               <Button variant="outline" className="w-full">
                 <Home className="mr-2 h-4 w-4" />
-                {language === "ar"
-                  ? "العودة إلى الصفحة الرئيسية"
-                  : language === "fr"
-                  ? "Retour à l'Accueil"
-                  : "Back to Homepage"}
+                {t("backToHomepage")}
               </Button>
             </Link>
           </CardFooter>
         </Card>
-
         <div className="flex justify-center mt-4">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
-            className="border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold">
-            {language === "ar"
-              ? "English"
-              : language === "fr"
-              ? "العربية"
-              : "Français"}
-          </Button>
+          <LanguageSwitcher />
         </div>
       </div>
     </div>

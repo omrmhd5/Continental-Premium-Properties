@@ -1,0 +1,22 @@
+{
+  "errors": {
+    "invalidCredentials": "Nom d'utilisateur ou mot de passe invalide",
+    "server": "Erreur du serveur",
+    "unauthorized": "Accès refusé. Aucun jeton fourni.",
+    "invalidToken": "Jeton invalide ou expiré. Accès refusé.",
+    "notFound": "Projet introuvable",
+    "noImages": "Aucune image téléversée.",
+    "missingFields": "Champs obligatoires manquants.",
+    "missingSubject": "Sujet ou message manquant pour le formulaire de réclamation.",
+    "emailFailed": "Échec de l'envoi de l'e-mail.",
+    "fetchFailed": "Échec du chargement des projets",
+    "createFailed": "Échec de la création du projet",
+    "updateFailed": "Échec de la mise à jour du projet",
+    "deleteFailed": "Échec de la suppression du projet",
+    "uploadFailed": "Échec du téléversement des images"
+  },
+  "success": {
+    "login": "Connexion réussie",
+    "contact": "Message envoyé avec succès"
+  }
+}

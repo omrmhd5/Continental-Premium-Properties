@@ -6,12 +6,14 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/context/language-context";
+import { useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import { projectApi } from "@/lib/api";
 import { resolveMediaUrl } from "@/lib/config";
 
 // Memoized Project Card Component for better performance
 const ProjectCard = memo(function ProjectCard({ project, isArabic, index }) {
+  const t = useTranslations();
   return (
     <Card
       className={`elegant-card overflow-hidden ${
@@ -41,7 +43,7 @@ const ProjectCard = memo(function ProjectCard({ project, isArabic, index }) {
             {project.status === "off-plan" && (
               <span
                 className={`text-sm font-normal ${isArabic ? "ml-1" : "mr-1"}`}>
-                {isArabic ? "يبدأ من" : "Starting from"}
+                {t("status.startingFrom")}
               </span>
             )}
             <span className="mr-1">AED</span>
@@ -51,7 +53,7 @@ const ProjectCard = memo(function ProjectCard({ project, isArabic, index }) {
           {project.status === "off-plan" && project.handover && (
             <div className="bg-black/50 text-white px-2 py-1 rounded text-sm">
               <span className="font-semibold">
-                {isArabic ? "التسليم: " : "Handover: "}
+                {t("projectDetails.handover")}: 
               </span>
               {project.handover}
             </div>
@@ -87,7 +89,7 @@ const ProjectCard = memo(function ProjectCard({ project, isArabic, index }) {
           <Button
             variant="outline"
             className="bg-gradient-to-r from-brand-gold to-brand-goldDark text-white font-bold border-none">
-            {isArabic ? "عرض التفاصيل" : "View Details"}
+            {t("projects.viewDetails")}
           </Button>
         </Link>
       </CardFooter>
@@ -112,7 +114,7 @@ const FilterButton = memo(function FilterButton({
           ? "bg-brand-gold text-white hover:bg-brand-gold/90"
           : "border-brand-gold/30 hover:bg-brand-gold/10 hover:text-brand-gold"
       }`}>
-      {isArabic ? label.ar : label.en}
+      {label}
     </Button>
   );
 });
@@ -120,6 +122,7 @@ const FilterButton = memo(function FilterButton({
 function ProjectsSection() {
   const { language } = useLanguage();
   const isArabic = language === "ar";
+  const t = useTranslations();
   const [activeFilter, setActiveFilter] = useState("all");
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -144,12 +147,12 @@ function ProjectsSection() {
 
   // Filter definitions
   const filters = [
-    { value: "all", label: { en: "All", ar: "الكل" } },
+    { value: "all", label: t("projects.filterAll") },
     {
       value: "buy",
-      label: { en: "Buy", ar: "شراء" },
+      label: t("projects.filterBuy"),
     },
-    { value: "rentals", label: { en: "Rentals", ar: "إيجار" } },
+    { value: "rentals", label: t("status.rentals") },
   ];
 
   // Memoize filter change handler
@@ -179,17 +182,15 @@ function ProjectsSection() {
         <div className="inline-block mb-4">
           <span className="inline-block h-0.5 w-10 bg-brand-gold mr-2 align-middle"></span>
           <span className="text-brand-gold text-sm uppercase tracking-wider">
-            {isArabic ? "مشاريعنا" : "Our Projects"}
+            {t("projects.label")}
           </span>
           <span className="inline-block h-0.5 w-10 bg-brand-gold ml-2 align-middle"></span>
         </div>
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-          {isArabic ? "استكشف مشاريعنا الفاخرة" : "Explore Our Luxury Projects"}
+          {t("projects.exploreLuxury")}
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          {isArabic
-            ? "استكشف مجموعة متنوعة من المشاريع السكنية الفاخرة لدينا"
-            : "Explore our diverse range of luxury residential projects"}
+          {t("projects.diverseRange")}
         </p>
       </div>
 
@@ -235,9 +236,7 @@ function ProjectsSection() {
       ) : (
         <div className="text-center py-12">
           <p className="text-muted-foreground">
-            {isArabic
-              ? "لا توجد مشاريع متاحة حالياً"
-              : "No projects available at the moment"}
+            {t("projects.noneAvailable")}
           </p>
         </div>
       )}
@@ -246,7 +245,7 @@ function ProjectsSection() {
       <div className="flex justify-center mt-12">
         <Link href="/projects">
           <Button className="bg-gradient-to-r from-brand-gold to-brand-goldDark text-white group">
-            {isArabic ? "عرض جميع المشاريع" : "View All Projects"}
+            {t("projects.viewAll")}
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Button>
         </Link>

@@ -1,0 +1,13 @@
+{
+  "watch": [
+    "*.js",
+    "Routes",
+    "Controllers",
+    "Models",
+    "Middlewares",
+    "lib",
+    "utils",
+    ".env"
+  ],
+  "ext": "js,json,env"
+}

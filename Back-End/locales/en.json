@@ -1,0 +1,22 @@
+{
+  "errors": {
+    "invalidCredentials": "Invalid username or password",
+    "server": "Server error",
+    "unauthorized": "Access denied. No token provided.",
+    "invalidToken": "Invalid or expired token. Access denied.",
+    "notFound": "Project not found",
+    "noImages": "No images uploaded.",
+    "missingFields": "Missing required fields.",
+    "missingSubject": "Missing subject or message for complaint form.",
+    "emailFailed": "Failed to send email.",
+    "fetchFailed": "Failed to fetch projects",
+    "createFailed": "Failed to create project",
+    "updateFailed": "Failed to update project",
+    "deleteFailed": "Failed to delete project",
+    "uploadFailed": "Failed to upload images"
+  },
+  "success": {
+    "login": "Login successful",
+    "contact": "Message sent successfully"
+  }
+}

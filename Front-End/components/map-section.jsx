@@ -1,31 +1,12 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { useLanguage } from "@/context/language-context";
+import { useTranslations } from "next-intl";
 
 export default function MapSection() {
-  const mapRef = useRef(null);
   const { language } = useLanguage();
   const isArabic = language === "ar";
-
-  useEffect(() => {
-    // This is a placeholder for map initialization
-    // In a real implementation, you would use a library like Google Maps, Mapbox, etc.
-    if (mapRef.current) {
-      const mapElement = mapRef.current;
-      mapElement.innerHTML = `
-        <div class="bg-muted h-full w-full flex items-center justify-center">
-          <p class="text-muted-foreground">${
-            language === "ar"
-              ? "خريطة المواقع"
-              : language === "fr"
-              ? "Carte des Emplacements"
-              : "Location Map"
-          }</p>
-        </div>
-      `;
-    }
-  }, [isArabic]);
+  const t = useTranslations();
 
   return (
     <section className="py-16">
@@ -33,27 +14,15 @@ export default function MapSection() {
         <div className="inline-block mb-4">
           <span className="inline-block h-0.5 w-10 bg-primary mr-2 align-middle"></span>
           <span className="text-primary text-sm uppercase tracking-wider">
-            {language === "ar"
-              ? "موقعنا"
-              : language === "fr"
-              ? "Nos Emplacement"
-              : "Our Location"}
+            {t("map.ourLocation")}
           </span>
           <span className="inline-block h-0.5 w-10 bg-primary ml-2 align-middle"></span>
         </div>
         <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4">
-          {language === "ar"
-            ? "تواجدنا حول العالم"
-            : language === "fr"
-            ? "Notre Présence Mondiale"
-            : "Our Global Presence"}
+          {t("map.title")}
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          {language === "ar"
-            ? "استكشف موقع مكتبنا في قلب المدينة"
-            : language === "fr"
-            ? "Explorez l’emplacement de notre bureau au cœur de la ville"
-            : "Explore and find our office in the heart of the city"}
+          {t("map.description")}
         </p>
       </div>
 
@@ -74,12 +43,10 @@ export default function MapSection() {
         }`}>
         <div className="p-6 bg-card rounded-lg elegant-card">
           <h3 className="text-xl font-serif font-semibold mb-2 text-center">
-            {isArabic ? "المقر الرئيسي" : "Headquarters"}
+            {t("map.headquarters")}
           </h3>
           <p className="text-muted-foreground text-center">
-            {isArabic
-              ? "2110-B2B Office Tower - Marasi Dr - Business Bay - Dubai"
-              : "2110-B2B Office Tower - Marasi Dr - Business Bay - Dubai"}
+            {t("contact.addressValue")}
           </p>
         </div>
       </div>

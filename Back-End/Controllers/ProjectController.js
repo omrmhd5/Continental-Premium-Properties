@@ -6,13 +6,14 @@ const {
   deleteLocalUpload,
 } = require("../utils/uploads");
 const path = require("path");
+const { t } = require("../lib/i18n");
 
 const getAllProjects = async (req, res) => {
   try {
     const projects = await Project.find();
     res.status(200).json(projects);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: t(req, "errors.fetchFailed") });
   }
 };
 
@@ -21,11 +22,11 @@ const getProjectById = async (req, res) => {
     const id = req.params.id;
     const project = await Project.findById(id);
     if (!project) {
-      return res.status(404).json({ message: "Project not found" });
+      return res.status(404).json({ message: t(req, "errors.notFound") });
     }
     res.status(200).json(project);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(404).json({ message: t(req, "errors.notFound") });
   }
 };
 
@@ -66,7 +67,7 @@ const createProject = async (req, res) => {
     res.status(201).json(savedProject);
   } catch (error) {
     console.error("Error in createProject:", error);
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ message: t(req, "errors.createFailed") });
   }
 };
 
@@ -75,7 +76,7 @@ const editProject = async (req, res) => {
     const id = req.params.id;
     const existing = await Project.findById(id);
     if (!existing) {
-      return res.status(404).json({ message: "Project not found" });
+      return res.status(404).json({ message: t(req, "errors.notFound") });
     }
 
     const editedData = { ...req.body };
@@ -91,9 +92,7 @@ const editProject = async (req, res) => {
 
     res.status(200).json(editedProject);
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: error.message || "Something went wrong" });
+    return res.status(500).json({ message: t(req, "errors.updateFailed") });
   }
 };
 
@@ -102,14 +101,14 @@ const deleteProject = async (req, res) => {
     const id = req.params.id;
     const deletedProject = await Project.findByIdAndDelete(id);
     if (!deletedProject) {
-      return res.status(404).json({ message: "Project not found" });
+      return res.status(404).json({ message: t(req, "errors.notFound") });
     }
 
     (deletedProject.images || []).forEach(deleteLocalUpload);
 
     res.status(200).json(deletedProject);
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: t(req, "errors.deleteFailed") });
   }
 };
 
@@ -119,11 +118,11 @@ const uploadImages = async (req, res) => {
       publicUploadPath(path.basename(file.filename))
     );
     if (urls.length === 0) {
-      return res.status(400).json({ message: "No images uploaded." });
+      return res.status(400).json({ message: t(req, "errors.noImages") });
     }
     res.status(201).json({ urls });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ message: t(req, "errors.uploadFailed") });
   }
 };
 
@@ -132,7 +131,7 @@ const contactProject = async (req, res) => {
   try {
     const { name, email, phone, project, subject, message } = req.body;
     if (!name || !email || !phone) {
-      return res.status(400).json({ message: "Missing required fields." });
+      return res.status(400).json({ message: t(req, "errors.missingFields") });
     }
     if (project) {
       // Project inquiry
@@ -156,13 +155,13 @@ const contactProject = async (req, res) => {
           <p><b>Phone:</b> ${phone}</p>`,
       };
       await sendMail(mailOptions);
-      return res.json({ success: true });
+      return res.json({ success: true, message: t(req, "success.contact") });
     } else {
       // General/complaint form
       if (!subject || !message) {
         return res
           .status(400)
-          .json({ message: "Missing subject or message for complaint form." });
+          .json({ message: t(req, "errors.missingSubject") });
       }
       const mailOptions = {
         to:
@@ -179,11 +178,11 @@ const contactProject = async (req, res) => {
           <p><b>Message:</b> ${message}</p>`,
       };
       await sendMail(mailOptions);
-      return res.json({ success: true });
+      return res.json({ success: true, message: t(req, "success.contact") });
     }
   } catch (err) {
     console.error("Contact Project Error:", err);
-    res.status(500).json({ message: "Failed to send email." });
+    res.status(500).json({ message: t(req, "errors.emailFailed") });
   }
 };
 

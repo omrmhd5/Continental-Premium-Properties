@@ -1,0 +1,345 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "projects": "Projets",
+    "mediaCenter": "Centre Média",
+    "aboutUs": "À Propos",
+    "contactUs": "Contactez-nous"
+  },
+  "hero": {
+    "companyName": "Continental Premium Properties",
+    "title": "Projets Résidentiels de Luxe",
+    "subtitle": "Découvrez nos projets résidentiels premium avec des spécifications de classe mondiale et des designs modernes",
+    "exploreButton": "Explorer Nos Projets",
+    "headline": "Votre confort est notre priorité"
+  },
+  "footer": {
+    "description": "Nous vous connectons aux meilleures opportunités immobilières pour sécuriser votre investissement ou votre maison idéale.",
+    "quickLinks": "Liens Rapides",
+    "contactInfo": "Informations de Contact",
+    "followUs": "Suivez-nous",
+    "privacyPolicy": "Politique de Confidentialité",
+    "termsOfService": "Conditions de Service",
+    "adminDashboard": "Tableau de Bord Admin",
+    "copyright": "© 2025 Continental Premium Properties. Tous droits réservés."
+  },
+  "about": {
+    "title": "À Propos",
+    "subtitle": "Découvrez notre histoire et notre vision",
+    "backToHome": "Retour à l'Accueil",
+    "values": {
+      "excellence": {
+        "title": "Excellence",
+        "description": "Nous visons l'excellence dans chaque projet que nous entreprenons, en garantissant les plus hauts standards de qualité et de design."
+      },
+      "integrity": {
+        "title": "Intégrité",
+        "description": "Nous menons nos activités avec honnêteté, transparence et pratiques éthiques, en construisant la confiance avec nos clients et partenaires."
+      },
+      "innovation": {
+        "title": "Innovation",
+        "description": "Nous adoptons des solutions innovantes et des technologies modernes pour créer des projets résidentiels de pointe."
+      },
+      "community": {
+        "title": "Communauté",
+        "description": "Nous nous engageons à construire non seulement des propriétés, mais des communautés prospères qui améliorent la qualité de vie."
+      }
+    },
+    "companyImage": "Image de l'entreprise",
+    "storyLabel": "Notre Histoire",
+    "storyTitle": "Leaders du développement immobilier de luxe",
+    "storyP1": "Au cœur de Dubaï, où les opportunités rencontrent les ambitions, notre société immobilière a été fondée pour être votre passerelle vers un monde d'investissement immobilier intelligent et rentable. Nous sommes une équipe de consultants immobiliers experts, dotés d'une vision claire et d'une connaissance approfondie du marché dynamique de Dubaï.\nNous vous offrons une vaste expérience et un parcours jalonné de succès, vous accompagnant à chaque étape de votre parcours immobilier—que vous recherchiez la maison de vos rêves, souhaitiez développer votre portefeuille d'investissement ou cherchiez à comprendre le marché et à prendre des décisions stratégiques.\nNous travaillons avec passion et croyons que la confiance se construit sur la transparence et la crédibilité, c'est pourquoi nous fournissons des conseils personnalisés basés sur une analyse approfondie et un réel intérêt pour vos objectifs.\nAvec nous, vous n'êtes pas seulement un client… vous êtes un partenaire de réussite.",
+    "storyP2": "Nous sommes fiers de notre portefeuille diversifié de projets résidentiels de luxe, des villas exclusives aux appartements modernes et aux complexes résidentiels intégrés. Chaque projet que nous réalisons reflète notre engagement envers l'excellence, l'innovation et la qualité.",
+    "storyP3": "Avec une équipe de professionnels expérimentés et qualifiés, nous nous engageons à dépasser les attentes de nos clients et à offrir des espaces de vie exceptionnels qui résistent à l'épreuve du temps.",
+    "valuesLabel": "Nos Valeurs",
+    "valuesTitle": "Les principes qui nous guident",
+    "valuesIntro": "Nos valeurs fondamentales sont le socle de tout ce que nous faisons, de la conception de nos projets à la façon dont nous interagissons avec nos clients et partenaires."
+  },
+  "contact": {
+    "title": "Contactez-nous",
+    "subtitle": "Entrez en contact avec nous",
+    "backToHome": "Retour à l'Accueil",
+    "form": {
+      "name": "Nom Complet",
+      "email": "Adresse Email",
+      "phone": "Numéro de Téléphone",
+      "subject": "Sujet",
+      "message": "Message",
+      "sendButton": "Envoyer le Message",
+      "sending": "Envoi en cours..."
+    },
+    "success": {
+      "title": "Message Envoyé avec Succès",
+      "description": "Nous vous répondrons dans les plus brefs délais"
+    },
+    "contactInfo": {
+      "address": "Adresse",
+      "phone": "Téléphone",
+      "email": "Email"
+    },
+    "pageSubtitle": "Nous sommes là pour répondre à vos questions et vous aider à trouver votre maison de rêve",
+    "visitUs": "Visitez-nous",
+    "callUs": "Appelez-nous",
+    "emailUs": "Envoyez-nous un email",
+    "sendMessage": "Envoyez-nous un Message",
+    "weValue": "Nous Apprécions Votre Avis",
+    "fillForm": "Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais",
+    "yourMessage": "Votre Message",
+    "successTitle": "Réclamation ou commentaire envoyé avec succès",
+    "errorTitle": "Erreur lors de l'envoi",
+    "errorDesc": "Veuillez réessayer plus tard",
+    "addressValue": "2110-B2B Office Tower - Marasi Dr - Business Bay - Dubaï",
+    "phoneValue": "+971 4 770 5704",
+    "emailValue": "propertiescontinental58@gmail.com"
+  },
+  "projects": {
+    "title": "Nos Projets",
+    "subtitle": "Découvrez nos derniers projets résidentiels",
+    "backToHome": "Retour à l'Accueil",
+    "search": "Rechercher des projets...",
+    "filters": {
+      "all": "Tous les Projets",
+      "offPlan": "En Construction",
+      "secondary": "Secondaire",
+      "rentals": "Locations"
+    },
+    "viewDetails": "Voir les Détails",
+    "compare": "Comparer les Propriétés",
+    "noProjects": "Aucun projet trouvé",
+    "resetFilters": "Réinitialiser les Filtres",
+    "searchByName": "Rechercher par nom ou lieu...",
+    "exploreAll": "Explorez tous nos projets immobiliers de luxe",
+    "filterByStatus": "Filtrer par statut",
+    "allStatuses": "Tous les Statuts",
+    "adjustSearch": "Veuillez ajuster vos critères de recherche",
+    "label": "Nos Projets",
+    "exploreLuxury": "Explorez nos projets de luxe",
+    "diverseRange": "Explorez notre gamme diversifiée de projets résidentiels de luxe",
+    "filterAll": "Tous",
+    "filterBuy": "Acheter",
+    "viewAll": "Voir tous les projets",
+    "noneAvailable": "Aucun projet disponible pour le moment"
+  },
+  "projectDetails": {
+    "backToProjects": "Retour aux Projets",
+    "share": "Partager",
+    "contactOwner": "Contacter le Propriétaire",
+    "specifications": "Spécifications",
+    "area": "Surface",
+    "bedrooms": "Chambres",
+    "bathrooms": "Salles de Bain",
+    "floors": "Étages",
+    "handover": "Livraison",
+    "features": "Caractéristiques",
+    "description": "Description",
+    "compare": "Comparer",
+    "projectDescription": "Description du projet",
+    "details": "Détails",
+    "price": "Prix",
+    "contactAbout": "Contactez-nous à propos de ce projet",
+    "contactUs": "Contactez-nous",
+    "expertReach": "Notre expert vous contactera au sujet de {title} à {location}.",
+    "yourName": "Votre nom",
+    "yourEmail": "Votre email",
+    "sentOk": "Message envoyé avec succès !",
+    "sentFail": "Échec de l'envoi du message.",
+    "notFound": "Projet introuvable",
+    "linkCopied": "Lien copié dans le presse-papiers !"
+  },
+  "media": {
+    "title": "Centre Média",
+    "subtitle": "Dernières nouvelles et mises à jour",
+    "backToHome": "Retour à l'Accueil",
+    "news": "Actualités",
+    "events": "Événements",
+    "gallery": "Galerie",
+    "readMore": "Lire Plus",
+    "explore": "Explorez les dernières nouvelles, événements et images de nos projets",
+    "latestNews": "Dernières Nouvelles et Événements",
+    "videos": "Vidéos",
+    "photoGallery": "Galerie Photos",
+    "slides": {
+      "launch": {
+        "title": "Événement de Lancement du Projet",
+        "description": "Cérémonie d'ouverture grandiose de notre dernier complexe résidentiel"
+      },
+      "skyline": {
+        "title": "Vivre dans les gratte-ciel",
+        "description": "Vivez le luxe avec une vue imprenable depuis des gratte-ciel emblématiques."
+      },
+      "community": {
+        "title": "Activités Communautaires",
+        "description": "Les résidents profitent d'événements et de rassemblements dynamiques au sein de la communauté."
+      }
+    },
+    "news1Title": "Lancement d'un nouveau projet de luxe",
+    "news1Content": "Nous sommes ravis d'annoncer le lancement de notre dernier projet résidentiel de luxe à Dubaï, avec des équipements de pointe et un design moderne.",
+    "news2Title": "Achèvement des Sky Towers",
+    "news2Content": "Nous sommes fiers d'annoncer l'achèvement réussi du projet Sky Towers, en avance sur le calendrier et selon des normes de qualité exceptionnelles.",
+    "news3Title": "Salon immobilier annuel",
+    "news3Content": "Rejoignez-nous au salon immobilier annuel où nous présenterons nos derniers projets et proposerons des offres exclusives.",
+    "video1": "La communauté planifiée la plus premium de Dubaï",
+    "video2": "Résidence DAMAC Chelsea",
+    "video3": "Bugatti Residences by Binghatti"
+  },
+  "admin": {
+    "login": {
+      "title": "Connexion Admin",
+      "username": "Nom d'utilisateur",
+      "password": "Mot de passe",
+      "loginButton": "Se Connecter",
+      "loggingIn": "Connexion en cours...",
+      "backToHomepage": "Retour à l'Accueil",
+      "error": "Nom d'utilisateur ou mot de passe invalide",
+      "subtitle": "Connectez-vous pour accéder au tableau de bord"
+    },
+    "dashboard": {
+      "title": "Tableau de Bord",
+      "totalProjects": "Total des Projets",
+      "offPlan": "En Construction",
+      "secondary": "Secondaire",
+      "rentals": "Locations",
+      "overview": "Aperçu de vos projets immobiliers",
+      "projects": "Projets"
+    },
+    "projects": {
+      "title": "Gérer les Projets",
+      "addProject": "Ajouter un Nouveau Projet",
+      "editProject": "Modifier le Projet",
+      "deleteProject": "Supprimer le Projet",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "delete": "Supprimer",
+      "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce projet ?"
+    },
+    "logout": "Déconnexion",
+    "homepage": "Page d'Accueil",
+    "sessionExpired": "Session expirée",
+    "sessionExpiredDesc": "Votre session a expiré. Veuillez vous reconnecter.",
+    "addProject": "Ajouter un projet",
+    "addProjectFill": "Remplissez les détails pour ajouter un projet.",
+    "addedSuccess": "Le projet a été ajouté avec succès",
+    "updatedSuccess": "Le projet a été mis à jour",
+    "deletedSuccess": "Le projet a été supprimé",
+    "viewProject": "Voir le projet",
+    "uploadError": "Erreur lors du téléversement de l'image.",
+    "titleField": "Titre",
+    "images": "Images",
+    "uploadImages": "Téléverser des images",
+    "navDashboard": "Tableau de Bord",
+    "navProjects": "Projets",
+    "toastAdded": "Succès",
+    "toastUpdated": "Succès",
+    "toastDeleted": "Succès",
+    "fields": {
+      "id": "ID",
+      "title": "Titre",
+      "status": "Statut",
+      "location": "Emplacement",
+      "priceAed": "Prix (AED)",
+      "dateAdded": "Date d'ajout",
+      "actions": "Actions",
+      "openMenu": "Ouvrir le menu",
+      "descriptionEn": "Description (EN)",
+      "descriptionAr": "Description (AR)",
+      "areaFt": "Surface (ft²)",
+      "bedrooms": "Chambres",
+      "bathrooms": "Salles de bain",
+      "floors": "Étages",
+      "handover": "Livraison",
+      "images": "Images",
+      "features": "Caractéristiques",
+      "featureEn": "Caractéristique (EN)",
+      "featureAr": "Caractéristique (AR)",
+      "addFeature": "Ajouter une caractéristique",
+      "selectStatus": "Sélectionner le statut",
+      "enterLocation": "Saisir l'emplacement",
+      "enterTitle": "Saisir le titre du projet",
+      "handoverPh": "Mois/Année (ex. 12/2025)",
+      "uploading": "Téléversement..."
+    },
+    "editFill": "Mettez à jour les détails de votre projet.",
+    "saveChanges": "Enregistrer",
+    "areYouSure": "Êtes-vous sûr ?",
+    "deleteForever": "Cela supprimera définitivement le projet \"{title}\". Cette action est irréversible.",
+    "addProjectSubmit": "Ajouter le projet"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "noData": "Aucune donnée disponible",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "close": "Fermer",
+    "open": "Ouvrir",
+    "yes": "Oui",
+    "no": "Non",
+    "submit": "Soumettre",
+    "reset": "Réinitialiser",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "view": "Voir",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "add": "Ajouter",
+    "create": "Créer",
+    "update": "Mettre à jour",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "success": "Succès",
+    "warning": "Avertissement",
+    "info": "Information"
+  },
+  "map": {
+    "title": "Notre Présence Mondiale",
+    "subtitle": "Nos Emplacements",
+    "description": "Explorez les emplacements de nos projets dans toute la ville",
+    "mapPlaceholder": "Carte des Emplacements",
+    "ourLocation": "Nos Emplacements",
+    "headquarters": "Siège social"
+  },
+  "comparison": {
+    "title": "Comparaison de Propriétés",
+    "selectProject1": "Sélectionner le Premier Projet",
+    "selectProject2": "Sélectionner le Deuxième Projet",
+    "compare": "Comparer",
+    "price": "Prix",
+    "location": "Emplacement",
+    "status": "Statut",
+    "better": "Meilleur",
+    "firstProperty": "Première Propriété",
+    "secondProperty": "Deuxième Propriété",
+    "selectProperty": "Sélectionner une propriété",
+    "pickTwo": "Veuillez sélectionner deux propriétés à comparer"
+  },
+  "theme": {
+    "toggle": "Basculer le thème"
+  },
+  "banner": {
+    "demo": "MODE DÉMO",
+    "wake": "Le premier chargement après inactivité peut prendre quelques secondes"
+  },
+  "demoLogin": {
+    "title": "Comptes démo",
+    "role": "Admin",
+    "usernameLabel": "Nom d'utilisateur",
+    "passwordLabel": "Mot de passe",
+    "hint": "La démo peut prendre ~30 s après inactivité."
+  },
+  "partners": {
+    "label": "Nos partenaires",
+    "title": "Nos partenaires de succès",
+    "subtitle": "Nous sommes fiers de travailler avec les principales entreprises immobilières de la région"
+  },
+  "status": {
+    "offPlan": "En Construction",
+    "secondary": "Secondaire",
+    "rentals": "Locations",
+    "startingFrom": "À partir de",
+    "unknown": "Inconnu",
+    "all": "Tous les projets"
+  }
+}

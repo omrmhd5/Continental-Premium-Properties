@@ -1,46 +1,24 @@
 "use client";
 
 import { useLanguage } from "@/context/language-context";
+import { useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 
 export default function AchievementsSection() {
   const { language } = useLanguage();
   const isArabic = language === "ar";
+  const t = useTranslations("partners");
 
   const partners = [
-    {
-      name: "Emaar",
-      image: "/images/Partners/Emaar.jpg",
-    },
-    {
-      name: "Damac",
-      image: "/images/Partners/Damac.jpg",
-    },
-    {
-      name: "Nakheel",
-      image: "/images/Partners/Nakheel.jpg",
-    },
-    {
-      name: "Sobha",
-      image: "/images/Partners/Sobha.jpg",
-    },
-    {
-      name: "Danube",
-      image: "/images/Partners/Danube.jpg",
-    },
-    {
-      name: "Binghatti",
-      image: "/images/Partners/Binghatti.jpg",
-    },
-    {
-      name: "Tiger",
-      image: "/images/Partners/Tiger.jpg",
-    },
-    {
-      name: "Azizi",
-      image: "/images/Partners/Azizi.jpg",
-    },
+    { name: "Emaar", image: "/images/Partners/Emaar.jpg" },
+    { name: "Damac", image: "/images/Partners/Damac.jpg" },
+    { name: "Nakheel", image: "/images/Partners/Nakheel.jpg" },
+    { name: "Sobha", image: "/images/Partners/Sobha.jpg" },
+    { name: "Danube", image: "/images/Partners/Danube.jpg" },
+    { name: "Binghatti", image: "/images/Partners/Binghatti.jpg" },
+    { name: "Tiger", image: "/images/Partners/Tiger.jpg" },
+    { name: "Azizi", image: "/images/Partners/Azizi.jpg" },
   ];
 
   return (
@@ -52,17 +30,13 @@ export default function AchievementsSection() {
             <div className="inline-block mb-4">
               <span className="inline-block h-0.5 w-10 bg-brand-gold mr-2 align-middle"></span>
               <span className="text-brand-gold text-sm uppercase tracking-wider">
-                {isArabic ? "شركاؤنا" : "Our Partners"}
+                {t("label")}
               </span>
               <span className="inline-block h-0.5 w-10 bg-brand-gold ml-2 align-middle"></span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              {isArabic ? "شركاؤنا في النجاح" : "Our Success Partners"}
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">{t("title")}</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              {isArabic
-                ? "نفخر بالعمل مع أفضل الشركات العقارية في المنطقة"
-                : "We are proud to work with the region's leading real estate companies"}
+              {t("subtitle")}
             </p>
           </div>
 
