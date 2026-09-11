@@ -301,9 +301,7 @@ function PropertyComparison({ onClose }) {
                   )}
 
                 <ComparisonRow
-                  label={
-                    {t("comparison.location")}
-                  }
+                  label={t("comparison.location")}
                   value1={project1.location}
                   value2={project2.location}
                   comparison="text"
@@ -311,9 +309,7 @@ function PropertyComparison({ onClose }) {
                 />
 
                 <ComparisonRow
-                  label={
-                    {t("comparison.status")}
-                  }
+                  label={t("comparison.status")}
                   value1={getStatusLabel(project1.status, t)}
                   value2={getStatusLabel(project2.status, t)}
                   comparison="text"
